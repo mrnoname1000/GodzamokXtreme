@@ -1,10 +1,20 @@
 if (GodzamokXtreme === undefined) var GodzamokXtreme = {};
 if (typeof CCSE == 'undefined') Game.LoadMod('https://klattmose.github.io/CookieClicker/CCSE.js');
-if (loc("gx_toggle_on") == "gx_toggle_on") Game.LoadMod('https://r33yl.github.io/GodzamokXtreme/lang.js');
+
+// Load lang.js from web only if localization is not already registered (e.g. loaded offline).
+// The check is deferred via setTimeout to allow any synchronously-loaded offline lang.js to run first.
+GodzamokXtreme.loadLangIfNeeded = function () {
+	setTimeout(function () {
+		if (loc("gx_toggle_on") == "gx_toggle_on") {
+			Game.LoadMod('https://r33yl.github.io/GodzamokXtreme/lang.js');
+		}
+	}, 0);
+};
+GodzamokXtreme.loadLangIfNeeded();
 
 GodzamokXtreme.name = 'Godzamok Ultimate';
 GodzamokXtreme.ID = 'godzamok_ultimate';
-GodzamokXtreme.version = '2.9';
+GodzamokXtreme.version = '2.10';
 GodzamokXtreme.GameVersion = '2.053';
 
 GodzamokXtreme.launch = function () {
@@ -17,37 +27,39 @@ GodzamokXtreme.launch = function () {
 		const defaultBuildings = [3, 4, 5, 9, 12, 17];	// Default buildings enabled for selling
 		return {
 			// === UI & Controls ===
-			showSellBuyInfo: 0,       // Show summary info (how many buildings were sold/bought) after each script run
-			showMainButton: 1,        // Show the main Godzamok button near the big cookie
-			showTempleButton: 1,      // Show an additional button in the Temple minigame
-			showLoopButton: 1,        // Show "Loop" button to repeatedly sell/buy buildings in a loop
-			loopModeEnabled: 0,       // Whether Loop Mode is currently active (1 = active, 0 = off)
-			hotkeyG: 1,               // Enable "G" hotkey to trigger script
-			inputDelayEnabled: 1,     // Add delay between input events
-			inputDelayValue: 100,     // Delay duration in milliseconds
+			showSellBuyInfo: false,       // Show summary info (how many buildings were sold/bought) after each script run
+			showMainButton: true,         // Show the main Godzamok button near the big cookie
+			showTempleButton: true,       // Show an additional button in the Temple minigame
+			showLoopButton: true,         // Show "Loop" button to repeatedly sell/buy buildings in a loop
+			loopModeEnabled: false,       // Whether Loop Mode is currently active
+			hotkeyG: true,                // Enable "G" hotkey to trigger script
+			inputDelayEnabled: true,      // Add delay between input events
+			inputDelayValue: 100,         // Delay duration in milliseconds
 			// === Performance ===
-			advancedOptimization: 0,  // Suppress buyFunction/sellFunction during bulk operations (may affect game mechanics)
+			advancedOptimization: false,  // Suppress buyFunction/sellFunction during bulk operations (may affect game mechanics)
 			// === Temple ===
-			autoSwitchGods: 1,        // Automatically switch to Godzamok if not selected
-			selectedSlot: 1,          // Temple slot where Godzamok will be placed
+			autoSwitchGods: true,         // Automatically switch to Godzamok if not selected
+			selectedSlot: 1,              // Temple slot where Godzamok will be placed
 			// === Buyback ===
-			buybackEnabled: 1,        // Enable automatic buyback of sold buildings
-			buybackType: 1,           // Buyback strategy (0: with profit, 1: full amount, 2: percentage)
-			buybackPercent: 90,       // Percentage for type 2 buyback
+			buybackEnabled: true,         // Enable automatic buyback of sold buildings
+			buybackType: 1,               // Buyback strategy (0: with profit, 1: full amount, 2: percentage)
+			buybackPercent: 90,           // Percentage for type 2 buyback
 			// === Building Display ===
-			showOnlyEnabled: 1,       // Show only enabled buildings in the UI
-			hideEmptyBuildings: 0,    // Hide buildings with 0 owned units
+			showOnlyEnabled: true,        // Show only enabled buildings in the UI
+			hideEmptyBuildings: false,    // Hide buildings with 0 owned units
 			// === Sell Mode ===
-			sellMode: 0,              // Sell mode: 0 = percent, 1 = units
+			sellMode: 0,                  // Sell mode: 0 = percent, 1 = units
 			// === Building Settings ===
 			buildings: Game.ObjectsById.map((building) => ({
-				enabled: defaultBuildings.includes(building.id) ? 1 : 0,
+				enabled: defaultBuildings.includes(building.id) ? true : false,
 				sellPercent: 100,     // % to sell
 				sellUnits: 0,         // units to sell if mode = units
 			})),
 		};
 	};
 
+	GodzamokXtreme.SAFE_SELL_BUDGET_RATIO = 0.01;  // Budget for safe sell calculation as a fraction of raw CPS
+	GodzamokXtreme.WARN_COST_CPS_RATIO = 0.1; // Warn if buyback cost > this fraction of raw CPS
 	GodzamokXtreme.defaultDelay = 1;
 
 	//***********************************
@@ -344,7 +356,7 @@ GodzamokXtreme.launch = function () {
 
 	// Toggles loop mode for automated repeated execution of the Godzamok run script.
 	GodzamokXtreme.toggleLoopMode = function () {
-		GodzamokXtreme.config.loopModeEnabled = GodzamokXtreme.config.loopModeEnabled ? 0 : 1;
+		GodzamokXtreme.config.loopModeEnabled = !GodzamokXtreme.config.loopModeEnabled;
 
 		const loopButtonElems = document.getElementsByClassName('godzamokXtremeLoopButton');
 		for (const btn of loopButtonElems) {
@@ -679,7 +691,7 @@ GodzamokXtreme.launch = function () {
 				addClassToHtml(
 					menu.ActionButton(`GodzamokXtreme.calculateSafeSellUnits();`, loc("gx_calc_safe_sell")),
 					'orange') +
-				'<label>' + loc("gx_calc_safe_sell_label") + '</label>' +
+				'<label>' + loc("gx_calc_safe_sell_label").replace('%RATIO%', Math.round(GodzamokXtreme.SAFE_SELL_BUDGET_RATIO * 100)) + '</label>' +
 				'</div>';
 
 			//========== INDIVIDUAL BUILDING SETTINGS ==========
@@ -735,8 +747,7 @@ GodzamokXtreme.launch = function () {
 
 	// General-purpose toggle for binary config flags
 	GodzamokXtreme.Toggle = function (prefName, button, on, off, invert) {
-		let value = GodzamokXtreme.config[prefName];
-		GodzamokXtreme.config[prefName] = value ? 0 : 1;
+		GodzamokXtreme.config[prefName] = !GodzamokXtreme.config[prefName];
 		Game.UpdateMenu();
 	};
 
@@ -927,7 +938,7 @@ GodzamokXtreme.launch = function () {
 	// Enables/disables a specific building for selling
 	GodzamokXtreme.ToggleBuilding = function (index) {
 		const build = GodzamokXtreme.config.buildings[index];
-		build.enabled = build.enabled ? 0 : 1;
+		build.enabled = !build.enabled;
 
 		const button = l(`GodzamokXtreme_Building_${index}`);
 		const obj = Game.ObjectsById[index];
@@ -1009,8 +1020,18 @@ GodzamokXtreme.launch = function () {
 
 	// Shows a confirmation prompt before calculating safe sell amounts
 	GodzamokXtreme.calculateSafeSellUnits = function () {
+		const bodyHtml =
+			'<h3 style="margin:0 0 8px;">' + loc("gx_calc_safe_sell") + '</h3>' +
+			'<p style="margin:0 0 4px; opacity:0.85;">' +
+			loc("gx_confirm_safe_sell")
+				.replace(/%RATIO%/g, Math.round(GodzamokXtreme.SAFE_SELL_BUDGET_RATIO * 100)) +
+			'</p>' +
+			'<p style="margin:0; font-size:11px; opacity:0.55;">' +
+			loc("gx_calc_safe_sell_hint") +
+			'</p>';
+
 		Game.Prompt(
-			loc("gx_confirm_safe_sell"),
+			bodyHtml,
 			[
 				[loc("gx_yes"), 'GodzamokXtreme._calculateSafeSellConfirmed(); Game.ClosePrompt();', 'float:left'],
 				[loc("gx_no"), 0, 'float:right']
@@ -1020,7 +1041,7 @@ GodzamokXtreme.launch = function () {
 
 	// Performs the safe sell calculation if user confirms
 	GodzamokXtreme._calculateSafeSellConfirmed = function () {
-		const totalBudget = Game.cookiesPsRaw * 0.01; // Use 1% of raw CPS
+		const totalBudget = Game.cookiesPsRaw * GodzamokXtreme.SAFE_SELL_BUDGET_RATIO; // Use % of raw CPS
 		const enabled = Game.ObjectsById.filter((_, i) => GodzamokXtreme.config.buildings[i].enabled);
 		if (enabled.length === 0) return Game.Popup(loc("gx_no_buildings_selected"));
 
@@ -1062,24 +1083,80 @@ GodzamokXtreme.launch = function () {
 	};
 
 	//***********************************
+	//    SELL WARNING PROMPT
+	//***********************************
+
+	// Calculates total buyback cost for all enabled buildings based on current sellUnits/sellPercent,
+	// without performing any real transactions.
+	GodzamokXtreme.calcTotalBuybackCost = function () {
+		const isPercentMode = GodzamokXtreme.config.sellMode === 0;
+		let total = 0;
+		Game.ObjectsById.forEach((building, i) => {
+			const config = GodzamokXtreme.config.buildings[i];
+			if (!config || !config.enabled) return;
+
+			let amountToSell = config.sellUnits;
+			if (isPercentMode) {
+				amountToSell = Math.floor(building.amount * (Math.max(0, Math.min(config.sellPercent, 100)) / 100));
+			}
+			if (amountToSell <= 0 || amountToSell > building.amount) return;
+
+			const fromAmount = building.amount - amountToSell;
+			total += calcSumPrice(building, fromAmount, amountToSell, true); // alwaysFast
+		});
+		return total;
+	};
+
+	// Shows warning prompt with real cost data, then resumes or cancels
+	GodzamokXtreme.promptSellWarning = function () {
+		const cost = GodzamokXtreme.calcTotalBuybackCost();
+		const cps = Game.cookiesPsRaw;
+		const ratio = cps > 0 ? cost / cps : Infinity;
+		const pctDisplay = isFinite(ratio) ? Beautify(Math.round(ratio * 100)) : '∞';
+		const costDisplay = Beautify(cost);
+
+		const bodyHtml =
+			'<h3 style="margin:0 0 8px;">' + loc("gx_warn_title") + '</h3>' +
+			'<p style="margin:0 0 4px; opacity:0.85;">' +
+			loc("gx_warn_body").replace('%PCT%', pctDisplay).replace('%COST%', costDisplay) +
+			'</p>' +
+			'<p style="margin:0 0 4px; font-size:11px; opacity:0.55;">' +
+			loc("gx_warn_threshold_hint").replace('%THRESH%', Math.round(GodzamokXtreme.WARN_COST_CPS_RATIO * 100)) +
+			'</p>';
+
+		Game.Prompt(
+			bodyHtml,
+			[
+				[loc("gx_warn_calculate_now"),
+					'Game.ClosePrompt(); GodzamokXtreme.calculateSafeSellUnits();',
+					'float:left'],
+				[loc("gx_warn_skip"),
+					'Game.ClosePrompt(); GodzamokXtreme._runCoreExecute();',
+					'float:right']
+			]
+		);
+	};
+
+	//***********************************
 	//    SCRIPT EXECUTION
 	//***********************************
 
-	// Geometric series sum: basePrice * (r^start + r^(start+1) + ... + r^(start+amount-1))
-	// = basePrice * r^start * (r^amount - 1) / (r - 1)
-	function getSumPriceFast(building, fromAmount, count) {
-		if (!GodzamokXtreme.config.advancedOptimization) {
+	// Geometric series sum: price of buying `count` units starting from `fromAmount`.
+	// forceFormula=true: always use the geometric series (e.g. for cost estimates outside runCore).
+	// forceFormula=false (default): falls back to building.getSumPrice when advancedOptimization is off.
+	function calcSumPrice(building, fromAmount, count, alwaysFast = false) {
+		if (!alwaysFast && !GodzamokXtreme.config.advancedOptimization) {
 			return building.getSumPrice(count); // original implementation
 		}
 		if (count <= 0) return 0;
 		const base = building.basePrice;
 		const r = Game.priceIncrease;
-		const start = Math.max(0, fromAmount - building.free);
+		const start = Math.max(0, fromAmount - (building.free || 0));
 		const price = base * Math.pow(r, start) * (Math.pow(r, count) - 1) / (r - 1);
 		return Math.ceil(Game.modifyBuildingPrice(building, price));
 	}
 
-	// Main logic that sells selected buildings and optionally buys them back
+	// Entry point: checks cost vs CPS, shows warning if needed, otherwise executes
 	GodzamokXtreme.runCore = function () {
 		GodzamokXtreme.setGodzamok(); // Ensure Godzamok is active if autoSwitch is on
 
@@ -1092,7 +1169,21 @@ GodzamokXtreme.launch = function () {
 			return;
 		}
 
-		// Save current buy mode (in case player is in "sell" mode)
+		const cps = Game.cookiesPsRaw;
+		if (cps > 0) {
+			const cost = GodzamokXtreme.calcTotalBuybackCost();
+			if (cost / cps > GodzamokXtreme.WARN_COST_CPS_RATIO) {
+				GodzamokXtreme.promptSellWarning();
+				return;
+			}
+		}
+
+		GodzamokXtreme._runCoreExecute();
+	};
+
+	// Actual sell/buyback logic — called directly after user confirms warning or cost is safe
+	GodzamokXtreme._runCoreExecute = function () {
+		// Main logic that sells selected buildings and optionally buys them back
 		const originalBuyMode = Game.buyMode;
 		Game.buyMode = 1; // Force "buy" mode to ensure correct purchase behavior
 
@@ -1163,7 +1254,7 @@ GodzamokXtreme.launch = function () {
 			if (amountToSell <= 0) return;
 
 			const totalGain = GodzamokXtreme.config.advancedOptimization
-				? getSumPriceFast(building, building.amount - amountToSell, amountToSell) * building.getSellMultiplier()
+				? calcSumPrice(building, building.amount - amountToSell, amountToSell) * building.getSellMultiplier()
 				: building.getReverseSumPrice(amountToSell);
 			building.sell(amountToSell);  // perform the sale
 
@@ -1178,7 +1269,7 @@ GodzamokXtreme.launch = function () {
 							let lo = 0, hi = amountToSell;
 							while (lo < hi) {
 								const mid = Math.ceil((lo + hi) / 2);
-								if (getSumPriceFast(building, building.amount, mid) <= totalGain) lo = mid;
+								if (calcSumPrice(building, building.amount, mid) <= totalGain) lo = mid;
 								else hi = mid - 1;
 							}
 							boughtAmount = lo;
@@ -1205,7 +1296,7 @@ GodzamokXtreme.launch = function () {
 				}
 
 				if (showInfo) totalSpent = GodzamokXtreme.config.advancedOptimization
-					? getSumPriceFast(building, building.amount, boughtAmount)
+					? calcSumPrice(building, building.amount, boughtAmount)
 					: building.getSumPrice(boughtAmount);
 				building.buy(boughtAmount);
 			}
@@ -1279,6 +1370,30 @@ GodzamokXtreme.launch = function () {
 	//    SAVE / LOAD / RESET CONFIG
 	//***********************************
 
+	// Normalizes types in target to match the types in reference (e.g. converts 0/1 to false/true for booleans)
+	function getNormalizedTypes(target, reference) {
+		const result = Array.isArray(target) ? [...target] : { ...target };
+
+		for (const key in reference) {
+			if (!(key in target)) continue;
+
+			if (typeof reference[key] === 'boolean') {
+				result[key] = Boolean(target[key]);
+			} else if (Array.isArray(reference[key]) && Array.isArray(target[key])) {
+				result[key] = target[key].map((item, index) => {
+					if (reference[key][index] && typeof item === 'object') {
+						return getNormalizedTypes(item, reference[key][index]);
+					}
+					return item;
+				});
+			} else if (typeof reference[key] === 'object' && reference[key] !== null) {
+				result[key] = getNormalizedTypes(target[key], reference[key]);
+			}
+		}
+
+		return result;
+	}
+
 	// Serializes current config as a JSON string (used by CCSE)
 	GodzamokXtreme.save = function () {
 		return JSON.stringify(GodzamokXtreme.config);
@@ -1291,8 +1406,12 @@ GodzamokXtreme.launch = function () {
 		try {
 			const parsed = JSON.parse(str);
 			if (parsed) {
-				GodzamokXtreme.config = Object.assign({}, GodzamokXtreme.defaultConfig(), parsed);
-				GodzamokXtreme.config.loopModeEnabled = 0;
+				GodzamokXtreme.config = getNormalizedTypes(
+					Object.assign({}, GodzamokXtreme.defaultConfig(), parsed),
+					GodzamokXtreme.defaultConfig()
+				);
+				GodzamokXtreme.config.loopModeEnabled = false;
+
 			}
 		} catch (e) {
 			console.error("Failed to load GodzamokXtreme config:", e);
@@ -1305,8 +1424,17 @@ GodzamokXtreme.launch = function () {
 
 	// Asks the player if they want to reset config
 	GodzamokXtreme.confirmResetConfig = function () {
+		const bodyHtml =
+			'<h3 style="margin:0 0 8px;">' + loc("gx_confirm_reset_title") + '</h3>' +
+			'<p style="margin:0 0 4px; opacity:0.85;">' +
+			loc("gx_confirm_reset_question", { modName: GodzamokXtreme.name }) +
+			'</p>' +
+			'<p style="margin:0; font-size:11px; opacity:0.55;">' +
+			loc("gx_confirm_reset_hint") +
+			'</p>';
+
 		Game.Prompt(
-			loc("gx_confirm_reset_question", { modName: GodzamokXtreme.name }),
+			bodyHtml,
 			[
 				[loc("gx_yes"), 'GodzamokXtreme.resetConfig();Game.ClosePrompt();', 'float:left'],
 				[loc("gx_no"), 0, 'float:right']

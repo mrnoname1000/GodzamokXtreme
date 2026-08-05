@@ -87,8 +87,10 @@ ModLanguage('*', {
     "gx_preset_units_label": "Preset units to add per building",  // Predefined sell units added per building
 
     "gx_calc_safe_sell": "Calculate Safe Sell",  // Button to trigger automatic calculation of a safe amount of buildings to sell and rebuy
-    "gx_calc_safe_sell_label": "Auto-calculate safe sell amounts (1% CPS raw)",  // Description label near the button – explains the logic (uses 1% of raw CPS as budget)
-    "gx_confirm_safe_sell": "Recalculate safe sell amounts?<br/>This will SELL and immediately BUY all selected buildings.",  // Confirmation prompt before executing the sell-buy operation
+    "gx_calc_safe_sell_label": "Auto-calculate safe sell amounts (%RATIO%% CPS raw)",  // Description label near the button – explains the logic (uses %RATIO%% of raw CPS as budget)
+
+    "gx_confirm_safe_sell": "Calculate safe sell amounts using <b>%RATIO%%</b> of raw CPS as the budget?",  // Confirmation prompt before executing the sell-buy operation
+    "gx_calc_safe_sell_hint": "The calculation may temporarily sell and immediately rebuy the selected buildings to determine safe values.", // Safe sell calculation confirmation dialog
 
     // Labels used near inputs for selling buildings
     "gx_sell_label": "Sell:",
@@ -101,7 +103,9 @@ ModLanguage('*', {
     "gx_for": "for",  // Used to specify the price/amount paid or received
 
     // Confirmation dialog texts for resetting config
+    "gx_confirm_reset_title": "Confirm reset",
     "gx_confirm_reset_question": "Reset Godzamok Ultimate's config to the default settings?",
+    "gx_confirm_reset_hint": "All current settings will be lost and restored to their default values.",
     "gx_yes": "Yes",  // Affirmative answer button text
     "gx_no": "No",  // Negative answer button text
 
@@ -114,6 +118,13 @@ ModLanguage('*', {
     // Advanced Optimization
     "gx_advanced_opt": "Advanced Optimization: ",
     "gx_advanced_opt_label": "Cache price calculations and suppress game hooks during bulk operations. May affect game mechanics if updated.",
+
+    // Warning dialog shown before executing a potentially expensive buyback
+    "gx_warn_title": "Expensive buyback detected",
+    "gx_warn_body": "Buying back sold buildings will cost <b>%COST%</b> — that's <b>%PCT%%</b> of your CPS. Consider calculating safe sell values first.",
+    "gx_warn_threshold_hint": "Warning threshold: %THRESH%% of raw CPS.",
+    "gx_warn_calculate_now": "Calculate",
+    "gx_warn_skip": "Skip",
 });
 
 //***********************************
@@ -182,8 +193,9 @@ ModLanguage('ZH-CN', {
     "gx_preset_units_label": "预设数量",
 
     "gx_calc_safe_sell": "计算安全出售",
-    "gx_calc_safe_sell_label": "自动计算安全出售数量（原始CPS的1%）",
-    "gx_confirm_safe_sell": "重新计算安全出售数量？<br/>这将出售并立即购买所有选定的建筑。",
+    "gx_calc_safe_sell_label": "自动计算安全出售数量（原始CPS的%RATIO%%）",
+    "gx_confirm_safe_sell": "使用原始CPS的<b>%RATIO%%</b>作为预算计算安全出售数量？",
+    "gx_calc_safe_sell_hint": "计算过程可能会临时出售并立即买回所选建筑以确定安全值。",
 
     "gx_sell_label": "出售：",
     "gx_or": "或",
@@ -193,7 +205,9 @@ ModLanguage('ZH-CN', {
     "gx_bought": "买回：",
     "gx_for": "花费",
 
+    "gx_confirm_reset_title": "确认重置",
     "gx_confirm_reset_question": "重置 Godzamok Ultimate 配置为默认？",
+    "gx_confirm_reset_hint": "所有当前设置将丢失并恢复为默认值。",
     "gx_yes": "是",
     "gx_no": "否",
 
@@ -203,6 +217,12 @@ ModLanguage('ZH-CN', {
 
     "gx_advanced_opt": "高级优化：",
     "gx_advanced_opt_label": "批量操作期间缓存价格计算并抑制游戏钩子。更新后可能影响游戏机制。",
+
+    "gx_warn_title": "检测到昂贵的回购",
+    "gx_warn_body": "买回已售建筑将花费 <b>%COST%</b> — 占您CPS的 <b>%PCT%%</b>。建议先计算安全出售数量。",
+    "gx_warn_threshold_hint": "警告阈值：原始CPS的 %THRESH%%。",
+    "gx_warn_calculate_now": "计算",
+    "gx_warn_skip": "跳过",
 });
 
 //***********************************
@@ -271,8 +291,9 @@ ModLanguage('DE', {
     "gx_preset_units_label": "Voreingestellte Einheiten pro Gebäude",
 
     "gx_calc_safe_sell": "Sicheren Verkauf berechnen",
-    "gx_calc_safe_sell_label": "Sichere Verkaufsmenge automatisch berechnen (1 % rohes CPS)",
-    "gx_confirm_safe_sell": "Sichere Verkaufsmenge neu berechnen?<br/>Dadurch werden alle ausgewählten Gebäude VERKAUFT und sofort WIEDER GEKAUFT.",
+    "gx_calc_safe_sell_label": "Sichere Verkaufsmenge automatisch berechnen (%RATIO% % rohes CPS)",
+    "gx_confirm_safe_sell": "Sichere Verkaufsmenge mit <b>%RATIO%%</b> des rohen CPS als Budget berechnen?",
+    "gx_calc_safe_sell_hint": "Die Berechnung kann die ausgewählten Gebäude vorübergehend verkaufen und sofort zurückkaufen, um sichere Werte zu ermitteln.",
 
     "gx_sell_label": "Verkauf:",
     "gx_or": "oder",
@@ -282,7 +303,9 @@ ModLanguage('DE', {
     "gx_bought": "Gekauft:",
     "gx_for": "für",
 
+    "gx_confirm_reset_title": "Zurücksetzen bestätigen",
     "gx_confirm_reset_question": "Konfiguration von Godzamok Ultimate auf Standardeinstellungen zurücksetzen?",
+    "gx_confirm_reset_hint": "Alle aktuellen Einstellungen gehen verloren und werden auf die Standardwerte zurückgesetzt.",
     "gx_yes": "Ja",
     "gx_no": "Nein",
 
@@ -292,6 +315,12 @@ ModLanguage('DE', {
 
     "gx_advanced_opt": "Erweiterte Optimierung: ",
     "gx_advanced_opt_label": "Cached Preisberechnungen und unterdrückt Game-Hooks während Massenoperationen. Kann nach Updates die Spielmechanik beeinflussen.",
+
+    "gx_warn_title": "Teurer Rückkauf erkannt",
+    "gx_warn_body": "Das Zurückkaufen der verkauften Gebäude kostet <b>%COST%</b> — das sind <b>%PCT%%</b> deines CPS. Erwäge zuerst sichere Verkaufswerte zu berechnen.",
+    "gx_warn_threshold_hint": "Warnschwelle: %THRESH%% des rohen CPS.",
+    "gx_warn_calculate_now": "Berechnen",
+    "gx_warn_skip": "Überspringen",
 });
 
 //***********************************
@@ -360,8 +389,9 @@ ModLanguage('ES', {
     "gx_preset_units_label": "Unidades predefinidas para agregar por edificio",
 
     "gx_calc_safe_sell": "Calcular Venta Segura",
-    "gx_calc_safe_sell_label": "Calcular automáticamente cantidades seguras para vender (1% CPS bruto)",
-    "gx_confirm_safe_sell": "¿Recalcular cantidades seguras para vender?<br/>Esto VENDERÁ y COMPRARÁ inmediatamente todos los edificios seleccionados.",
+    "gx_calc_safe_sell_label": "Calcular automáticamente cantidades seguras para vender (%RATIO%% CPS bruto)",
+    "gx_confirm_safe_sell": "¿Calcular cantidades seguras usando <b>%RATIO%%</b> del CPS bruto como presupuesto?",
+    "gx_calc_safe_sell_hint": "El cálculo puede vender temporalmente y recomprar inmediatamente los edificios seleccionados para determinar valores seguros.",
 
     "gx_sell_label": "Vender:",
     "gx_or": "o",
@@ -371,7 +401,9 @@ ModLanguage('ES', {
     "gx_bought": "Comprado:",
     "gx_for": "por",
 
+    "gx_confirm_reset_title": "Confirmar restablecimiento",
     "gx_confirm_reset_question": "¿Restablecer la configuración de Godzamok Ultimate a los valores predeterminados?",
+    "gx_confirm_reset_hint": "Todos los ajustes actuales se perderán y se restaurarán a sus valores predeterminados.",
     "gx_yes": "Sí",
     "gx_no": "No",
 
@@ -381,6 +413,12 @@ ModLanguage('ES', {
 
     "gx_advanced_opt": "Optimización avanzada: ",
     "gx_advanced_opt_label": "Almacena en caché los cálculos de precio y suprime los hooks del juego durante operaciones masivas. Puede afectar las mecánicas tras actualizaciones.",
+
+    "gx_warn_title": "Recompra costosa detectada",
+    "gx_warn_body": "Volver a comprar los edificios vendidos costará <b>%COST%</b> — eso es el <b>%PCT%%</b> de tu CPS. Considera calcular primero los valores de venta seguros.",
+    "gx_warn_threshold_hint": "Umbral de advertencia: %THRESH%% del CPS bruto.",
+    "gx_warn_calculate_now": "Calcular",
+    "gx_warn_skip": "Omitir",
 });
 
 //***********************************
@@ -449,8 +487,9 @@ ModLanguage('FR', {
     "gx_preset_units_label": "Unités prédef. par bâtiment",
 
     "gx_calc_safe_sell": "Calculer la vente sécurisée",
-    "gx_calc_safe_sell_label": "Calcul automatique des montants sécurisés à vendre (1 % du CPS brut)",
-    "gx_confirm_safe_sell": "Recalculer les montants sécurisés à vendre ?<br/>Cela VENDRA et ACHETERA immédiatement tous les bâtiments sélectionnés.",
+    "gx_calc_safe_sell_label": "Calcul automatique des montants sécurisés à vendre (%RATIO% % du CPS brut)",
+    "gx_confirm_safe_sell": "Calculer les montants sécurisés avec <b>%RATIO%%</b> du CPS brut comme budget ?",
+    "gx_calc_safe_sell_hint": "Le calcul peut temporairement vendre et racheter immédiatement les bâtiments sélectionnés afin de déterminer des valeurs sûres.",
 
     "gx_sell_label": "Vendre :",
     "gx_or": "ou",
@@ -460,7 +499,9 @@ ModLanguage('FR', {
     "gx_bought": "Acheté :",
     "gx_for": "pour",
 
+    "gx_confirm_reset_title": "Confirmer la réinitialisation",
     "gx_confirm_reset_question": "Réinitialiser la config de Godzamok Ultimate ?",
+    "gx_confirm_reset_hint": "Tous les paramètres actuels seront perdus et restaurés à leurs valeurs par défaut.",
     "gx_yes": "Oui",
     "gx_no": "Non",
 
@@ -470,6 +511,12 @@ ModLanguage('FR', {
 
     "gx_advanced_opt": "Optimisation avancée : ",
     "gx_advanced_opt_label": "Met en cache les calculs de prix et supprime les hooks du jeu lors des opérations en masse. Peut affecter les mécaniques de jeu après une mise à jour.",
+
+    "gx_warn_title": "Rachat coûteux détecté",
+    "gx_warn_body": "Racheter les bâtiments vendus coûtera <b>%COST%</b> — soit <b>%PCT%%</b> de votre CPS. Envisagez de calculer d'abord des valeurs de vente sûres.",
+    "gx_warn_threshold_hint": "Seuil d'avertissement : %THRESH%% du CPS brut.",
+    "gx_warn_calculate_now": "Calculer",
+    "gx_warn_skip": "Ignorer",
 });
 
 //***********************************
@@ -538,8 +585,9 @@ ModLanguage('PT-BR', {
     "gx_preset_units_label": "Unids padrão por prédio",
 
     "gx_calc_safe_sell": "Calcular Venda Segura",
-    "gx_calc_safe_sell_label": "Calcular automaticamente a quantidade segura para vender (1% do CPS bruto)",
-    "gx_confirm_safe_sell": "Recalcular quantidades seguras para venda?<br/>Isto VENDERÁ e imediatamente COMPRARÁ todos os prédios selecionados.",
+    "gx_calc_safe_sell_label": "Calcular automaticamente a quantidade segura para vender (%RATIO%% do CPS bruto)",
+    "gx_confirm_safe_sell": "Calcular quantidades seguras usando <b>%RATIO%%</b> do CPS bruto como orçamento?",
+    "gx_calc_safe_sell_hint": "O cálculo pode vender temporariamente e recomprar imediatamente os prédios selecionados para determinar valores seguros.",
 
     "gx_sell_label": "Vender:",
     "gx_or": "ou",
@@ -549,7 +597,9 @@ ModLanguage('PT-BR', {
     "gx_bought": "Comprados:",
     "gx_for": "por",
 
+    "gx_confirm_reset_title": "Confirmar reset",
     "gx_confirm_reset_question": "Resetar config do Godzamok Ultimate para padrão?",
+    "gx_confirm_reset_hint": "Todas as configurações atuais serão perdidas e restauradas para os valores padrão.",
     "gx_yes": "Sim",
     "gx_no": "Não",
 
@@ -559,6 +609,12 @@ ModLanguage('PT-BR', {
 
     "gx_advanced_opt": "Otimização avançada: ",
     "gx_advanced_opt_label": "Armazena em cache os cálculos de preço e suprime os hooks do jogo durante operações em massa. Pode afetar as mecânicas após atualizações.",
+
+    "gx_warn_title": "Recompra cara detectada",
+    "gx_warn_body": "Recomprar os prédios vendidos custará <b>%COST%</b> — isso é <b>%PCT%%</b> do seu CPS. Considere calcular valores seguros de venda primeiro.",
+    "gx_warn_threshold_hint": "Limite de aviso: %THRESH%% do CPS bruto.",
+    "gx_warn_calculate_now": "Calcular",
+    "gx_warn_skip": "Pular",
 });
 
 //***********************************
@@ -627,8 +683,9 @@ ModLanguage('RU', {
     "gx_preset_units_label": "Заданное количество для добавления на здание",
 
     "gx_calc_safe_sell": "Рассчитать безопасную продажу",
-    "gx_calc_safe_sell_label": "Автоматически рассчитывать безопасное количество для продажи (1% от базового CPS)",
-    "gx_confirm_safe_sell": "Пересчитать безопасное количество для продажи?<br/>Это ПРОДАСТ и сразу же КУПИТ все выбранные здания.",
+    "gx_calc_safe_sell_label": "Автоматически рассчитывать безопасное количество для продажи (%RATIO%% от базового CPS)",
+    "gx_confirm_safe_sell": "Рассчитать безопасное количество, используя <b>%RATIO%%</b> базового CPS как бюджет?",
+    "gx_calc_safe_sell_hint": "Расчёт может временно продать и сразу же выкупить обратно выбранные здания для определения безопасных значений.",
 
     "gx_sell_label": "Продать:",
     "gx_or": "или",
@@ -638,7 +695,9 @@ ModLanguage('RU', {
     "gx_bought": "Куплено:",
     "gx_for": "за",
 
+    "gx_confirm_reset_title": "Подтвердите сброс",
     "gx_confirm_reset_question": "Сбросить настройки Godzamok Ultimate до значений по умолчанию?",
+    "gx_confirm_reset_hint": "Все текущие настройки будут утеряны и заменены значениями по умолчанию.",
     "gx_yes": "Да",
     "gx_no": "Нет",
 
@@ -648,6 +707,12 @@ ModLanguage('RU', {
 
     "gx_advanced_opt": "Продвинутая оптимизация: ",
     "gx_advanced_opt_label": "Кэширует расчёт цен и подавляет игровые хуки во время массовых операций. Может повлиять на механики игры при обновлениях.",
+
+    "gx_warn_title": "Обнаружена дорогостоящая обратная покупка",
+    "gx_warn_body": "Обратная покупка проданных зданий обойдётся в <b>%COST%</b> — это <b>%PCT%%</b> вашего CPS. Рекомендуется сначала рассчитать безопасные значения продажи.",
+    "gx_warn_threshold_hint": "Порог предупреждения: %THRESH%% базового CPS.",
+    "gx_warn_calculate_now": "Рассчитать",
+    "gx_warn_skip": "Пропустить",
 });
 
 //***********************************
@@ -716,8 +781,9 @@ ModLanguage('TR', {
     "gx_preset_units_label": "Bina başı satış adedi",
 
     "gx_calc_safe_sell": "Güvenli Satışı Hesapla",
-    "gx_calc_safe_sell_label": "Güvenli satış miktarlarını otomatik hesapla (ham CPS'nin %1'i)",
-    "gx_confirm_safe_sell": "Güvenli satış miktarları yeniden hesaplansın mı?<br/>Bu, seçilen tüm binaları SATIP hemen tekrar satın alacaktır.",
+    "gx_calc_safe_sell_label": "Güvenli satış miktarlarını otomatik hesapla (ham CPS'nin %RATIO%'i)",
+    "gx_confirm_safe_sell": "Ham CPS'nin <b>%RATIO%%</b>'i bütçe olarak kullanılarak güvenli satış miktarları hesaplansın mı?",
+    "gx_calc_safe_sell_hint": "Hesaplama, güvenli değerleri belirlemek için seçili binaları geçici olarak satıp hemen geri satın alabilir.",
 
     "gx_sell_label": "Sat:",
     "gx_or": "veya",
@@ -727,7 +793,9 @@ ModLanguage('TR', {
     "gx_bought": "Alındı:",
     "gx_for": "karşılığında",
 
+    "gx_confirm_reset_title": "Sıfırlamayı onayla",
     "gx_confirm_reset_question": "Godzamok Ultimate ayarları varsayılanlara sıfırlansın mı?",
+    "gx_confirm_reset_hint": "Tüm mevcut ayarlar kaybolacak ve varsayılan değerlerine geri yüklenecektir.",
     "gx_yes": "Evet",
     "gx_no": "Hayır",
 
@@ -737,4 +805,10 @@ ModLanguage('TR', {
 
     "gx_advanced_opt": "Gelişmiş Optimizasyon: ",
     "gx_advanced_opt_label": "Toplu işlemler sırasında fiyat hesaplamalarını önbelleğe alır ve oyun kancalarını bastırır. Güncellemelerden sonra oyun mekaniklerini etkileyebilir.",
+
+    "gx_warn_title": "Pahalı geri alım tespit edildi",
+    "gx_warn_body": "Satılan binaların geri satın alınması <b>%COST%</b> tutacak — bu CPS'nizin <b>%PCT%%</b>'si. Önce güvenli satış değerlerini hesaplamayı düşünün.",
+    "gx_warn_threshold_hint": "Uyarı eşiği: ham CPS'nin %THRESH%%'i.",
+    "gx_warn_calculate_now": "Hesapla",
+    "gx_warn_skip": "Atla",
 });
