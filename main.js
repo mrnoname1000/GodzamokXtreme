@@ -4,7 +4,7 @@ if (loc("gx_toggle_on") == "gx_toggle_on") Game.LoadMod('https://r33yl.github.io
 
 GodzamokXtreme.name = 'Godzamok Ultimate';
 GodzamokXtreme.ID = 'godzamok_ultimate';
-GodzamokXtreme.version = '2.8';
+GodzamokXtreme.version = '2.9';
 GodzamokXtreme.GameVersion = '2.053';
 
 GodzamokXtreme.launch = function () {
@@ -25,6 +25,8 @@ GodzamokXtreme.launch = function () {
 			hotkeyG: 1,               // Enable "G" hotkey to trigger script
 			inputDelayEnabled: 1,     // Add delay between input events
 			inputDelayValue: 100,     // Delay duration in milliseconds
+			// === Performance ===
+			advancedOptimization: 0,  // Suppress buyFunction/sellFunction during bulk operations (may affect game mechanics)
 			// === Temple ===
 			autoSwitchGods: 1,        // Automatically switch to Godzamok if not selected
 			selectedSlot: 1,          // Temple slot where Godzamok will be placed
@@ -434,6 +436,18 @@ GodzamokXtreme.launch = function () {
 					loc("gx_debug_info_prefix") + loc("gx_toggle_off"),
 					"GodzamokXtreme.Toggle") +
 				'<label>' + loc("gx_debug_info_label") + '</label>' +
+				'</div>';
+
+			str += '<div class="listing">' +
+				addClassToHtml(
+					menu.ToggleButton(GodzamokXtreme.config, 'advancedOptimization',
+						'GodzamokXtreme_AdvancedOptimization',
+						loc("gx_advanced_opt") + loc("gx_toggle_on"),
+						loc("gx_advanced_opt") + loc("gx_toggle_off"),
+						"GodzamokXtreme.Toggle"),
+					'orange'
+				) +
+				'<label>' + loc("gx_advanced_opt_label") + '</label>' +
 				'</div>';
 
 			str += '<div class="listing">' +
@@ -1051,6 +1065,20 @@ GodzamokXtreme.launch = function () {
 	//    SCRIPT EXECUTION
 	//***********************************
 
+	// Geometric series sum: basePrice * (r^start + r^(start+1) + ... + r^(start+amount-1))
+	// = basePrice * r^start * (r^amount - 1) / (r - 1)
+	function getSumPriceFast(building, fromAmount, count) {
+		if (!GodzamokXtreme.config.advancedOptimization) {
+			return building.getSumPrice(count); // original implementation
+		}
+		if (count <= 0) return 0;
+		const base = building.basePrice;
+		const r = Game.priceIncrease;
+		const start = Math.max(0, fromAmount - building.free);
+		const price = base * Math.pow(r, start) * (Math.pow(r, count) - 1) / (r - 1);
+		return Math.ceil(Game.modifyBuildingPrice(building, price));
+	}
+
 	// Main logic that sells selected buildings and optionally buys them back
 	GodzamokXtreme.runCore = function () {
 		GodzamokXtreme.setGodzamok(); // Ensure Godzamok is active if autoSwitch is on
@@ -1067,6 +1095,55 @@ GodzamokXtreme.launch = function () {
 		// Save current buy mode (in case player is in "sell" mode)
 		const originalBuyMode = Game.buyMode;
 		Game.buyMode = 1; // Force "buy" mode to ensure correct purchase behavior
+
+		//*****************************************************
+		// ====== Patch game functions for bulk sell/buy ======
+		//*****************************************************
+
+		// Suppress refreshes while the operation is in progress
+		const originalRefresh = {};
+
+		// Always: suppress refresh
+		Game.ObjectsById.forEach((building, i) => {
+			originalRefresh[i] = building.refresh;
+			building.refresh = function () { };
+		});
+
+		// Advanced optimization
+		const originalBuyFunction = {};
+		const originalSellFunction = {};
+		let priceMult = 1;
+		let originalModifyBuildingPrice = null;
+		let originalUnlockTiered = null;
+
+		if (GodzamokXtreme.config.advancedOptimization) {
+			// Cache the price modifier once (pass `price=1` to get the pure multiplier)
+			priceMult = Game.modifyBuildingPrice(Game.ObjectsById[0], 1);
+			originalModifyBuildingPrice = Game.modifyBuildingPrice;
+			Game.modifyBuildingPrice = function (building, price) { return price * priceMult; };
+
+			originalUnlockTiered = Game.UnlockTiered;
+			Game.UnlockTiered = function () { };
+
+			Game.ObjectsById.forEach((building, i) => {
+				originalBuyFunction[i] = building.buyFunction;
+				originalSellFunction[i] = building.sellFunction;
+				building.buyFunction = null;
+				building.sellFunction = null;
+
+				const _base = building.basePrice;
+				const _r = Game.priceIncrease;
+				const _free = building.free;
+				building._origGetPrice = building.getPrice;
+				building.getPrice = function () {
+					return Math.ceil(_base * Math.pow(_r, Math.max(0, this.amount - _free)) * priceMult);
+				};
+			});
+		}
+
+		//*****************************************************
+		// === Patch game functions for bulk sell/buy (End) ===
+		//*****************************************************
 
 		const isPercentSellMode = GodzamokXtreme.config.sellMode === 0;
 		const buybackEnabled = GodzamokXtreme.config.buybackEnabled;
@@ -1085,7 +1162,9 @@ GodzamokXtreme.launch = function () {
 
 			if (amountToSell <= 0) return;
 
-			const totalGain = building.getReverseSumPrice(amountToSell); // simulate income from selling
+			const totalGain = GodzamokXtreme.config.advancedOptimization
+				? getSumPriceFast(building, building.amount - amountToSell, amountToSell) * building.getSellMultiplier()
+				: building.getReverseSumPrice(amountToSell);
 			building.sell(amountToSell);  // perform the sale
 
 			let boughtAmount = 0;
@@ -1095,10 +1174,20 @@ GodzamokXtreme.launch = function () {
 				switch (buybackType) {
 					// Buy back as much as totalGain allows
 					case 0: {
-						while (true) {
-							const price = building.getSumPrice(boughtAmount + 1);
-							if (price > totalGain) break;
-							boughtAmount++;
+						if (GodzamokXtreme.config.advancedOptimization) {
+							let lo = 0, hi = amountToSell;
+							while (lo < hi) {
+								const mid = Math.ceil((lo + hi) / 2);
+								if (getSumPriceFast(building, building.amount, mid) <= totalGain) lo = mid;
+								else hi = mid - 1;
+							}
+							boughtAmount = lo;
+						} else {
+							while (true) {
+								const price = building.getSumPrice(boughtAmount + 1);
+								if (price > totalGain) break;
+								boughtAmount++;
+							}
 						}
 						break;
 					}
@@ -1115,7 +1204,9 @@ GodzamokXtreme.launch = function () {
 					}
 				}
 
-				if (showInfo) totalSpent = building.getSumPrice(boughtAmount);
+				if (showInfo) totalSpent = GodzamokXtreme.config.advancedOptimization
+					? getSumPriceFast(building, building.amount, boughtAmount)
+					: building.getSumPrice(boughtAmount);
 				building.buy(boughtAmount);
 			}
 
@@ -1131,6 +1222,35 @@ GodzamokXtreme.launch = function () {
 				Game.Notify(building.dname, message, [23, 18], 10);
 			}
 		});
+
+		//*********************************************
+		// ====== Restore patched game functions ======
+		//*********************************************
+
+		// Re-enable refreshes and call the function once for each building
+		Game.ObjectsById.forEach((building, i) => {
+			building.refresh = originalRefresh[i];
+
+			if (GodzamokXtreme.config.advancedOptimization) {
+				building.buyFunction = originalBuyFunction[i];
+				building.sellFunction = originalSellFunction[i];
+				building.getPrice = building._origGetPrice;
+				delete building._origGetPrice;
+				if (building.buyFunction) building.buyFunction();
+				originalUnlockTiered(building);
+			}
+
+			building.refresh();
+		});
+
+		if (GodzamokXtreme.config.advancedOptimization) {
+			Game.modifyBuildingPrice = originalModifyBuildingPrice;
+			Game.UnlockTiered = originalUnlockTiered;
+		}
+
+		//*****************************************************
+		// ====== Restore patched game functions (End) ======
+		//*****************************************************
 
 		// Restore original buy mode
 		Game.buyMode = originalBuyMode;

@@ -110,6 +110,10 @@ ModLanguage('*', {
 
     // Popup notification text shown when no buildings are selected
     "gx_no_buildings_selected": "No buildings selected!",
+
+    // Advanced Optimization
+    "gx_advanced_opt": "Advanced Optimization: ",
+    "gx_advanced_opt_label": "Cache price calculations and suppress game hooks during bulk operations. May affect game mechanics if updated.",
 });
 
 //***********************************
@@ -196,6 +200,9 @@ ModLanguage('ZH-CN', {
     "gx_settings_reset_popup": "Godzamok Ultimate 配置已重置。",
 
     "gx_no_buildings_selected": "未选择任何建筑！",
+
+    "gx_advanced_opt": "高级优化：",
+    "gx_advanced_opt_label": "批量操作期间缓存价格计算并抑制游戏钩子。更新后可能影响游戏机制。",
 });
 
 //***********************************
@@ -282,6 +289,9 @@ ModLanguage('DE', {
     "gx_settings_reset_popup": "Godzamok Ultimate-Einstellungen wurden zurückgesetzt.",
 
     "gx_no_buildings_selected": "Keine Gebäude ausgewählt!",
+
+    "gx_advanced_opt": "Erweiterte Optimierung: ",
+    "gx_advanced_opt_label": "Cached Preisberechnungen und unterdrückt Game-Hooks während Massenoperationen. Kann nach Updates die Spielmechanik beeinflussen.",
 });
 
 //***********************************
@@ -368,6 +378,9 @@ ModLanguage('ES', {
     "gx_settings_reset_popup": "Configuración de Godzamok Ultimate restablecida.",
 
     "gx_no_buildings_selected": "¡Ningún edificio seleccionado!",
+
+    "gx_advanced_opt": "Optimización avanzada: ",
+    "gx_advanced_opt_label": "Almacena en caché los cálculos de precio y suprime los hooks del juego durante operaciones masivas. Puede afectar las mecánicas tras actualizaciones.",
 });
 
 //***********************************
@@ -454,6 +467,9 @@ ModLanguage('FR', {
     "gx_settings_reset_popup": "Config Godzamok Ultimate réinitialisée.",
 
     "gx_no_buildings_selected": "Aucun bâtiment sélectionné !",
+
+    "gx_advanced_opt": "Optimisation avancée : ",
+    "gx_advanced_opt_label": "Met en cache les calculs de prix et supprime les hooks du jeu lors des opérations en masse. Peut affecter les mécaniques de jeu après une mise à jour.",
 });
 
 //***********************************
@@ -540,6 +556,9 @@ ModLanguage('PT-BR', {
     "gx_settings_reset_popup": "Configurações Godzamok Ultimate resetadas.",
 
     "gx_no_buildings_selected": "Nenhum edifício selecionado!",
+
+    "gx_advanced_opt": "Otimização avançada: ",
+    "gx_advanced_opt_label": "Armazena em cache os cálculos de preço e suprime os hooks do jogo durante operações em massa. Pode afetar as mecânicas após atualizações.",
 });
 
 //***********************************
@@ -626,6 +645,9 @@ ModLanguage('RU', {
     "gx_settings_reset_popup": "Настройки Godzamok Ultimate сброшены.",
 
     "gx_no_buildings_selected": "Не выбрано ни одного здания!",
+
+    "gx_advanced_opt": "Продвинутая оптимизация: ",
+    "gx_advanced_opt_label": "Кэширует расчёт цен и подавляет игровые хуки во время массовых операций. Может повлиять на механики игры при обновлениях.",
 });
 
 //***********************************
@@ -712,4 +734,7 @@ ModLanguage('TR', {
     "gx_settings_reset_popup": "Godzamok Ultimate ayarları sıfırlandı.",
 
     "gx_no_buildings_selected": "Hiç bina seçilmedi!",
+
+    "gx_advanced_opt": "Gelişmiş Optimizasyon: ",
+    "gx_advanced_opt_label": "Toplu işlemler sırasında fiyat hesaplamalarını önbelleğe alır ve oyun kancalarını bastırır. Güncellemelerden sonra oyun mekaniklerini etkileyebilir.",
 });
