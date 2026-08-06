@@ -9,17 +9,19 @@ In the screenshot, information about the current active buff is displayed using 
 ## How to Install
 
 ### Steam Version (Workshop):
+
 1. Go to the [Steam Workshop page](https://steamcommunity.com/sharedfiles/filedetails/?id=3543119876).
 2. Click **Subscribe**.
 3. Launch Cookie Clicker via Steam — the mod will load automatically if you have **Mod Manager** enabled.
 
 ### Web Version:
+
 1. Open the Cookie Clicker website: [orteil.dashnet.org/cookieclicker](https://orteil.dashnet.org/cookieclicker/)
 2. Open the browser console (usually by pressing `F12`).
 3. Paste the following code and press Enter:
-   
+
 ```javascript
-Game.LoadMod('https://r33yl.github.io/GodzamokXtreme/main.js');
+Game.LoadMod("https://r33yl.github.io/GodzamokXtreme/main.js");
 ```
 
 ## Requirements
@@ -28,6 +30,7 @@ This mod requires [CCSE (Cookie Clicker Script Extender)](https://klattmose.gith
 It must be loaded before this mod.
 
 ## How to Use
+
 1. Make sure Godzamok is slotted in the Temple.
 2. Adjust settings via the GodzamokXtreme menu:
    - Choose which buildings will be sold.
@@ -43,9 +46,10 @@ It must be loaded before this mod.
 
 - Adds a main activation button near the Big Cookie
 - Optionally adds a second button inside the Temple interface
-- Loop Mode — a activation mode that continuously runs the sell/rebuy cycle (simulates holding the G hotkey)
+- Loop Mode — an activation mode that continuously runs the sell/rebuy cycle (simulates holding the G hotkey)
 - Supports a hotkey (G by default) to run the script
-- Auto-switch to Godzamok if it's not currently active
+- Auto-switch to Godzamok if it's not currently active, with configurable Temple slot selection
+- Store Markers — displays a Godzamok icon on buildings selected for selling in the store panel
 - Supports two sell modes:
   - Sell by **percentage** of owned buildings
   - Sell by **fixed unit** count
@@ -53,13 +57,21 @@ It must be loaded before this mod.
   - Rebuy full sold amount
   - Rebuy as much as possible based on profit
   - Rebuy a fixed percentage
+- **Advanced Optimization** — caches price calculations and suppresses game hooks during bulk operations for faster execution (may affect game mechanics if the game is updated)
+- **Expensive buyback warning** — alerts you when the buyback cost exceeds a configurable threshold of your raw CPS, with an option to calculate safe sell values on the spot
 - Settings menu integrated with CCSE:
   - Enable/disable specific buildings
   - Set sell values per building
   - Set global presets for sell amounts
   - Filter buildings (show only enabled or hide empty)
-- Show Debug Info — displays how many of each building were sold and rebought (in-game option labeled "Show debug info")
-- Calculate Safe Sell — automatically determines the maximum safe number of buildings for the sale/purchase cycle so as not to lose the accumulated cookies
+- **Show Debug Info** — displays how many of each building were sold and rebought after each run
+- **Calculate Safe Sell** — automatically determines the maximum safe number of buildings for the sale/purchase cycle so as not to lose accumulated cookies
+
+## Localization
+
+The mod includes translations for the following languages:
+
+English · 简体中文 (Chinese Simplified) · Deutsch (German) · Español (Spanish) · Français (French) · Português BR (Brazilian Portuguese) · Русский (Russian) · Türkçe (Turkish) · 日本語 (Japanese) · 한국어 (Korean) · Polski (Polish) · Italiano (Italian) · Nederlands (Dutch) · Українська (Ukrainian) · Svenska (Swedish) · Čeština (Czech)
 
 <img width="753" height="1057" alt="image" src="https://github.com/user-attachments/assets/67481181-a878-41eb-af8d-6edc58bbe578" />
 

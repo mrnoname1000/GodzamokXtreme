@@ -1095,7 +1095,7 @@ ModLanguage('PL', {
     "gx_buyback_strategy_label": "Strategia odkupu",
 
     "gx_buyback_percent": "Procent odkupu",
-    "gx_buyback_percent_label": "Używane tylko przy strategii „Kup procentowo"",
+    "gx_buyback_percent_label": "Używane tylko przy strategii „Kup procentowo\"",
 
     "gx_show_only_enabled": "Tylko aktywne: ",
     "gx_hide_empty": "Ukryj puste: ",
@@ -1600,7 +1600,7 @@ ModLanguage('CS', {
     "gx_buyback_strategy_label": "Strategie zpětného odkupu",
 
     "gx_buyback_percent": "Procento odkupu",
-    "gx_buyback_percent_label": "Používá se pouze při strategii „Koupit procento"",
+    "gx_buyback_percent_label": "Používá se pouze při strategii „Koupit procento\"",
 
     "gx_show_only_enabled": "Jen aktivní: ",
     "gx_hide_empty": "Skrýt prázdné: ",
