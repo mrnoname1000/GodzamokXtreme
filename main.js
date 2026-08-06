@@ -31,6 +31,7 @@ GodzamokXtreme.launch = function () {
 			showMainButton: true,         // Show the main Godzamok button near the big cookie
 			showTempleButton: true,       // Show an additional button in the Temple minigame
 			showLoopButton: true,         // Show "Loop" button to repeatedly sell/buy buildings in a loop
+			showStoreMarkers: true,       // Show Godzamok icon on selected buildings in store
 			loopModeEnabled: false,       // Whether Loop Mode is currently active
 			hotkeyG: true,                // Enable "G" hotkey to trigger script
 			inputDelayEnabled: true,      // Add delay between input events
@@ -42,16 +43,16 @@ GodzamokXtreme.launch = function () {
 			selectedSlot: 1,              // Temple slot where Godzamok will be placed
 			// === Buyback ===
 			buybackEnabled: true,         // Enable automatic buyback of sold buildings
-			buybackType: 1,               // Buyback strategy (0: with profit, 1: full amount, 2: percentage)
+			buybackType: GodzamokXtreme.BuybackType.FULL_AMOUNT, // Buyback strategy (WITH_PROFIT=0, FULL_AMOUNT=1, PERCENTAGE=2)
 			buybackPercent: 90,           // Percentage for type 2 buyback
 			// === Building Display ===
 			showOnlyEnabled: true,        // Show only enabled buildings in the UI
 			hideEmptyBuildings: false,    // Hide buildings with 0 owned units
 			// === Sell Mode ===
-			sellMode: 0,                  // Sell mode: 0 = percent, 1 = units
+			sellMode: GodzamokXtreme.SellMode.PERCENT, // Sell mode: PERCENT=0, UNITS=1
 			// === Building Settings ===
 			buildings: Game.ObjectsById.map((building) => ({
-				enabled: defaultBuildings.includes(building.id) ? true : false,
+				enabled: defaultBuildings.includes(building.id),
 				sellPercent: 100,     // % to sell
 				sellUnits: 0,         // units to sell if mode = units
 			})),
@@ -66,15 +67,31 @@ GodzamokXtreme.launch = function () {
 	//    ENUM OPTIONS
 	//***********************************
 
+	GodzamokXtreme.BuybackType = {
+		WITH_PROFIT: 0,
+		FULL_AMOUNT: 1,
+		PERCENTAGE: 2,
+	};
+
+	GodzamokXtreme.SellMode = {
+		PERCENT: 0,
+		UNITS: 1,
+	};
+
+	GodzamokXtreme.BuyMode = {
+		BUY: 1,
+		SELL: -1,
+	};
+
 	GodzamokXtreme.buybackOptions = [
-		{ pref: 0, name: loc("gx_buyback_total_gain") },
-		{ pref: 1, name: loc("gx_buyback_full_amount") },
-		{ pref: 2, name: loc("gx_buyback_percentage") }
+		{ pref: GodzamokXtreme.BuybackType.WITH_PROFIT, name: loc("gx_buyback_total_gain") },
+		{ pref: GodzamokXtreme.BuybackType.FULL_AMOUNT, name: loc("gx_buyback_full_amount") },
+		{ pref: GodzamokXtreme.BuybackType.PERCENTAGE, name: loc("gx_buyback_percentage") }
 	];
 
 	GodzamokXtreme.sellModeOptions = [
-		{ pref: 0, name: loc("gx_sell_mode_percent") },
-		{ pref: 1, name: loc("gx_sell_mode_units") }
+		{ pref: GodzamokXtreme.SellMode.PERCENT, name: loc("gx_sell_mode_percent") },
+		{ pref: GodzamokXtreme.SellMode.UNITS, name: loc("gx_sell_mode_units") }
 	];
 
 	//***********************************
@@ -251,6 +268,23 @@ GodzamokXtreme.launch = function () {
 			@keyframes rotateShine {
 				from { transform: rotate(0deg); }
 				to { transform: rotate(360deg); }
+			}
+			.gx-marker {
+				position: absolute;
+				bottom: -4px;
+				right: 0;
+				width: 24px;
+				height: 24px;
+				background: url(img/icons.png);
+				background-size: 864px 888px;
+				background-position: 312px 456px;
+				opacity: 0;
+				pointer-events: none;
+				z-index: 10;
+				transition: opacity .15s;
+			}
+			.gx-marker.enabled {
+				opacity: 0.8;
 			}`;
 
 		const styleEl = document.createElement('style');
@@ -281,6 +315,7 @@ GodzamokXtreme.launch = function () {
 		GodzamokXtreme.addMainButtons();
 		GodzamokXtreme.addKeyListener();
 		GodzamokXtreme.monitorTempleSlotsAndSwaps();
+		GodzamokXtreme.addStoreUpdateHook();
 
 		// Setup core run logic (with throttling if enabled)
 		GodzamokXtreme.updateRun();
@@ -420,6 +455,65 @@ GodzamokXtreme.launch = function () {
 	};
 
 	//***********************************
+	//    STORE BUILDING HIGHLIGHT
+	//***********************************
+
+	GodzamokXtreme.buildStoreMarkers = function () {
+		Game.ObjectsById.forEach((building, i) => {
+			const product = document.getElementById('product' + i);
+			if (!product) return;
+
+			const content = product.querySelector('.content');
+			if (!content) return;
+
+			let marker = content.querySelector('.gx-marker');
+			if (!marker) {
+				marker = document.createElement('div');
+				marker.className = 'gx-marker';
+				content.appendChild(marker);
+			}
+		});
+
+		GodzamokXtreme.refreshStoreMarkers();
+	};
+
+	GodzamokXtreme.refreshStoreMarkers = function () {
+		const show = GodzamokXtreme.config.showStoreMarkers;
+		Game.ObjectsById.forEach((building, i) => {
+			const product = document.getElementById('product' + i);
+			if (!product) return;
+
+			const content = product.querySelector('.content');
+			if (!content) return;
+
+			let marker = content.querySelector('.gx-marker');
+			if (!marker) {
+				marker = document.createElement('div');
+				marker.className = 'gx-marker';
+				content.appendChild(marker);
+			}
+
+			marker.style.display = show ? '' : 'none';
+			if (show) {
+				marker.classList.toggle(
+					'enabled',
+					GodzamokXtreme.config.buildings[i].enabled
+				);
+			}
+		});
+	};
+
+	GodzamokXtreme.ToggleStoreMarkers = function () {
+		GodzamokXtreme.config.showStoreMarkers = !GodzamokXtreme.config.showStoreMarkers;
+		GodzamokXtreme.refreshStoreMarkers();
+	};
+
+	GodzamokXtreme.addStoreUpdateHook = function () {
+		Game.customBuildStore.push(GodzamokXtreme.buildStoreMarkers);
+		Game.customRefreshStore.push(GodzamokXtreme.refreshStoreMarkers);
+	};
+
+	//***********************************
 	//    SETTINGS MENU UI
 	//***********************************
 
@@ -448,6 +542,15 @@ GodzamokXtreme.launch = function () {
 					loc("gx_debug_info_prefix") + loc("gx_toggle_off"),
 					"GodzamokXtreme.Toggle") +
 				'<label>' + loc("gx_debug_info_label") + '</label>' +
+				'</div>';
+
+			// Safe sell calculator
+			str += '<div class="listing">' +
+				addClassToHtml(
+					menu.ActionButton(`GodzamokXtreme.calculateSafeSellUnits();`, loc("gx_calc_safe_sell")),
+					'neato'
+				) +
+				'<label>' + loc("gx_calc_safe_sell_label").replace('%RATIO%', Math.round(GodzamokXtreme.SAFE_SELL_BUDGET_RATIO * 100)) + '</label>' +
 				'</div>';
 
 			str += '<div class="listing">' +
@@ -491,6 +594,18 @@ GodzamokXtreme.launch = function () {
 					loc("gx_show_loop_button") + loc("gx_toggle_off"),
 					"GodzamokXtreme.ToggleStartButton") +
 				'<label>' + loc("gx_display_buttons_label") + '</label>' +
+				'</div>';
+
+			str += '<div class="listing">' +
+				menu.ToggleButton(
+					GodzamokXtreme.config,
+					'showStoreMarkers',
+					'GodzamokXtreme_StoreMarkers',
+					loc("gx_store_markers") + loc("gx_toggle_on"),
+					loc("gx_store_markers") + loc("gx_toggle_off"),
+					"GodzamokXtreme.ToggleStoreMarkers"
+				) +
+				'<label>' + loc("gx_store_markers_label") + '</label>' +
 				'</div>';
 
 			str += '<div class="listing">' +
@@ -609,12 +724,14 @@ GodzamokXtreme.launch = function () {
 						loc("gx_buyback_percent"),
 						'[$]%',
 						() => GodzamokXtreme.config.buybackPercent,
-						GodzamokXtreme.config.buybackType === 2
+						GodzamokXtreme.config.buybackType === GodzamokXtreme.BuybackType.PERCENTAGE
 							? 'GodzamokXtreme.updateBuybackPercent(this.value);'
 							: '',
 						0, 100, 5
 					),
-					GodzamokXtreme.config.buybackType === 2 ? '' : 'disable'
+					GodzamokXtreme.config.buybackType === GodzamokXtreme.BuybackType.PERCENTAGE
+						? ''
+						: 'disable'
 				) +
 				'<label>' + loc("gx_buyback_percent_label") + '</label>' +
 				'</div>';
@@ -686,14 +803,6 @@ GodzamokXtreme.launch = function () {
 				'<label>' + loc("gx_preset_units_label") + '</label>' +
 				'</div>';
 
-			// Safe sell calculator
-			str += '<div class="listing">' +
-				addClassToHtml(
-					menu.ActionButton(`GodzamokXtreme.calculateSafeSellUnits();`, loc("gx_calc_safe_sell")),
-					'orange') +
-				'<label>' + loc("gx_calc_safe_sell_label").replace('%RATIO%', Math.round(GodzamokXtreme.SAFE_SELL_BUDGET_RATIO * 100)) + '</label>' +
-				'</div>';
-
 			//========== INDIVIDUAL BUILDING SETTINGS ==========
 			for (let index = 0; index < Game.ObjectsById.length; index++) {
 				const obj = Game.ObjectsById[index];
@@ -707,7 +816,7 @@ GodzamokXtreme.launch = function () {
 				const sellPercent = buildingCfg.sellPercent || 0;
 				const sellUnits = buildingCfg.sellUnits || 0;
 
-				const isPercentMode = GodzamokXtreme.config.sellMode === 0;
+				const isPercentMode = GodzamokXtreme.config.sellMode === GodzamokXtreme.SellMode.PERCENT;
 
 				// Create UI block for each building
 				str += '<div class="listing titleFont">' +
@@ -885,20 +994,19 @@ GodzamokXtreme.launch = function () {
 			return a.length === b.length && a.every((v, i) => v === b[i]);
 		}
 
-		setInterval(() => {
+		GodzamokXtreme._monitorInterval = setInterval(() => {
 			const currentSwaps = Game.Objects.Temple.minigame.swaps;
 			const currentSlots = [...Game.Objects.Temple.minigame.slot];
 
-			if (currentSwaps !== lastSwaps) {
-				lastSwaps = currentSwaps;
-				GodzamokXtreme.UpdateGodSlotButtonClasses();
-			}
+			const swapsChanged = currentSwaps !== lastSwaps;
+			const slotsChanged = !arraysEqual(currentSlots, lastSlots);
 
-			if (!arraysEqual(currentSlots, lastSlots)) {
-				lastSlots = [...currentSlots];
+			if (swapsChanged || slotsChanged) {
+				lastSwaps = currentSwaps;
+				lastSlots = currentSlots;
 				GodzamokXtreme.UpdateGodSlotButtonClasses();
 			}
-		}, 3000); // check every 3 seconds
+		}, 2000); // check every 2 seconds
 	};
 
 	//***********************************
@@ -945,6 +1053,8 @@ GodzamokXtreme.launch = function () {
 
 		button.innerHTML = build.enabled ? `${obj.dname}: ${loc("gx_toggle_on")}` : `${obj.dname}: ${loc("gx_toggle_off")}`;
 		button.className = 'smallFancyButton prefButton option' + (build.enabled ? '' : ' off');
+
+		GodzamokXtreme.refreshStoreMarkers();
 	};
 
 	// Switches between percent mode and units mode
@@ -954,13 +1064,13 @@ GodzamokXtreme.launch = function () {
 	};
 
 	// Synchronizes sellPercent and sellUnits based on current sell mode
-	GodzamokXtreme.syncSellValues = function (index, mode = -1, updateMenu = 1) {
+	GodzamokXtreme.syncSellValues = function (index, mode = -1, updateMenu = true) {
 		const building = GodzamokXtreme.config.buildings[index];
 		const gameObj = Game.ObjectsById[index];
 
 		const isPercentMode = (mode === -1)
-			? (GodzamokXtreme.config.sellMode === 0)
-			: (mode === 0);
+			? (GodzamokXtreme.config.sellMode === GodzamokXtreme.SellMode.PERCENT)
+			: (mode === GodzamokXtreme.SellMode.PERCENT);
 
 		if (isPercentMode) {
 			building.sellUnits = Math.floor(gameObj.amount * (building.sellPercent / 100));
@@ -973,9 +1083,9 @@ GodzamokXtreme.launch = function () {
 	};
 
 	// Applies syncSellValues to all buildings
-	GodzamokXtreme.syncAllSellValues = function (mode, updateMenu = 1) {
+	GodzamokXtreme.syncAllSellValues = function (mode, updateMenu = true) {
 		GodzamokXtreme.config.buildings.forEach((_, index) => {
-			GodzamokXtreme.syncSellValues(index, mode, 0);
+			GodzamokXtreme.syncSellValues(index, mode, false);
 		});
 		if (updateMenu) Game.UpdateMenu(); // Rebuild of the settings menu
 	};
@@ -985,7 +1095,7 @@ GodzamokXtreme.launch = function () {
 		GodzamokXtreme.config.buildings.forEach((b) => {
 			b.sellPercent = value;
 		});
-		GodzamokXtreme.syncAllSellValues(0); // sync units from %
+		GodzamokXtreme.syncAllSellValues(GodzamokXtreme.SellMode.PERCENT); // sync units from %
 	};
 
 	// Subtracts specified number of units from each building (minimum is 0)
@@ -996,7 +1106,7 @@ GodzamokXtreme.launch = function () {
 				building.sellUnits = Math.max(0, building.sellUnits - amount);
 			}
 		});
-		GodzamokXtreme.syncAllSellValues(1); // sync % from units
+		GodzamokXtreme.syncAllSellValues(GodzamokXtreme.SellMode.UNITS); // sync % from units
 	};
 
 	// Resets unit sell values to 0
@@ -1004,7 +1114,7 @@ GodzamokXtreme.launch = function () {
 		GodzamokXtreme.config.buildings.forEach((building) => {
 			building.sellUnits = 0;
 		});
-		GodzamokXtreme.syncAllSellValues(1); // sync % from 0 units
+		GodzamokXtreme.syncAllSellValues(GodzamokXtreme.SellMode.UNITS); // sync % from 0 units
 	};
 
 	// Adds specified number of units to each building (up to owned amount)
@@ -1015,7 +1125,7 @@ GodzamokXtreme.launch = function () {
 				building.sellUnits = Math.min(obj.amount, building.sellUnits + amount);
 			}
 		});
-		GodzamokXtreme.syncAllSellValues(1); // sync % from units
+		GodzamokXtreme.syncAllSellValues(GodzamokXtreme.SellMode.UNITS); // sync % from units
 	};
 
 	// Shows a confirmation prompt before calculating safe sell amounts
@@ -1049,7 +1159,7 @@ GodzamokXtreme.launch = function () {
 
 		// Save current buy mode (in case player is in "sell" mode)
 		const originalBuyMode = Game.buyMode;
-		Game.buyMode = 1; // Force "buy" mode to ensure correct purchase behavior
+		Game.buyMode = GodzamokXtreme.BuyMode.BUY; // Force "buy" mode to ensure correct purchase behavior
 
 		enabled.forEach(building => {
 			const index = building.id;
@@ -1079,7 +1189,7 @@ GodzamokXtreme.launch = function () {
 		// Restore original buy mode
 		Game.buyMode = originalBuyMode;
 
-		GodzamokXtreme.syncAllSellValues(1); // Sync % based on new sellUnits
+		GodzamokXtreme.syncAllSellValues(GodzamokXtreme.SellMode.UNITS); // Sync % based on new sellUnits
 	};
 
 	//***********************************
@@ -1089,7 +1199,7 @@ GodzamokXtreme.launch = function () {
 	// Calculates total buyback cost for all enabled buildings based on current sellUnits/sellPercent,
 	// without performing any real transactions.
 	GodzamokXtreme.calcTotalBuybackCost = function () {
-		const isPercentMode = GodzamokXtreme.config.sellMode === 0;
+		const isPercentMode = GodzamokXtreme.config.sellMode === GodzamokXtreme.SellMode.PERCENT;
 		let total = 0;
 		Game.ObjectsById.forEach((building, i) => {
 			const config = GodzamokXtreme.config.buildings[i];
@@ -1185,7 +1295,7 @@ GodzamokXtreme.launch = function () {
 	GodzamokXtreme._runCoreExecute = function () {
 		// Main logic that sells selected buildings and optionally buys them back
 		const originalBuyMode = Game.buyMode;
-		Game.buyMode = 1; // Force "buy" mode to ensure correct purchase behavior
+		Game.buyMode = GodzamokXtreme.BuyMode.BUY; // Force "buy" mode to ensure correct purchase behavior
 
 		//*****************************************************
 		// ====== Patch game functions for bulk sell/buy ======
@@ -1236,7 +1346,7 @@ GodzamokXtreme.launch = function () {
 		// === Patch game functions for bulk sell/buy (End) ===
 		//*****************************************************
 
-		const isPercentSellMode = GodzamokXtreme.config.sellMode === 0;
+		const isPercentSellMode = GodzamokXtreme.config.sellMode === GodzamokXtreme.SellMode.PERCENT;
 		const buybackEnabled = GodzamokXtreme.config.buybackEnabled;
 		const buybackType = GodzamokXtreme.config.buybackType;
 		const showInfo = GodzamokXtreme.config.showSellBuyInfo;
@@ -1251,7 +1361,7 @@ GodzamokXtreme.launch = function () {
 				amountToSell = Math.floor(building.amount * (sellPercent / 100));
 			}
 
-			if (amountToSell <= 0) return;
+			if (amountToSell <= 0 || amountToSell > building.amount) return;
 
 			const totalGain = GodzamokXtreme.config.advancedOptimization
 				? calcSumPrice(building, building.amount - amountToSell, amountToSell) * building.getSellMultiplier()
@@ -1264,7 +1374,7 @@ GodzamokXtreme.launch = function () {
 			if (buybackEnabled) {
 				switch (buybackType) {
 					// Buy back as much as totalGain allows
-					case 0: {
+					case GodzamokXtreme.BuybackType.WITH_PROFIT: {
 						if (GodzamokXtreme.config.advancedOptimization) {
 							let lo = 0, hi = amountToSell;
 							while (lo < hi) {
@@ -1283,12 +1393,12 @@ GodzamokXtreme.launch = function () {
 						break;
 					}
 					// Buy back full sold amount
-					case 1: {
+					case GodzamokXtreme.BuybackType.FULL_AMOUNT: {
 						boughtAmount = amountToSell;
 						break;
 					}
 					// Buy back fixed percent of sold
-					case 2: {
+					case GodzamokXtreme.BuybackType.PERCENTAGE: {
 						const buybackPercent = Math.max(0, Math.min(GodzamokXtreme.config.buybackPercent, 100));
 						boughtAmount = Math.floor(amountToSell * (buybackPercent / 100));
 						break;
@@ -1418,7 +1528,7 @@ GodzamokXtreme.launch = function () {
 		}
 
 		GodzamokXtreme.UpdateStartButton();
-		GodzamokXtreme.syncAllSellValues(-1, 0);
+		GodzamokXtreme.syncAllSellValues(-1, false);
 		GodzamokXtreme.updateRun();
 	};
 
@@ -1446,7 +1556,7 @@ GodzamokXtreme.launch = function () {
 	GodzamokXtreme.resetConfig = function () {
 		GodzamokXtreme.config = GodzamokXtreme.defaultConfig();
 		GodzamokXtreme.UpdateStartButton();
-		GodzamokXtreme.syncAllSellValues(0);
+		GodzamokXtreme.syncAllSellValues(GodzamokXtreme.SellMode.PERCENT);
 		GodzamokXtreme.updateRun();
 		GodzamokXtreme.save();
 		Game.UpdateMenu();

@@ -125,6 +125,10 @@ ModLanguage('*', {
     "gx_warn_threshold_hint": "Warning threshold: %THRESH%% of raw CPS.",
     "gx_warn_calculate_now": "Calculate",
     "gx_warn_skip": "Skip",
+
+    // Store building markers — icon shown on selected buildings in the right-side store panel
+    "gx_store_markers": "Store markers: ",
+    "gx_store_markers_label": "Show a Godzamok icon on buildings selected for selling in the store panel.",
 });
 
 //***********************************
@@ -223,6 +227,9 @@ ModLanguage('ZH-CN', {
     "gx_warn_threshold_hint": "警告阈值：原始CPS的 %THRESH%%。",
     "gx_warn_calculate_now": "计算",
     "gx_warn_skip": "跳过",
+
+    "gx_store_markers": "商店标记：",
+    "gx_store_markers_label": "在商店面板中为选定出售的建筑显示戈扎莫克图标。",
 });
 
 //***********************************
@@ -321,6 +328,9 @@ ModLanguage('DE', {
     "gx_warn_threshold_hint": "Warnschwelle: %THRESH%% des rohen CPS.",
     "gx_warn_calculate_now": "Berechnen",
     "gx_warn_skip": "Überspringen",
+
+    "gx_store_markers": "Shop-Markierungen: ",
+    "gx_store_markers_label": "Zeigt ein Godzamok-Symbol auf Gebäuden, die im Shop-Panel zum Verkauf ausgewählt sind.",
 });
 
 //***********************************
@@ -419,6 +429,9 @@ ModLanguage('ES', {
     "gx_warn_threshold_hint": "Umbral de advertencia: %THRESH%% del CPS bruto.",
     "gx_warn_calculate_now": "Calcular",
     "gx_warn_skip": "Omitir",
+
+    "gx_store_markers": "Marcadores de tienda: ",
+    "gx_store_markers_label": "Muestra un ícono de Godzamok en los edificios seleccionados para vender en el panel de la tienda.",
 });
 
 //***********************************
@@ -517,6 +530,9 @@ ModLanguage('FR', {
     "gx_warn_threshold_hint": "Seuil d'avertissement : %THRESH%% du CPS brut.",
     "gx_warn_calculate_now": "Calculer",
     "gx_warn_skip": "Ignorer",
+
+    "gx_store_markers": "Marqueurs de boutique : ",
+    "gx_store_markers_label": "Affiche une icône Godzamok sur les bâtiments sélectionnés pour la vente dans le panneau de la boutique.",
 });
 
 //***********************************
@@ -615,6 +631,9 @@ ModLanguage('PT-BR', {
     "gx_warn_threshold_hint": "Limite de aviso: %THRESH%% do CPS bruto.",
     "gx_warn_calculate_now": "Calcular",
     "gx_warn_skip": "Pular",
+
+    "gx_store_markers": "Marcadores da loja: ",
+    "gx_store_markers_label": "Exibe um ícone do Godzamok nos edifícios selecionados para venda no painel da loja.",
 });
 
 //***********************************
@@ -713,6 +732,9 @@ ModLanguage('RU', {
     "gx_warn_threshold_hint": "Порог предупреждения: %THRESH%% базового CPS.",
     "gx_warn_calculate_now": "Рассчитать",
     "gx_warn_skip": "Пропустить",
+
+    "gx_store_markers": "Метки в магазине: ",
+    "gx_store_markers_label": "Показывает иконку Годзамока на зданиях, выбранных для продажи, в правом меню магазина.",
 });
 
 //***********************************
@@ -811,4 +833,7 @@ ModLanguage('TR', {
     "gx_warn_threshold_hint": "Uyarı eşiği: ham CPS'nin %THRESH%%'i.",
     "gx_warn_calculate_now": "Hesapla",
     "gx_warn_skip": "Atla",
+
+    "gx_store_markers": "Mağaza işaretçileri: ",
+    "gx_store_markers_label": "Mağaza panelinde satış için seçilen binalarda bir Godzamok simgesi gösterir.",
 });
