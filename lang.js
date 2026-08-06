@@ -837,3 +837,811 @@ ModLanguage('TR', {
     "gx_store_markers": "Mağaza işaretçileri: ",
     "gx_store_markers_label": "Mağaza panelinde satış için seçilen binalarda bir Godzamok simgesi gösterir.",
 });
+
+//***********************************
+//    JAPANESE LOCALIZATION
+//***********************************
+
+ModLanguage('JA', {
+    "gx_toggle_on": "ON",
+    "gx_toggle_off": "OFF",
+
+    "gx_buyback_total_gain": "総利益を使用",
+    "gx_buyback_full_amount": "全量を買い戻す",
+    "gx_buyback_percentage": "割合で買い戻す",
+
+    "gx_sell_mode_percent": "パーセント",
+    "gx_sell_mode_units": "個数",
+
+    "gx_mod_loaded_title": "Godzamok Ultimate を読み込みました！",
+    "gx_mod_loaded_desc": "ゴジャモクが黄金のクッキーを授けますように。",
+
+    "gx_loop": "ループ",
+
+    "gx_header_utilities": "ユーティリティ",
+    "gx_header_input_hotkeys": "入力 & ホットキー",
+    "gx_header_temple": "神殿",
+    "gx_header_buyback": "買い戻し",
+    "gx_header_sell": "売却",
+
+    "gx_debug_info_prefix": "デバッグ情報: ",
+    "gx_debug_info_label": "各実行後に概要を表示（売買した建物の数）",
+
+    "gx_reset_config": "設定をリセット",
+
+    "gx_button_near_cookie": "クッキー横のボタン: ",
+    "gx_button_in_temple": "神殿内のボタン: ",
+    "gx_display_buttons_label": "スクリプト起動ボタンを表示",
+
+    "gx_show_loop_button": "ループボタンを表示: ",
+    "gx_show_loop_button_label": "長押しで繰り返し実行する追加ボタンを表示",
+
+    "gx_hotkey_g": "ホットキー G: ",
+    "gx_hotkey_g_label": "G キーを押してスクリプトを実行",
+
+    "gx_input_delay": "入力遅延: ",
+    "gx_input_delay_label": "操作間に遅延を適用",
+    "gx_delay_duration_label": "実行間のカスタム遅延を設定",
+
+    "gx_auto_switch_god": "自動切替: ",
+    "gx_auto_switch_god_label": "未設定の場合はゴジャモクを自動的に割り当て",
+
+    "gx_temple_slot_label": "ゴジャモクを配置する神殿スロット",
+
+    "gx_buyback": "買い戻し: ",
+    "gx_buyback_label": "売却後に建物を即座に買い戻す",
+    "gx_buyback_strategy_label": "買い戻し戦略",
+
+    "gx_buyback_percent": "買い戻し割合",
+    "gx_buyback_percent_label": "「割合で買い戻す」選択時のみ使用",
+
+    "gx_show_only_enabled": "有効のみ表示: ",
+    "gx_hide_empty": "空を非表示: ",
+    "gx_building_list_filters_label": "建物リストのフィルター",
+
+    "gx_sell_mode_label": "売却モード",
+    "gx_preset_percent_label": "全建物への設定割合",
+    "gx_preset_units_label": "建物ごとの売却個数",
+
+    "gx_calc_safe_sell": "安全売却を計算",
+    "gx_calc_safe_sell_label": "安全な売却量を自動計算（生CPS の %RATIO%%）",
+    "gx_confirm_safe_sell": "生CPS の <b>%RATIO%%</b> を予算として安全売却量を計算しますか？",
+    "gx_calc_safe_sell_hint": "計算のため、選択した建物を一時的に売却し即座に買い戻す場合があります。",
+
+    "gx_sell_label": "売却:",
+    "gx_or": "または",
+    "gx_units": "個",
+
+    "gx_sold": "売却済み:",
+    "gx_bought": "購入済み:",
+    "gx_for": "で",
+
+    "gx_confirm_reset_title": "リセットの確認",
+    "gx_confirm_reset_question": "Godzamok Ultimate の設定をデフォルトにリセットしますか？",
+    "gx_confirm_reset_hint": "現在の設定はすべて失われ、デフォルト値に戻ります。",
+    "gx_yes": "はい",
+    "gx_no": "いいえ",
+
+    "gx_settings_reset_popup": "Godzamok Ultimate の設定をリセットしました。",
+
+    "gx_no_buildings_selected": "建物が選択されていません！",
+
+    "gx_advanced_opt": "高度な最適化: ",
+    "gx_advanced_opt_label": "一括操作中に価格計算をキャッシュしゲームフックを抑制します。更新後にゲームの仕組みに影響する可能性があります。",
+
+    "gx_warn_title": "高コストの買い戻しを検出",
+    "gx_warn_body": "売却した建物の買い戻しに <b>%COST%</b> かかります — これはCPSの <b>%PCT%%</b> です。先に安全な売却値を計算することをお勧めします。",
+    "gx_warn_threshold_hint": "警告閾値: 生CPS の %THRESH%%。",
+    "gx_warn_calculate_now": "計算",
+    "gx_warn_skip": "スキップ",
+
+    "gx_store_markers": "ショップマーカー: ",
+    "gx_store_markers_label": "ショップパネルで売却対象に選んだ建物にゴジャモクのアイコンを表示します。",
+});
+
+//***********************************
+//    KOREAN LOCALIZATION
+//***********************************
+
+ModLanguage('KO', {
+    "gx_toggle_on": "켜짐",
+    "gx_toggle_off": "꺼짐",
+
+    "gx_buyback_total_gain": "총 이익 사용",
+    "gx_buyback_full_amount": "전량 재구매",
+    "gx_buyback_percentage": "비율로 재구매",
+
+    "gx_sell_mode_percent": "퍼센트",
+    "gx_sell_mode_units": "개수",
+
+    "gx_mod_loaded_title": "Godzamok Ultimate 로드됨!",
+    "gx_mod_loaded_desc": "고자모크가 황금 쿠키를 내려주시길.",
+
+    "gx_loop": "반복",
+
+    "gx_header_utilities": "유틸리티",
+    "gx_header_input_hotkeys": "입력 & 단축키",
+    "gx_header_temple": "신전",
+    "gx_header_buyback": "재구매",
+    "gx_header_sell": "판매",
+
+    "gx_debug_info_prefix": "디버그 정보: ",
+    "gx_debug_info_label": "각 실행 후 요약 표시 (판매/구매한 건물 수)",
+
+    "gx_reset_config": "설정 초기화",
+
+    "gx_button_near_cookie": "쿠키 옆 버튼: ",
+    "gx_button_in_temple": "신전 버튼: ",
+    "gx_display_buttons_label": "스크립트 실행 버튼 표시",
+
+    "gx_show_loop_button": "반복 버튼 표시: ",
+    "gx_show_loop_button_label": "길게 눌러 반복 실행하는 추가 버튼 표시",
+
+    "gx_hotkey_g": "단축키 G: ",
+    "gx_hotkey_g_label": "G 키를 눌러 스크립트 실행",
+
+    "gx_input_delay": "입력 지연: ",
+    "gx_input_delay_label": "작업 사이에 지연 적용",
+    "gx_delay_duration_label": "실행 간 사용자 지연 설정",
+
+    "gx_auto_switch_god": "자동 전환: ",
+    "gx_auto_switch_god_label": "비활성 시 고자모크 자동 배치",
+
+    "gx_temple_slot_label": "고자모크를 배치할 신전 슬롯",
+
+    "gx_buyback": "재구매: ",
+    "gx_buyback_label": "판매 후 즉시 건물 재구매",
+    "gx_buyback_strategy_label": "재구매 전략",
+
+    "gx_buyback_percent": "재구매 비율",
+    "gx_buyback_percent_label": "\"비율로 재구매\" 선택 시에만 사용",
+
+    "gx_show_only_enabled": "활성화된 것만 표시: ",
+    "gx_hide_empty": "빈 것 숨기기: ",
+    "gx_building_list_filters_label": "건물 목록 필터",
+
+    "gx_sell_mode_label": "판매 모드",
+    "gx_preset_percent_label": "모든 건물에 적용할 비율",
+    "gx_preset_units_label": "건물당 판매 개수",
+
+    "gx_calc_safe_sell": "안전 판매 계산",
+    "gx_calc_safe_sell_label": "안전한 판매량 자동 계산 (원시 CPS의 %RATIO%%)",
+    "gx_confirm_safe_sell": "원시 CPS의 <b>%RATIO%%</b>를 예산으로 안전 판매량을 계산할까요?",
+    "gx_calc_safe_sell_hint": "계산을 위해 선택한 건물을 일시적으로 판매하고 즉시 재구매할 수 있습니다.",
+
+    "gx_sell_label": "판매:",
+    "gx_or": "또는",
+    "gx_units": "개",
+
+    "gx_sold": "판매됨:",
+    "gx_bought": "구매됨:",
+    "gx_for": "에",
+
+    "gx_confirm_reset_title": "초기화 확인",
+    "gx_confirm_reset_question": "Godzamok Ultimate 설정을 기본값으로 초기화할까요?",
+    "gx_confirm_reset_hint": "현재 설정이 모두 삭제되고 기본값으로 복원됩니다.",
+    "gx_yes": "예",
+    "gx_no": "아니요",
+
+    "gx_settings_reset_popup": "Godzamok Ultimate 설정이 초기화되었습니다.",
+
+    "gx_no_buildings_selected": "선택된 건물이 없습니다!",
+
+    "gx_advanced_opt": "고급 최적화: ",
+    "gx_advanced_opt_label": "일괄 작업 중 가격 계산을 캐싱하고 게임 훅을 억제합니다. 업데이트 후 게임 메커니즘에 영향을 줄 수 있습니다.",
+
+    "gx_warn_title": "고비용 재구매 감지됨",
+    "gx_warn_body": "판매한 건물 재구매에 <b>%COST%</b>가 필요합니다 — CPS의 <b>%PCT%%</b>입니다. 먼저 안전 판매값을 계산해 보세요.",
+    "gx_warn_threshold_hint": "경고 임계값: 원시 CPS의 %THRESH%%.",
+    "gx_warn_calculate_now": "계산",
+    "gx_warn_skip": "건너뛰기",
+
+    "gx_store_markers": "상점 마커: ",
+    "gx_store_markers_label": "상점 패널에서 판매로 선택된 건물에 고자모크 아이콘을 표시합니다.",
+});
+
+//***********************************
+//    POLISH LOCALIZATION
+//***********************************
+
+ModLanguage('PL', {
+    "gx_toggle_on": "WŁ",
+    "gx_toggle_off": "WYŁ",
+
+    "gx_buyback_total_gain": "Użyj całkowitego zysku",
+    "gx_buyback_full_amount": "Kup pełną ilość",
+    "gx_buyback_percentage": "Kup procentowo",
+
+    "gx_sell_mode_percent": "Procent",
+    "gx_sell_mode_units": "Jednostki",
+
+    "gx_mod_loaded_title": "Godzamok Ultimate załadowany!",
+    "gx_mod_loaded_desc": "Niech Godzamok obdarzy cię złotymi ciasteczkami.",
+
+    "gx_loop": "Pętla",
+
+    "gx_header_utilities": "Narzędzia",
+    "gx_header_input_hotkeys": "Wejście & Skróty",
+    "gx_header_temple": "Świątynia",
+    "gx_header_buyback": "Odkup",
+    "gx_header_sell": "Sprzedaj",
+
+    "gx_debug_info_prefix": "Info debugowania: ",
+    "gx_debug_info_label": "Pokazuj podsumowanie po każdym uruchomieniu (ile budynków sprzedano/kupiono)",
+
+    "gx_reset_config": "Resetuj ustawienia",
+
+    "gx_button_near_cookie": "Przycisk przy ciasteczku: ",
+    "gx_button_in_temple": "Przycisk w świątyni: ",
+    "gx_display_buttons_label": "Wyświetlaj przyciski aktywacji skryptu",
+
+    "gx_show_loop_button": "Pokaż przycisk pętli: ",
+    "gx_show_loop_button_label": "Wyświetl dodatkowy przycisk do wielokrotnego uruchamiania przy przytrzymaniu",
+
+    "gx_hotkey_g": "Skrót G: ",
+    "gx_hotkey_g_label": "Uruchom skrypt po naciśnięciu G",
+
+    "gx_input_delay": "Opóźnienie wejścia: ",
+    "gx_input_delay_label": "Zastosuj opóźnienie między akcjami",
+    "gx_delay_duration_label": "Ustaw niestandardowe opóźnienie między uruchomieniami",
+
+    "gx_auto_switch_god": "Auto-przełącz na Godzamoka: ",
+    "gx_auto_switch_god_label": "Automatycznie przypisz Godzamoka jeśli nieaktywny",
+
+    "gx_temple_slot_label": "Slot świątyni dla Godzamoka",
+
+    "gx_buyback": "Odkup: ",
+    "gx_buyback_label": "Natychmiast odkupuj budynki po sprzedaży",
+    "gx_buyback_strategy_label": "Strategia odkupu",
+
+    "gx_buyback_percent": "Procent odkupu",
+    "gx_buyback_percent_label": "Używane tylko przy strategii „Kup procentowo"",
+
+    "gx_show_only_enabled": "Tylko aktywne: ",
+    "gx_hide_empty": "Ukryj puste: ",
+    "gx_building_list_filters_label": "Filtry listy budynków",
+
+    "gx_sell_mode_label": "Tryb sprzedaży",
+    "gx_preset_percent_label": "Procent dla wszystkich budynków",
+    "gx_preset_units_label": "Jednostki sprzedaży na budynek",
+
+    "gx_calc_safe_sell": "Oblicz bezpieczną sprzedaż",
+    "gx_calc_safe_sell_label": "Automatycznie oblicz bezpieczne ilości sprzedaży (%RATIO%% surowego CPS)",
+    "gx_confirm_safe_sell": "Obliczyć bezpieczne ilości sprzedaży używając <b>%RATIO%%</b> surowego CPS jako budżetu?",
+    "gx_calc_safe_sell_hint": "Obliczenie może tymczasowo sprzedać i natychmiast odkupić wybrane budynki.",
+
+    "gx_sell_label": "Sprzedaj:",
+    "gx_or": "lub",
+    "gx_units": "szt.",
+
+    "gx_sold": "Sprzedano:",
+    "gx_bought": "Kupiono:",
+    "gx_for": "za",
+
+    "gx_confirm_reset_title": "Potwierdź reset",
+    "gx_confirm_reset_question": "Zresetować ustawienia Godzamok Ultimate do domyślnych?",
+    "gx_confirm_reset_hint": "Wszystkie obecne ustawienia zostaną utracone i przywrócone do wartości domyślnych.",
+    "gx_yes": "Tak",
+    "gx_no": "Nie",
+
+    "gx_settings_reset_popup": "Ustawienia Godzamok Ultimate zostały zresetowane.",
+
+    "gx_no_buildings_selected": "Nie wybrano żadnych budynków!",
+
+    "gx_advanced_opt": "Zaawansowana optymalizacja: ",
+    "gx_advanced_opt_label": "Buforuje obliczenia cen i tłumi hooki gry podczas operacji masowych. Może wpływać na mechanikę gry po aktualizacjach.",
+
+    "gx_warn_title": "Wykryto drogi odkup",
+    "gx_warn_body": "Odkupienie sprzedanych budynków będzie kosztować <b>%COST%</b> — to <b>%PCT%%</b> twojego CPS. Rozważ najpierw obliczenie bezpiecznych wartości sprzedaży.",
+    "gx_warn_threshold_hint": "Próg ostrzeżenia: %THRESH%% surowego CPS.",
+    "gx_warn_calculate_now": "Oblicz",
+    "gx_warn_skip": "Pomiń",
+
+    "gx_store_markers": "Znaczniki sklepu: ",
+    "gx_store_markers_label": "Wyświetla ikonę Godzamoka na budynkach wybranych do sprzedaży w panelu sklepu.",
+});
+
+//***********************************
+//    ITALIAN LOCALIZATION
+//***********************************
+
+ModLanguage('IT', {
+    "gx_toggle_on": "ON",
+    "gx_toggle_off": "OFF",
+
+    "gx_buyback_total_gain": "Usa guadagno totale",
+    "gx_buyback_full_amount": "Riacquista tutto",
+    "gx_buyback_percentage": "Riacquista percentuale",
+
+    "gx_sell_mode_percent": "Percentuale",
+    "gx_sell_mode_units": "Unità",
+
+    "gx_mod_loaded_title": "Godzamok Ultimate caricato!",
+    "gx_mod_loaded_desc": "Che Godzamok ti benedica con biscotti dorati.",
+
+    "gx_loop": "Loop",
+
+    "gx_header_utilities": "Utilità",
+    "gx_header_input_hotkeys": "Input & Tasti rapidi",
+    "gx_header_temple": "Tempio",
+    "gx_header_buyback": "Riacquisto",
+    "gx_header_sell": "Vendi",
+
+    "gx_debug_info_prefix": "Info debug: ",
+    "gx_debug_info_label": "Mostra riepilogo dopo ogni esecuzione (quanti edifici venduti/acquistati)",
+
+    "gx_reset_config": "Ripristina configurazione",
+
+    "gx_button_near_cookie": "Pulsante vicino al biscotto: ",
+    "gx_button_in_temple": "Pulsante nel Tempio: ",
+    "gx_display_buttons_label": "Mostra pulsanti di attivazione script",
+
+    "gx_show_loop_button": "Mostra pulsante loop: ",
+    "gx_show_loop_button_label": "Mostra pulsante extra per esecuzione ripetuta tenendo premuto",
+
+    "gx_hotkey_g": "Tasto rapido G: ",
+    "gx_hotkey_g_label": "Esegui lo script premendo G",
+
+    "gx_input_delay": "Ritardo input: ",
+    "gx_input_delay_label": "Applica ritardo tra le azioni",
+    "gx_delay_duration_label": "Imposta ritardo personalizzato tra le esecuzioni",
+
+    "gx_auto_switch_god": "Passa a Godzamok automaticamente: ",
+    "gx_auto_switch_god_label": "Assegna automaticamente Godzamok se non attivo",
+
+    "gx_temple_slot_label": "Slot del Tempio per Godzamok",
+
+    "gx_buyback": "Riacquisto: ",
+    "gx_buyback_label": "Riacquista immediatamente gli edifici dopo la vendita",
+    "gx_buyback_strategy_label": "Strategia di riacquisto",
+
+    "gx_buyback_percent": "Percentuale di riacquisto",
+    "gx_buyback_percent_label": "Usato solo con la strategia \"Riacquista percentuale\"",
+
+    "gx_show_only_enabled": "Solo attivi: ",
+    "gx_hide_empty": "Nascondi vuoti: ",
+    "gx_building_list_filters_label": "Filtri per la lista edifici",
+
+    "gx_sell_mode_label": "Modalità vendita",
+    "gx_preset_percent_label": "Percentuale per tutti gli edifici",
+    "gx_preset_units_label": "Unità di vendita per edificio",
+
+    "gx_calc_safe_sell": "Calcola vendita sicura",
+    "gx_calc_safe_sell_label": "Calcola automaticamente quantità sicure da vendere (%RATIO%% CPS grezzo)",
+    "gx_confirm_safe_sell": "Calcolare quantità sicure usando <b>%RATIO%%</b> del CPS grezzo come budget?",
+    "gx_calc_safe_sell_hint": "Il calcolo potrebbe vendere temporaneamente e riacquistare immediatamente gli edifici selezionati.",
+
+    "gx_sell_label": "Vendi:",
+    "gx_or": "o",
+    "gx_units": "unità",
+
+    "gx_sold": "Venduto:",
+    "gx_bought": "Acquistato:",
+    "gx_for": "per",
+
+    "gx_confirm_reset_title": "Conferma ripristino",
+    "gx_confirm_reset_question": "Ripristinare la configurazione di Godzamok Ultimate ai valori predefiniti?",
+    "gx_confirm_reset_hint": "Tutte le impostazioni correnti andranno perse e saranno ripristinate ai valori predefiniti.",
+    "gx_yes": "Sì",
+    "gx_no": "No",
+
+    "gx_settings_reset_popup": "Impostazioni di Godzamok Ultimate ripristinate.",
+
+    "gx_no_buildings_selected": "Nessun edificio selezionato!",
+
+    "gx_advanced_opt": "Ottimizzazione avanzata: ",
+    "gx_advanced_opt_label": "Memorizza i calcoli dei prezzi e sopprime gli hook di gioco durante le operazioni in blocco. Potrebbe influire sulla meccanica di gioco dopo aggiornamenti.",
+
+    "gx_warn_title": "Riacquisto costoso rilevato",
+    "gx_warn_body": "Riacquistare gli edifici venduti costerà <b>%COST%</b> — pari al <b>%PCT%%</b> del tuo CPS. Considera di calcolare prima valori di vendita sicuri.",
+    "gx_warn_threshold_hint": "Soglia di avviso: %THRESH%% del CPS grezzo.",
+    "gx_warn_calculate_now": "Calcola",
+    "gx_warn_skip": "Salta",
+
+    "gx_store_markers": "Marcatori negozio: ",
+    "gx_store_markers_label": "Mostra un'icona di Godzamok sugli edifici selezionati per la vendita nel pannello del negozio.",
+});
+
+//***********************************
+//    DUTCH LOCALIZATION
+//***********************************
+
+ModLanguage('NL', {
+    "gx_toggle_on": "AAN",
+    "gx_toggle_off": "UIT",
+
+    "gx_buyback_total_gain": "Gebruik totale winst",
+    "gx_buyback_full_amount": "Koop volledig terug",
+    "gx_buyback_percentage": "Koop percentage terug",
+
+    "gx_sell_mode_percent": "Procent",
+    "gx_sell_mode_units": "Eenheden",
+
+    "gx_mod_loaded_title": "Godzamok Ultimate geladen!",
+    "gx_mod_loaded_desc": "Moge Godzamok je zegenen met gouden koekjes.",
+
+    "gx_loop": "Lus",
+
+    "gx_header_utilities": "Hulpmiddelen",
+    "gx_header_input_hotkeys": "Invoer & Sneltoetsen",
+    "gx_header_temple": "Tempel",
+    "gx_header_buyback": "Terugkoop",
+    "gx_header_sell": "Verkoop",
+
+    "gx_debug_info_prefix": "Debug-info: ",
+    "gx_debug_info_label": "Toon samenvatting na elke uitvoering (hoeveel gebouwen verkocht/gekocht)",
+
+    "gx_reset_config": "Instellingen resetten",
+
+    "gx_button_near_cookie": "Knop bij koekje: ",
+    "gx_button_in_temple": "Knop in tempel: ",
+    "gx_display_buttons_label": "Activatieknoppen voor script weergeven",
+
+    "gx_show_loop_button": "Lusknop tonen: ",
+    "gx_show_loop_button_label": "Toon extra knop voor herhaalde uitvoering bij ingedrukt houden",
+
+    "gx_hotkey_g": "Sneltoets G: ",
+    "gx_hotkey_g_label": "Voer script uit bij indrukken van G",
+
+    "gx_input_delay": "Invoervertraging: ",
+    "gx_input_delay_label": "Pas vertraging toe tussen acties",
+    "gx_delay_duration_label": "Stel aangepaste vertraging in tussen uitvoeringen",
+
+    "gx_auto_switch_god": "Automatisch naar Godzamok: ",
+    "gx_auto_switch_god_label": "Wijs Godzamok automatisch toe indien niet actief",
+
+    "gx_temple_slot_label": "Tempelslot voor Godzamok",
+
+    "gx_buyback": "Terugkoop: ",
+    "gx_buyback_label": "Koop gebouwen direct terug na verkoop",
+    "gx_buyback_strategy_label": "Terugkoopstrategie",
+
+    "gx_buyback_percent": "Terugkooppercentage",
+    "gx_buyback_percent_label": "Alleen gebruikt bij strategie \"Koop percentage terug\"",
+
+    "gx_show_only_enabled": "Alleen actief tonen: ",
+    "gx_hide_empty": "Lege verbergen: ",
+    "gx_building_list_filters_label": "Filters voor gebouwenlijst",
+
+    "gx_sell_mode_label": "Verkoopmode",
+    "gx_preset_percent_label": "Percentage voor alle gebouwen",
+    "gx_preset_units_label": "Verkoopeenheden per gebouw",
+
+    "gx_calc_safe_sell": "Veilige verkoop berekenen",
+    "gx_calc_safe_sell_label": "Bereken automatisch veilige verkoopbedragen (%RATIO%% rauwe CPS)",
+    "gx_confirm_safe_sell": "Veilige verkoopbedragen berekenen met <b>%RATIO%%</b> van rauwe CPS als budget?",
+    "gx_calc_safe_sell_hint": "De berekening kan geselecteerde gebouwen tijdelijk verkopen en onmiddellijk terugkopen.",
+
+    "gx_sell_label": "Verkoop:",
+    "gx_or": "of",
+    "gx_units": "st.",
+
+    "gx_sold": "Verkocht:",
+    "gx_bought": "Gekocht:",
+    "gx_for": "voor",
+
+    "gx_confirm_reset_title": "Reset bevestigen",
+    "gx_confirm_reset_question": "Godzamok Ultimate-instellingen terugzetten naar standaard?",
+    "gx_confirm_reset_hint": "Alle huidige instellingen gaan verloren en worden teruggezet naar standaardwaarden.",
+    "gx_yes": "Ja",
+    "gx_no": "Nee",
+
+    "gx_settings_reset_popup": "Godzamok Ultimate-instellingen gereset.",
+
+    "gx_no_buildings_selected": "Geen gebouwen geselecteerd!",
+
+    "gx_advanced_opt": "Geavanceerde optimalisatie: ",
+    "gx_advanced_opt_label": "Slaat prijsberekeningen op in cache en onderdrukt game-hooks bij bulkbewerkingen. Kan game-mechanica beïnvloeden na updates.",
+
+    "gx_warn_title": "Dure terugkoop gedetecteerd",
+    "gx_warn_body": "Verkochte gebouwen terugkopen kost <b>%COST%</b> — dat is <b>%PCT%%</b> van je CPS. Overweeg eerst veilige verkoopwaarden te berekenen.",
+    "gx_warn_threshold_hint": "Waarschuwingsdrempel: %THRESH%% van rauwe CPS.",
+    "gx_warn_calculate_now": "Berekenen",
+    "gx_warn_skip": "Overslaan",
+
+    "gx_store_markers": "Winkelmarkeringen: ",
+    "gx_store_markers_label": "Toont een Godzamok-pictogram op gebouwen die geselecteerd zijn voor verkoop in het winkelvenster.",
+});
+
+//***********************************
+//    UKRAINIAN LOCALIZATION
+//***********************************
+
+ModLanguage('UK', {
+    "gx_toggle_on": "УВ",
+    "gx_toggle_off": "ВИМ",
+
+    "gx_buyback_total_gain": "Використати загальний прибуток",
+    "gx_buyback_full_amount": "Купити повну кількість",
+    "gx_buyback_percentage": "Купити відсоток",
+
+    "gx_sell_mode_percent": "Відсоток",
+    "gx_sell_mode_units": "Одиниці",
+
+    "gx_mod_loaded_title": "Godzamok Ultimate завантажено!",
+    "gx_mod_loaded_desc": "Хай Годзамок благословить тебе золотим печивом.",
+
+    "gx_loop": "Петля",
+
+    "gx_header_utilities": "Утиліти",
+    "gx_header_input_hotkeys": "Введення & Гарячі клавіші",
+    "gx_header_temple": "Храм",
+    "gx_header_buyback": "Зворотній викуп",
+    "gx_header_sell": "Продати",
+
+    "gx_debug_info_prefix": "Інфо налагодження: ",
+    "gx_debug_info_label": "Показувати підсумок після кожного запуску (скільки будівель продано/куплено)",
+
+    "gx_reset_config": "Скинути налаштування",
+
+    "gx_button_near_cookie": "Кнопка біля печива: ",
+    "gx_button_in_temple": "Кнопка в храмі: ",
+    "gx_display_buttons_label": "Відображати кнопки активації скрипту",
+
+    "gx_show_loop_button": "Показати кнопку петлі: ",
+    "gx_show_loop_button_label": "Відображати додаткову кнопку для повторного запуску при утриманні",
+
+    "gx_hotkey_g": "Гаряча клавіша G: ",
+    "gx_hotkey_g_label": "Запускати скрипт при натисканні G",
+
+    "gx_input_delay": "Затримка введення: ",
+    "gx_input_delay_label": "Застосовувати затримку між діями",
+    "gx_delay_duration_label": "Встановити власну затримку між запусками",
+
+    "gx_auto_switch_god": "Авто-перемикання на Годзамока: ",
+    "gx_auto_switch_god_label": "Автоматично призначати Годзамока якщо неактивний",
+
+    "gx_temple_slot_label": "Слот храму для Годзамока",
+
+    "gx_buyback": "Зворотній викуп: ",
+    "gx_buyback_label": "Миттєво викуповувати будівлі після продажу",
+    "gx_buyback_strategy_label": "Стратегія зворотнього викупу",
+
+    "gx_buyback_percent": "Відсоток викупу",
+    "gx_buyback_percent_label": "Використовується лише при стратегії «Купити відсоток»",
+
+    "gx_show_only_enabled": "Тільки активні: ",
+    "gx_hide_empty": "Сховати порожні: ",
+    "gx_building_list_filters_label": "Фільтри списку будівель",
+
+    "gx_sell_mode_label": "Режим продажу",
+    "gx_preset_percent_label": "Відсоток для всіх будівель",
+    "gx_preset_units_label": "Одиниці продажу на будівлю",
+
+    "gx_calc_safe_sell": "Розрахувати безпечний продаж",
+    "gx_calc_safe_sell_label": "Автоматично розрахувати безпечні обсяги продажу (%RATIO%% сирого CPS)",
+    "gx_confirm_safe_sell": "Розрахувати безпечні обсяги продажу використовуючи <b>%RATIO%%</b> сирого CPS як бюджет?",
+    "gx_calc_safe_sell_hint": "Розрахунок може тимчасово продати та одразу викупити вибрані будівлі.",
+
+    "gx_sell_label": "Продати:",
+    "gx_or": "або",
+    "gx_units": "од.",
+
+    "gx_sold": "Продано:",
+    "gx_bought": "Куплено:",
+    "gx_for": "за",
+
+    "gx_confirm_reset_title": "Підтвердити скидання",
+    "gx_confirm_reset_question": "Скинути налаштування Godzamok Ultimate до стандартних?",
+    "gx_confirm_reset_hint": "Усі поточні налаштування буде втрачено та відновлено до стандартних значень.",
+    "gx_yes": "Так",
+    "gx_no": "Ні",
+
+    "gx_settings_reset_popup": "Налаштування Godzamok Ultimate скинуто.",
+
+    "gx_no_buildings_selected": "Будівлі не вибрані!",
+
+    "gx_advanced_opt": "Розширена оптимізація: ",
+    "gx_advanced_opt_label": "Кешує розрахунки цін та пригнічує хуки гри під час масових операцій. Може впливати на механіку гри після оновлень.",
+
+    "gx_warn_title": "Виявлено дорогий зворотній викуп",
+    "gx_warn_body": "Зворотній викуп проданих будівель коштуватиме <b>%COST%</b> — це <b>%PCT%%</b> вашого CPS. Розгляньте спочатку розрахунок безпечних значень продажу.",
+    "gx_warn_threshold_hint": "Поріг попередження: %THRESH%% сирого CPS.",
+    "gx_warn_calculate_now": "Розрахувати",
+    "gx_warn_skip": "Пропустити",
+
+    "gx_store_markers": "Мітки магазину: ",
+    "gx_store_markers_label": "Показує іконку Годзамока на будівлях, вибраних для продажу, в панелі магазину.",
+});
+
+//***********************************
+//    SWEDISH LOCALIZATION
+//***********************************
+
+ModLanguage('SV', {
+    "gx_toggle_on": "PÅ",
+    "gx_toggle_off": "AV",
+
+    "gx_buyback_total_gain": "Använd total vinst",
+    "gx_buyback_full_amount": "Köp tillbaka allt",
+    "gx_buyback_percentage": "Köp tillbaka procent",
+
+    "gx_sell_mode_percent": "Procent",
+    "gx_sell_mode_units": "Enheter",
+
+    "gx_mod_loaded_title": "Godzamok Ultimate laddad!",
+    "gx_mod_loaded_desc": "Må Godzamok välsigna dig med gyllene kakor.",
+
+    "gx_loop": "Slinga",
+
+    "gx_header_utilities": "Verktyg",
+    "gx_header_input_hotkeys": "Inmatning & Kortkommandon",
+    "gx_header_temple": "Tempel",
+    "gx_header_buyback": "Återköp",
+    "gx_header_sell": "Sälj",
+
+    "gx_debug_info_prefix": "Felsökningsinfo: ",
+    "gx_debug_info_label": "Visa sammanfattning efter varje körning (hur många byggnader såldes/köptes)",
+
+    "gx_reset_config": "Återställ inställningar",
+
+    "gx_button_near_cookie": "Knapp vid kakan: ",
+    "gx_button_in_temple": "Knapp i templet: ",
+    "gx_display_buttons_label": "Visa aktiveringsknappar för skript",
+
+    "gx_show_loop_button": "Visa slingknapp: ",
+    "gx_show_loop_button_label": "Visa extra knapp för upprepad körning vid nedtryckning",
+
+    "gx_hotkey_g": "Kortkommando G: ",
+    "gx_hotkey_g_label": "Kör skript när G trycks ned",
+
+    "gx_input_delay": "Inmatningsfördröjning: ",
+    "gx_input_delay_label": "Använd fördröjning mellan åtgärder",
+    "gx_delay_duration_label": "Ange anpassad fördröjning mellan körningar",
+
+    "gx_auto_switch_god": "Byt till Godzamok automatiskt: ",
+    "gx_auto_switch_god_label": "Tilldela Godzamok automatiskt om inte aktiv",
+
+    "gx_temple_slot_label": "Tempelplats för Godzamok",
+
+    "gx_buyback": "Återköp: ",
+    "gx_buyback_label": "Köp tillbaka byggnader omedelbart efter försäljning",
+    "gx_buyback_strategy_label": "Återköpsstrategi",
+
+    "gx_buyback_percent": "Återköpsprocent",
+    "gx_buyback_percent_label": "Används bara med strategin \"Köp tillbaka procent\"",
+
+    "gx_show_only_enabled": "Visa bara aktiva: ",
+    "gx_hide_empty": "Dölj tomma: ",
+    "gx_building_list_filters_label": "Filter för byggnadslist",
+
+    "gx_sell_mode_label": "Försäljningsläge",
+    "gx_preset_percent_label": "Procent för alla byggnader",
+    "gx_preset_units_label": "Säljenheter per byggnad",
+
+    "gx_calc_safe_sell": "Beräkna säker försäljning",
+    "gx_calc_safe_sell_label": "Beräkna säkra försäljningsmängder automatiskt (%RATIO%% rå CPS)",
+    "gx_confirm_safe_sell": "Beräkna säkra försäljningsmängder med <b>%RATIO%%</b> av rå CPS som budget?",
+    "gx_calc_safe_sell_hint": "Beräkningen kan tillfälligt sälja och omedelbart köpa tillbaka valda byggnader.",
+
+    "gx_sell_label": "Sälj:",
+    "gx_or": "eller",
+    "gx_units": "st.",
+
+    "gx_sold": "Sålt:",
+    "gx_bought": "Köpt:",
+    "gx_for": "för",
+
+    "gx_confirm_reset_title": "Bekräfta återställning",
+    "gx_confirm_reset_question": "Återställa Godzamok Ultimates inställningar till standard?",
+    "gx_confirm_reset_hint": "Alla nuvarande inställningar går förlorade och återställs till standardvärden.",
+    "gx_yes": "Ja",
+    "gx_no": "Nej",
+
+    "gx_settings_reset_popup": "Godzamok Ultimate-inställningar återställda.",
+
+    "gx_no_buildings_selected": "Inga byggnader valda!",
+
+    "gx_advanced_opt": "Avancerad optimering: ",
+    "gx_advanced_opt_label": "Cachar prisberäkningar och undertrycker spelkrokar vid massoperationer. Kan påverka spelmekanik efter uppdateringar.",
+
+    "gx_warn_title": "Dyr återköp upptäckt",
+    "gx_warn_body": "Att köpa tillbaka sålda byggnader kostar <b>%COST%</b> — det är <b>%PCT%%</b> av din CPS. Överväg att beräkna säkra säljvärden först.",
+    "gx_warn_threshold_hint": "Varningströskel: %THRESH%% av rå CPS.",
+    "gx_warn_calculate_now": "Beräkna",
+    "gx_warn_skip": "Hoppa över",
+
+    "gx_store_markers": "Butiksmarkeringar: ",
+    "gx_store_markers_label": "Visar en Godzamok-ikon på byggnader valda för försäljning i butikspanelen.",
+});
+
+//***********************************
+//    CZECH LOCALIZATION
+//***********************************
+
+ModLanguage('CS', {
+    "gx_toggle_on": "ZAP",
+    "gx_toggle_off": "VYP",
+
+    "gx_buyback_total_gain": "Použít celkový zisk",
+    "gx_buyback_full_amount": "Koupit celé množství",
+    "gx_buyback_percentage": "Koupit procento",
+
+    "gx_sell_mode_percent": "Procento",
+    "gx_sell_mode_units": "Jednotky",
+
+    "gx_mod_loaded_title": "Godzamok Ultimate načten!",
+    "gx_mod_loaded_desc": "Ať ti Godzamok požehná zlatými sušenkami.",
+
+    "gx_loop": "Smyčka",
+
+    "gx_header_utilities": "Nástroje",
+    "gx_header_input_hotkeys": "Vstup & Zkratky",
+    "gx_header_temple": "Chrám",
+    "gx_header_buyback": "Zpětný odkup",
+    "gx_header_sell": "Prodat",
+
+    "gx_debug_info_prefix": "Ladicí info: ",
+    "gx_debug_info_label": "Zobrazit shrnutí po každém spuštění (kolik budov prodáno/koupeno)",
+
+    "gx_reset_config": "Obnovit nastavení",
+
+    "gx_button_near_cookie": "Tlačítko u sušenky: ",
+    "gx_button_in_temple": "Tlačítko v chrámu: ",
+    "gx_display_buttons_label": "Zobrazit tlačítka aktivace skriptu",
+
+    "gx_show_loop_button": "Zobrazit tlačítko smyčky: ",
+    "gx_show_loop_button_label": "Zobrazit extra tlačítko pro opakované spouštění při přidržení",
+
+    "gx_hotkey_g": "Zkratka G: ",
+    "gx_hotkey_g_label": "Spustit skript při stisknutí G",
+
+    "gx_input_delay": "Vstupní prodleva: ",
+    "gx_input_delay_label": "Použít prodlevu mezi akcemi",
+    "gx_delay_duration_label": "Nastavit vlastní prodlevu mezi spuštěními",
+
+    "gx_auto_switch_god": "Auto-přepnutí na Godzamoka: ",
+    "gx_auto_switch_god_label": "Automaticky přiřadit Godzamoka pokud není aktivní",
+
+    "gx_temple_slot_label": "Slot chrámu pro Godzamoka",
+
+    "gx_buyback": "Zpětný odkup: ",
+    "gx_buyback_label": "Okamžitě odkoupit budovy po prodeji",
+    "gx_buyback_strategy_label": "Strategie zpětného odkupu",
+
+    "gx_buyback_percent": "Procento odkupu",
+    "gx_buyback_percent_label": "Používá se pouze při strategii „Koupit procento"",
+
+    "gx_show_only_enabled": "Jen aktivní: ",
+    "gx_hide_empty": "Skrýt prázdné: ",
+    "gx_building_list_filters_label": "Filtry seznamu budov",
+
+    "gx_sell_mode_label": "Režim prodeje",
+    "gx_preset_percent_label": "Procento pro všechny budovy",
+    "gx_preset_units_label": "Prodejní jednotky na budovu",
+
+    "gx_calc_safe_sell": "Vypočítat bezpečný prodej",
+    "gx_calc_safe_sell_label": "Automaticky vypočítat bezpečné objemy prodeje (%RATIO%% surového CPS)",
+    "gx_confirm_safe_sell": "Vypočítat bezpečné objemy prodeje s <b>%RATIO%%</b> surového CPS jako rozpočtem?",
+    "gx_calc_safe_sell_hint": "Výpočet může dočasně prodat a okamžitě odkoupit vybrané budovy.",
+
+    "gx_sell_label": "Prodat:",
+    "gx_or": "nebo",
+    "gx_units": "ks",
+
+    "gx_sold": "Prodáno:",
+    "gx_bought": "Koupeno:",
+    "gx_for": "za",
+
+    "gx_confirm_reset_title": "Potvrdit reset",
+    "gx_confirm_reset_question": "Obnovit nastavení Godzamok Ultimate na výchozí hodnoty?",
+    "gx_confirm_reset_hint": "Všechna aktuální nastavení budou ztracena a obnovena na výchozí hodnoty.",
+    "gx_yes": "Ano",
+    "gx_no": "Ne",
+
+    "gx_settings_reset_popup": "Nastavení Godzamok Ultimate obnovena.",
+
+    "gx_no_buildings_selected": "Žádné budovy nejsou vybrány!",
+
+    "gx_advanced_opt": "Pokročilá optimalizace: ",
+    "gx_advanced_opt_label": "Ukládá výpočty cen do mezipaměti a potlačuje herní hooky během hromadných operací. Může ovlivnit herní mechaniku po aktualizacích.",
+
+    "gx_warn_title": "Detekován drahý zpětný odkup",
+    "gx_warn_body": "Zpětný odkup prodaných budov bude stát <b>%COST%</b> — to je <b>%PCT%%</b> vašeho CPS. Zvažte nejprve výpočet bezpečných prodejních hodnot.",
+    "gx_warn_threshold_hint": "Práh upozornění: %THRESH%% surového CPS.",
+    "gx_warn_calculate_now": "Vypočítat",
+    "gx_warn_skip": "Přeskočit",
+
+    "gx_store_markers": "Značky obchodu: ",
+    "gx_store_markers_label": "Zobrazuje ikonu Godzamoka na budovách vybraných k prodeji v panelu obchodu.",
+});
