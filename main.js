@@ -14,7 +14,7 @@ GodzamokXtreme.loadLangIfNeeded();
 
 GodzamokXtreme.name = 'Godzamok Ultimate';
 GodzamokXtreme.ID = 'godzamok_ultimate';
-GodzamokXtreme.version = '2.10';
+GodzamokXtreme.version = '2.11';
 GodzamokXtreme.GameVersion = '2.053';
 
 GodzamokXtreme.launch = function () {
@@ -24,7 +24,7 @@ GodzamokXtreme.launch = function () {
 	//***********************************
 
 	GodzamokXtreme.defaultConfig = function () {
-		const defaultBuildings = [3, 4, 5, 9, 12, 17];	// Default buildings enabled for selling
+		const defaultBuildings = [3, 4, 5, 9, 12];	// Default buildings enabled for selling
 		return {
 			// === UI & Controls ===
 			showSellBuyInfo: false,       // Show summary info (how many buildings were sold/bought) after each script run
@@ -59,6 +59,7 @@ GodzamokXtreme.launch = function () {
 		};
 	};
 
+	GodzamokXtreme.recommendedBuildings = [3, 4, 5, 7, 8, 9, 10, 12, 13, 17]; // Recommended buildings for selling
 	GodzamokXtreme.SAFE_SELL_BUDGET_RATIO = 0.01;  // Budget for safe sell calculation as a fraction of raw CPS
 	GodzamokXtreme.WARN_COST_CPS_RATIO = 0.1; // Warn if buyback cost > this fraction of raw CPS
 	GodzamokXtreme.defaultDelay = 1;
@@ -839,6 +840,11 @@ GodzamokXtreme.launch = function () {
 						${isPercentMode ? 'disabled' : ''} 
 						onchange="GodzamokXtreme.config.buildings[${index}].sellUnits = parseInt(this.value)||0; GodzamokXtreme.syncSellValues(${index});">` +
 					`<span class="infoText">` + loc("gx_units") + `</span>` +
+					// Recommended Buildings
+					(GodzamokXtreme.recommendedBuildings.includes(obj.id)
+						? `<span class="tag" style="margin-left:12px;opacity:0.6;">` + loc("gx_recommended") + `</span>`
+						: ''
+					) +
 					`</div>`;
 			}
 

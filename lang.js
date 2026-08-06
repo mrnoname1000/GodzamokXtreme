@@ -129,6 +129,9 @@ ModLanguage('*', {
     // Store building markers — icon shown on selected buildings in the right-side store panel
     "gx_store_markers": "Store markers: ",
     "gx_store_markers_label": "Show a Godzamok icon on buildings selected for selling in the store panel.",
+
+    // Label shown next to buildings that are recommended for selling with Godzamok
+    "gx_recommended": "★ recommended",
 });
 
 //***********************************
@@ -230,6 +233,8 @@ ModLanguage('ZH-CN', {
 
     "gx_store_markers": "商店标记：",
     "gx_store_markers_label": "在商店面板中为选定出售的建筑显示戈扎莫克图标。",
+
+    "gx_recommended": "★ 推荐",
 });
 
 //***********************************
@@ -331,6 +336,8 @@ ModLanguage('DE', {
 
     "gx_store_markers": "Shop-Markierungen: ",
     "gx_store_markers_label": "Zeigt ein Godzamok-Symbol auf Gebäuden, die im Shop-Panel zum Verkauf ausgewählt sind.",
+
+    "gx_recommended": "★ empfohlen",
 });
 
 //***********************************
@@ -432,6 +439,8 @@ ModLanguage('ES', {
 
     "gx_store_markers": "Marcadores de tienda: ",
     "gx_store_markers_label": "Muestra un ícono de Godzamok en los edificios seleccionados para vender en el panel de la tienda.",
+
+    "gx_recommended": "★ recomendado",
 });
 
 //***********************************
@@ -533,6 +542,8 @@ ModLanguage('FR', {
 
     "gx_store_markers": "Marqueurs de boutique : ",
     "gx_store_markers_label": "Affiche une icône Godzamok sur les bâtiments sélectionnés pour la vente dans le panneau de la boutique.",
+
+    "gx_recommended": "★ recommandé",
 });
 
 //***********************************
@@ -634,6 +645,8 @@ ModLanguage('PT-BR', {
 
     "gx_store_markers": "Marcadores da loja: ",
     "gx_store_markers_label": "Exibe um ícone do Godzamok nos edifícios selecionados para venda no painel da loja.",
+
+    "gx_recommended": "★ recomendado",
 });
 
 //***********************************
@@ -735,6 +748,8 @@ ModLanguage('RU', {
 
     "gx_store_markers": "Метки в магазине: ",
     "gx_store_markers_label": "Показывает иконку Годзамока на зданиях, выбранных для продажи, в правом меню магазина.",
+
+    "gx_recommended": "★ рекомендуется",
 });
 
 //***********************************
@@ -836,6 +851,8 @@ ModLanguage('TR', {
 
     "gx_store_markers": "Mağaza işaretçileri: ",
     "gx_store_markers_label": "Mağaza panelinde satış için seçilen binalarda bir Godzamok simgesi gösterir.",
+
+    "gx_recommended": "★ önerilen",
 });
 
 //***********************************
@@ -937,6 +954,8 @@ ModLanguage('JA', {
 
     "gx_store_markers": "ショップマーカー: ",
     "gx_store_markers_label": "ショップパネルで売却対象に選んだ建物にゴジャモクのアイコンを表示します。",
+
+    "gx_recommended": "★ おすすめ",
 });
 
 //***********************************
@@ -1038,6 +1057,8 @@ ModLanguage('KO', {
 
     "gx_store_markers": "상점 마커: ",
     "gx_store_markers_label": "상점 패널에서 판매로 선택된 건물에 고자모크 아이콘을 표시합니다.",
+
+    "gx_recommended": "★ 추천",
 });
 
 //***********************************
@@ -1139,6 +1160,8 @@ ModLanguage('PL', {
 
     "gx_store_markers": "Znaczniki sklepu: ",
     "gx_store_markers_label": "Wyświetla ikonę Godzamoka na budynkach wybranych do sprzedaży w panelu sklepu.",
+
+    "gx_recommended": "★ zalecane",
 });
 
 //***********************************
@@ -1240,6 +1263,8 @@ ModLanguage('IT', {
 
     "gx_store_markers": "Marcatori negozio: ",
     "gx_store_markers_label": "Mostra un'icona di Godzamok sugli edifici selezionati per la vendita nel pannello del negozio.",
+
+    "gx_recommended": "★ consigliato",
 });
 
 //***********************************
@@ -1341,6 +1366,8 @@ ModLanguage('NL', {
 
     "gx_store_markers": "Winkelmarkeringen: ",
     "gx_store_markers_label": "Toont een Godzamok-pictogram op gebouwen die geselecteerd zijn voor verkoop in het winkelvenster.",
+
+    "gx_recommended": "★ aanbevolen",
 });
 
 //***********************************
@@ -1442,6 +1469,8 @@ ModLanguage('UK', {
 
     "gx_store_markers": "Мітки магазину: ",
     "gx_store_markers_label": "Показує іконку Годзамока на будівлях, вибраних для продажу, в панелі магазину.",
+
+    "gx_recommended": "★ рекомендовано",
 });
 
 //***********************************
@@ -1543,6 +1572,8 @@ ModLanguage('SV', {
 
     "gx_store_markers": "Butiksmarkeringar: ",
     "gx_store_markers_label": "Visar en Godzamok-ikon på byggnader valda för försäljning i butikspanelen.",
+
+    "gx_recommended": "★ rekommenderad",
 });
 
 //***********************************
@@ -1644,4 +1675,6 @@ ModLanguage('CS', {
 
     "gx_store_markers": "Značky obchodu: ",
     "gx_store_markers_label": "Zobrazuje ikonu Godzamoka na budovách vybraných k prodeji v panelu obchodu.",
+
+    "gx_recommended": "★ doporučeno",
 });
