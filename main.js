@@ -14,10 +14,25 @@ GodzamokXtreme.loadLangIfNeeded();
 
 GodzamokXtreme.name = 'Godzamok Ultimate';
 GodzamokXtreme.ID = 'godzamok_ultimate';
-GodzamokXtreme.version = '2.12';
+GodzamokXtreme.version = '2.13';
 GodzamokXtreme.GameVersion = '2.053';
 
 GodzamokXtreme.launch = function () {
+
+	//***********************************
+	//    CONSTANTS
+	//***********************************
+
+	GodzamokXtreme.GODZAMOK_GOD_ID = 2;
+
+	GodzamokXtreme.LOOP_DELAY_MS = 1;
+	GodzamokXtreme.RETRY_DELAY_MS = 1000;
+	GodzamokXtreme.MONITOR_INTERVAL_MS = 2000;
+	GodzamokXtreme.RETRY_MAX_ATTEMPTS = 10;
+
+	GodzamokXtreme.recommendedBuildings = [3, 4, 5, 7, 8, 9, 10, 12, 13, 17]; // Recommended buildings for selling
+	GodzamokXtreme.SAFE_SELL_BUDGET_RATIO = 0.02;  // Budget for safe sell calculation as a fraction of raw CPS
+	GodzamokXtreme.WARN_COST_CPS_RATIO = 0.1;      // Warn if buyback cost > this fraction of raw CPS
 
 	//***********************************
 	//    CONFIGURATION DEFAULTS
@@ -58,11 +73,6 @@ GodzamokXtreme.launch = function () {
 			})),
 		};
 	};
-
-	GodzamokXtreme.recommendedBuildings = [3, 4, 5, 7, 8, 9, 10, 12, 13, 17]; // Recommended buildings for selling
-	GodzamokXtreme.SAFE_SELL_BUDGET_RATIO = 0.02;  // Budget for safe sell calculation as a fraction of raw CPS
-	GodzamokXtreme.WARN_COST_CPS_RATIO = 0.1; // Warn if buyback cost > this fraction of raw CPS
-	GodzamokXtreme.defaultDelay = 1;
 
 	//***********************************
 	//    ENUM OPTIONS
@@ -282,7 +292,7 @@ GodzamokXtreme.launch = function () {
 				opacity: 0;
 				pointer-events: none;
 				z-index: 10;
-				transition: opacity .15s;
+				transition: opacity .1s;
 			}
 			.gx-marker.enabled {
 				opacity: 0.8;
@@ -330,12 +340,12 @@ GodzamokXtreme.launch = function () {
 
 	GodzamokXtreme.addMainButtons = function (attempt = 0) {
 		if (!Game.Objects.Temple.minigameLoaded) {
-			const maxAttempts = 10;
+			const maxAttempts = GodzamokXtreme.RETRY_MAX_ATTEMPTS;
 			if (attempt >= maxAttempts) {
 				console.warn('GodzamokXtreme: Temple minigame did not load after ' + maxAttempts + ' attempts — main buttons not added.');
 				return;
 			}
-			setTimeout(() => GodzamokXtreme.addMainButtons(attempt + 1), 1000);
+			setTimeout(() => GodzamokXtreme.addMainButtons(attempt + 1), GodzamokXtreme.RETRY_DELAY_MS);
 			return;
 		}
 
@@ -353,7 +363,7 @@ GodzamokXtreme.launch = function () {
 		function createUIButton(containerId, wrapperId) {
 			const container = document.getElementById(containerId);
 			if (!container) {
-				setTimeout(() => createUIButton(containerId, wrapperId), 500);
+				setTimeout(() => createUIButton(containerId, wrapperId), GodzamokXtreme.RETRY_DELAY_MS);
 				return;
 			}
 			if (document.getElementById(wrapperId)) return;
@@ -402,16 +412,14 @@ GodzamokXtreme.launch = function () {
 		function loop() {
 			if (!GodzamokXtreme.config.loopModeEnabled) return;
 			GodzamokXtreme.run();
-			GodzamokXtreme._loopTimeout = setTimeout(loop, GodzamokXtreme.defaultDelay);
+			GodzamokXtreme._loopTimeout = setTimeout(loop, GodzamokXtreme.LOOP_DELAY_MS);
 		}
 
 		if (GodzamokXtreme.config.loopModeEnabled) {
-			// GodzamokXtreme._loopInterval = setInterval(GodzamokXtreme.run(), GodzamokXtreme.defaultDelay);
 			loop();
 		} else {
-			// clearInterval(GodzamokXtreme._loopTimeout);
 			clearTimeout(GodzamokXtreme._loopTimeout);
-			GodzamokXtreme._loopInterval = null;
+			GodzamokXtreme._loopTimeout = null;
 		}
 	};
 
@@ -459,47 +467,37 @@ GodzamokXtreme.launch = function () {
 	//    STORE BUILDING HIGHLIGHT
 	//***********************************
 
+	GodzamokXtreme._getOrCreateMarker = function (i) {
+		const product = document.getElementById('product' + i);
+		if (!product) return null;
+
+		const content = product.querySelector('.content');
+		if (!content) return null;
+
+		let marker = content.querySelector('.gx-marker');
+		if (!marker) {
+			marker = document.createElement('div');
+			marker.className = 'gx-marker';
+			content.appendChild(marker);
+		}
+
+		return marker;
+	};
+
 	GodzamokXtreme.buildStoreMarkers = function () {
-		Game.ObjectsById.forEach((building, i) => {
-			const product = document.getElementById('product' + i);
-			if (!product) return;
-
-			const content = product.querySelector('.content');
-			if (!content) return;
-
-			let marker = content.querySelector('.gx-marker');
-			if (!marker) {
-				marker = document.createElement('div');
-				marker.className = 'gx-marker';
-				content.appendChild(marker);
-			}
-		});
-
+		Game.ObjectsById.forEach((_, i) => GodzamokXtreme._getOrCreateMarker(i));
 		GodzamokXtreme.refreshStoreMarkers();
 	};
 
 	GodzamokXtreme.refreshStoreMarkers = function () {
 		const show = GodzamokXtreme.config.showStoreMarkers;
-		Game.ObjectsById.forEach((building, i) => {
-			const product = document.getElementById('product' + i);
-			if (!product) return;
-
-			const content = product.querySelector('.content');
-			if (!content) return;
-
-			let marker = content.querySelector('.gx-marker');
-			if (!marker) {
-				marker = document.createElement('div');
-				marker.className = 'gx-marker';
-				content.appendChild(marker);
-			}
+		Game.ObjectsById.forEach((_, i) => {
+			const marker = GodzamokXtreme._getOrCreateMarker(i);
+			if (!marker) return;
 
 			marker.style.display = show ? '' : 'none';
 			if (show) {
-				marker.classList.toggle(
-					'enabled',
-					GodzamokXtreme.config.buildings[i].enabled
-				);
+				marker.classList.toggle('enabled', GodzamokXtreme.config.buildings[i].enabled);
 			}
 		});
 	};
@@ -507,6 +505,7 @@ GodzamokXtreme.launch = function () {
 	GodzamokXtreme.ToggleStoreMarkers = function () {
 		GodzamokXtreme.config.showStoreMarkers = !GodzamokXtreme.config.showStoreMarkers;
 		GodzamokXtreme.refreshStoreMarkers();
+		Game.UpdateMenu();
 	};
 
 	GodzamokXtreme.addStoreUpdateHook = function () {
@@ -638,7 +637,7 @@ GodzamokXtreme.launch = function () {
 						'[$] ms',
 						() => GodzamokXtreme.config.inputDelayEnabled
 							? GodzamokXtreme.config.inputDelayValue
-							: GodzamokXtreme.defaultDelay,
+							: GodzamokXtreme.LOOP_DELAY_MS,
 						GodzamokXtreme.config.inputDelayEnabled
 							? 'GodzamokXtreme.updateDelayDuration(this.value);'
 							: '',
@@ -785,7 +784,7 @@ GodzamokXtreme.launch = function () {
 			// Preset buttons for % values
 			str += '<div class="listing widthAuto">';
 			const percentPreset = [0, 25, 50, 75, 100];
-			percentPreset.map(val => {
+			percentPreset.forEach(val => {
 				str += addClassToHtml(
 					menu.ActionButton(`GodzamokXtreme.setSellPercentForAll(${val});`, `${val}%`),
 					'purple'
@@ -836,7 +835,7 @@ GodzamokXtreme.launch = function () {
 					`<span class="infoText">%</span>` +
 					`<span style="margin: 0 8px;">` + loc("gx_or") + `</span>` +
 					// Input: units
-					`<input class="input" type="number" min="0" max="1000" value="${sellUnits}" style="width: 54px;" 
+					`<input class="input" type="number" min="0" max="9999" value="${sellUnits}" style="width: 54px;" 
 						${isPercentMode ? 'disabled' : ''} 
 						onchange="GodzamokXtreme.config.buildings[${index}].sellUnits = parseInt(this.value)||0; GodzamokXtreme.syncSellValues(${index});">` +
 					`<span class="infoText">` + loc("gx_units") + `</span>` +
@@ -849,9 +848,9 @@ GodzamokXtreme.launch = function () {
 			}
 
 		} catch (e) {
-			console.log(e);
+			console.error("GodzamokXtreme: getMenuString error", e);
 			GodzamokXtreme.config = GodzamokXtreme.defaultConfig();
-			str = GodzamokXtreme.getMenuString();
+			return '<div class="listing">Menu error. Config reset.</div>';
 		}
 		return str;
 	};
@@ -909,7 +908,7 @@ GodzamokXtreme.launch = function () {
 	// Returns true if Godzamok is currently active in any temple slot
 	GodzamokXtreme.isGodzamokActivate = function () {
 		if (!Game.Objects.Temple.minigameLoaded) return false;
-		return Game.Objects.Temple.minigame.slot.includes(2);
+		return Game.Objects.Temple.minigame.slot.includes(GodzamokXtreme.GODZAMOK_GOD_ID);
 	};
 
 	// Returns all available slot name classes (diamond, ruby, jade)
@@ -951,7 +950,7 @@ GodzamokXtreme.launch = function () {
 			return;
 		}
 
-		const godzamok = Game.Objects.Temple.minigame.godsById[2];  // Godzamok
+		const godzamok = Game.Objects.Temple.minigame.godsById[GodzamokXtreme.GODZAMOK_GOD_ID];
 		const slotIndex = GodzamokXtreme.config.selectedSlot - 1;
 
 		Game.Objects.Temple.minigame.dragGod(godzamok);
@@ -984,12 +983,12 @@ GodzamokXtreme.launch = function () {
 	// Monitors Temple swaps and slot changes to update UI dynamically
 	GodzamokXtreme.monitorTempleSlotsAndSwaps = function (attempt = 0) {
 		if (!Game.Objects.Temple.minigameLoaded) {
-			const maxAttempts = 10;
+			const maxAttempts = GodzamokXtreme.RETRY_MAX_ATTEMPTS;
 			if (attempt >= maxAttempts) {
 				console.warn('GodzamokXtreme: Temple minigame did not load after ' + maxAttempts + ' attempts — Temple swap/slot monitoring disabled.');
 				return;
 			}
-			setTimeout(() => GodzamokXtreme.monitorTempleSlotsAndSwaps(attempt + 1), 1000);
+			setTimeout(() => GodzamokXtreme.monitorTempleSlotsAndSwaps(attempt + 1), GodzamokXtreme.RETRY_DELAY_MS);
 			return;
 		}
 
@@ -1012,7 +1011,7 @@ GodzamokXtreme.launch = function () {
 				lastSlots = currentSlots;
 				GodzamokXtreme.UpdateGodSlotButtonClasses();
 			}
-		}, 2000); // check every 2 seconds
+		}, GodzamokXtreme.MONITOR_INTERVAL_MS); // check every x ms
 	};
 
 	//***********************************
@@ -1032,10 +1031,7 @@ GodzamokXtreme.launch = function () {
 
 	// Toggles the current buyback strategy (gain-based, full, percentage)
 	GodzamokXtreme.ToggleBuybackType = function (index) {
-		GodzamokXtreme.buybackOptions.forEach(option => {
-			if (index == option.pref) GodzamokXtreme.config.buybackType = option.pref;
-		});
-
+		GodzamokXtreme.config.buybackType = index;
 		Game.UpdateMenu();
 	};
 
@@ -1181,9 +1177,7 @@ GodzamokXtreme.launch = function () {
 
 			// Incrementally find how many buildings can be bought within budget
 			for (let step of stepSizes) {
-				while (true) {
-					const cost = building.getSumPrice(amount + step);
-					if (cost > budgetPerBuilding) break;
+				while (building.getSumPrice(amount + step) <= budgetPerBuilding) {
 					amount += step;
 				}
 			}
@@ -1409,9 +1403,7 @@ GodzamokXtreme.launch = function () {
 							}
 							boughtAmount = lo;
 						} else {
-							while (true) {
-								const price = building.getSumPrice(boughtAmount + 1);
-								if (price > totalGain) break;
+							while (building.getSumPrice(boughtAmount + 1) <= totalGain) {
 								boughtAmount++;
 							}
 						}
@@ -1536,14 +1528,15 @@ GodzamokXtreme.launch = function () {
 
 	// Deserializes JSON config and applies it
 	GodzamokXtreme.load = function (str) {
-		GodzamokXtreme.config = GodzamokXtreme.defaultConfig();
+		const defaults = GodzamokXtreme.defaultConfig();
+		GodzamokXtreme.config = Object.assign({}, defaults);
 
 		try {
 			const parsed = JSON.parse(str);
 			if (parsed) {
 				GodzamokXtreme.config = getNormalizedTypes(
-					Object.assign({}, GodzamokXtreme.defaultConfig(), parsed),
-					GodzamokXtreme.defaultConfig()
+					Object.assign({}, defaults, parsed),
+					defaults
 				);
 				GodzamokXtreme.config.loopModeEnabled = false;
 
