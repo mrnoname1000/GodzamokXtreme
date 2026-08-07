@@ -123,6 +123,7 @@ ModLanguage('*', {
     "gx_warn_title": "Expensive buyback detected",
     "gx_warn_body": "Buying back sold buildings will cost <b>%COST%</b> — that's <b>%PCT%%</b> of your CPS. Consider calculating safe sell values first.",
     "gx_warn_threshold_hint": "Warning threshold: %THRESH%% of raw CPS.",
+    "gx_warn_suppress_session": "Don't show again this session",
     "gx_warn_calculate_now": "Calculate",
     "gx_warn_skip": "Skip",
 
@@ -228,6 +229,7 @@ ModLanguage('ZH-CN', {
     "gx_warn_title": "检测到昂贵的回购",
     "gx_warn_body": "买回已售建筑将花费 <b>%COST%</b> — 占您CPS的 <b>%PCT%%</b>。建议先计算安全出售数量。",
     "gx_warn_threshold_hint": "警告阈值：原始CPS的 %THRESH%%。",
+    "gx_warn_suppress_session": "本次会话不再显示",
     "gx_warn_calculate_now": "计算",
     "gx_warn_skip": "跳过",
 
@@ -331,6 +333,7 @@ ModLanguage('DE', {
     "gx_warn_title": "Teurer Rückkauf erkannt",
     "gx_warn_body": "Das Zurückkaufen der verkauften Gebäude kostet <b>%COST%</b> — das sind <b>%PCT%%</b> deines CPS. Erwäge zuerst sichere Verkaufswerte zu berechnen.",
     "gx_warn_threshold_hint": "Warnschwelle: %THRESH%% des rohen CPS.",
+    "gx_warn_suppress_session": "In dieser Sitzung nicht mehr anzeigen",
     "gx_warn_calculate_now": "Berechnen",
     "gx_warn_skip": "Überspringen",
 
@@ -434,6 +437,7 @@ ModLanguage('ES', {
     "gx_warn_title": "Recompra costosa detectada",
     "gx_warn_body": "Volver a comprar los edificios vendidos costará <b>%COST%</b> — eso es el <b>%PCT%%</b> de tu CPS. Considera calcular primero los valores de venta seguros.",
     "gx_warn_threshold_hint": "Umbral de advertencia: %THRESH%% del CPS bruto.",
+    "gx_warn_suppress_session": "No mostrar de nuevo en esta sesión",
     "gx_warn_calculate_now": "Calcular",
     "gx_warn_skip": "Omitir",
 
@@ -537,6 +541,7 @@ ModLanguage('FR', {
     "gx_warn_title": "Rachat coûteux détecté",
     "gx_warn_body": "Racheter les bâtiments vendus coûtera <b>%COST%</b> — soit <b>%PCT%%</b> de votre CPS. Envisagez de calculer d'abord des valeurs de vente sûres.",
     "gx_warn_threshold_hint": "Seuil d'avertissement : %THRESH%% du CPS brut.",
+    "gx_warn_suppress_session": "Ne plus afficher cette session",
     "gx_warn_calculate_now": "Calculer",
     "gx_warn_skip": "Ignorer",
 
@@ -640,6 +645,7 @@ ModLanguage('PT-BR', {
     "gx_warn_title": "Recompra cara detectada",
     "gx_warn_body": "Recomprar os prédios vendidos custará <b>%COST%</b> — isso é <b>%PCT%%</b> do seu CPS. Considere calcular valores seguros de venda primeiro.",
     "gx_warn_threshold_hint": "Limite de aviso: %THRESH%% do CPS bruto.",
+    "gx_warn_suppress_session": "Não mostrar novamente nesta sessão",
     "gx_warn_calculate_now": "Calcular",
     "gx_warn_skip": "Pular",
 
@@ -743,6 +749,7 @@ ModLanguage('RU', {
     "gx_warn_title": "Обнаружена дорогостоящая обратная покупка",
     "gx_warn_body": "Обратная покупка проданных зданий обойдётся в <b>%COST%</b> — это <b>%PCT%%</b> вашего CPS. Рекомендуется сначала рассчитать безопасные значения продажи.",
     "gx_warn_threshold_hint": "Порог предупреждения: %THRESH%% базового CPS.",
+    "gx_warn_suppress_session": "Не показывать снова в этой сессии",
     "gx_warn_calculate_now": "Рассчитать",
     "gx_warn_skip": "Пропустить",
 
@@ -846,6 +853,7 @@ ModLanguage('TR', {
     "gx_warn_title": "Pahalı geri alım tespit edildi",
     "gx_warn_body": "Satılan binaların geri satın alınması <b>%COST%</b> tutacak — bu CPS'nizin <b>%PCT%%</b>'si. Önce güvenli satış değerlerini hesaplamayı düşünün.",
     "gx_warn_threshold_hint": "Uyarı eşiği: ham CPS'nin %THRESH%%'i.",
+    "gx_warn_suppress_session": "Bu oturumda bir daha gösterme",
     "gx_warn_calculate_now": "Hesapla",
     "gx_warn_skip": "Atla",
 
@@ -949,6 +957,7 @@ ModLanguage('JA', {
     "gx_warn_title": "高コストの買い戻しを検出",
     "gx_warn_body": "売却した建物の買い戻しに <b>%COST%</b> かかります — これはCPSの <b>%PCT%%</b> です。先に安全な売却値を計算することをお勧めします。",
     "gx_warn_threshold_hint": "警告閾値: 生CPS の %THRESH%%。",
+    "gx_warn_suppress_session": "このセッションで再表示しない",
     "gx_warn_calculate_now": "計算",
     "gx_warn_skip": "スキップ",
 
@@ -1052,6 +1061,7 @@ ModLanguage('KO', {
     "gx_warn_title": "고비용 재구매 감지됨",
     "gx_warn_body": "판매한 건물 재구매에 <b>%COST%</b>가 필요합니다 — CPS의 <b>%PCT%%</b>입니다. 먼저 안전 판매값을 계산해 보세요.",
     "gx_warn_threshold_hint": "경고 임계값: 원시 CPS의 %THRESH%%.",
+    "gx_warn_suppress_session": "이 세션에서 다시 표시 안 함",
     "gx_warn_calculate_now": "계산",
     "gx_warn_skip": "건너뛰기",
 
@@ -1155,6 +1165,7 @@ ModLanguage('PL', {
     "gx_warn_title": "Wykryto drogi odkup",
     "gx_warn_body": "Odkupienie sprzedanych budynków będzie kosztować <b>%COST%</b> — to <b>%PCT%%</b> twojego CPS. Rozważ najpierw obliczenie bezpiecznych wartości sprzedaży.",
     "gx_warn_threshold_hint": "Próg ostrzeżenia: %THRESH%% surowego CPS.",
+    "gx_warn_suppress_session": "Nie pokazuj ponownie w tej sesji",
     "gx_warn_calculate_now": "Oblicz",
     "gx_warn_skip": "Pomiń",
 
@@ -1258,6 +1269,7 @@ ModLanguage('IT', {
     "gx_warn_title": "Riacquisto costoso rilevato",
     "gx_warn_body": "Riacquistare gli edifici venduti costerà <b>%COST%</b> — pari al <b>%PCT%%</b> del tuo CPS. Considera di calcolare prima valori di vendita sicuri.",
     "gx_warn_threshold_hint": "Soglia di avviso: %THRESH%% del CPS grezzo.",
+    "gx_warn_suppress_session": "Non mostrare di nuovo in questa sessione",
     "gx_warn_calculate_now": "Calcola",
     "gx_warn_skip": "Salta",
 
@@ -1361,6 +1373,7 @@ ModLanguage('NL', {
     "gx_warn_title": "Dure terugkoop gedetecteerd",
     "gx_warn_body": "Verkochte gebouwen terugkopen kost <b>%COST%</b> — dat is <b>%PCT%%</b> van je CPS. Overweeg eerst veilige verkoopwaarden te berekenen.",
     "gx_warn_threshold_hint": "Waarschuwingsdrempel: %THRESH%% van rauwe CPS.",
+    "gx_warn_suppress_session": "Niet opnieuw tonen in deze sessie",
     "gx_warn_calculate_now": "Berekenen",
     "gx_warn_skip": "Overslaan",
 
@@ -1464,6 +1477,7 @@ ModLanguage('UK', {
     "gx_warn_title": "Виявлено дорогий зворотній викуп",
     "gx_warn_body": "Зворотній викуп проданих будівель коштуватиме <b>%COST%</b> — це <b>%PCT%%</b> вашого CPS. Розгляньте спочатку розрахунок безпечних значень продажу.",
     "gx_warn_threshold_hint": "Поріг попередження: %THRESH%% сирого CPS.",
+    "gx_warn_suppress_session": "Не показувати знову в цій сесії",
     "gx_warn_calculate_now": "Розрахувати",
     "gx_warn_skip": "Пропустити",
 
@@ -1567,6 +1581,7 @@ ModLanguage('SV', {
     "gx_warn_title": "Dyr återköp upptäckt",
     "gx_warn_body": "Att köpa tillbaka sålda byggnader kostar <b>%COST%</b> — det är <b>%PCT%%</b> av din CPS. Överväg att beräkna säkra säljvärden först.",
     "gx_warn_threshold_hint": "Varningströskel: %THRESH%% av rå CPS.",
+    "gx_warn_suppress_session": "Visa inte igen den här sessionen",
     "gx_warn_calculate_now": "Beräkna",
     "gx_warn_skip": "Hoppa över",
 
@@ -1670,6 +1685,7 @@ ModLanguage('CS', {
     "gx_warn_title": "Detekován drahý zpětný odkup",
     "gx_warn_body": "Zpětný odkup prodaných budov bude stát <b>%COST%</b> — to je <b>%PCT%%</b> vašeho CPS. Zvažte nejprve výpočet bezpečných prodejních hodnot.",
     "gx_warn_threshold_hint": "Práh upozornění: %THRESH%% surového CPS.",
+    "gx_warn_suppress_session": "V této relaci nezobrazovat znovu",
     "gx_warn_calculate_now": "Vypočítat",
     "gx_warn_skip": "Přeskočit",
 

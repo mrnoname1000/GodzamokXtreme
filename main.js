@@ -14,7 +14,7 @@ GodzamokXtreme.loadLangIfNeeded();
 
 GodzamokXtreme.name = 'Godzamok Ultimate';
 GodzamokXtreme.ID = 'godzamok_ultimate';
-GodzamokXtreme.version = '2.11';
+GodzamokXtreme.version = '2.12';
 GodzamokXtreme.GameVersion = '2.053';
 
 GodzamokXtreme.launch = function () {
@@ -1225,6 +1225,10 @@ GodzamokXtreme.launch = function () {
 
 	// Shows warning prompt with real cost data, then resumes or cancels
 	GodzamokXtreme.promptSellWarning = function () {
+		// Prevent redrawing the prompt if it is already open (fixes checkbox reset during Loop)
+		const promptAnchor = l('promptAnchor');
+		if (promptAnchor && (promptAnchor.style.display !== "" && promptAnchor.style.display !== 'none')) return;
+
 		const cost = GodzamokXtreme.calcTotalBuybackCost();
 		const cps = Game.cookiesPsRaw;
 		const ratio = cps > 0 ? cost / cps : Infinity;
@@ -1238,6 +1242,12 @@ GodzamokXtreme.launch = function () {
 			'</p>' +
 			'<p style="margin:0 0 4px; font-size:11px; opacity:0.55;">' +
 			loc("gx_warn_threshold_hint").replace('%THRESH%', Math.round(GodzamokXtreme.WARN_COST_CPS_RATIO * 100)) +
+			'</p>' +
+			'<p style="margin:0 0 4px; font-size:11px;">' +
+			'<label style="display:inline-flex; gap:5px; cursor:pointer;">' +
+			'<input type="checkbox" id="gx_warn_suppress_checkbox" style="width:auto; cursor:pointer;">' +
+			loc("gx_warn_suppress_session") +
+			'</label>' +
 			'</p>';
 
 		Game.Prompt(
@@ -1247,10 +1257,19 @@ GodzamokXtreme.launch = function () {
 					'Game.ClosePrompt(); GodzamokXtreme.calculateSafeSellUnits();',
 					'float:left'],
 				[loc("gx_warn_skip"),
-					'Game.ClosePrompt(); GodzamokXtreme._runCoreExecute();',
+					'Game.ClosePrompt(); GodzamokXtreme._applyWarningSuppressAndRun();',
 					'float:right']
 			]
 		);
+	};
+
+	// Called when user clicks Skip — checks suppress checkbox, then runs
+	GodzamokXtreme._applyWarningSuppressAndRun = function () {
+		const checkbox = document.getElementById('gx_warn_suppress_checkbox');
+		if (checkbox && checkbox.checked) {
+			GodzamokXtreme._warningSuppressed = true;
+		}
+		GodzamokXtreme._runCoreExecute();
 	};
 
 	//***********************************
@@ -1286,7 +1305,7 @@ GodzamokXtreme.launch = function () {
 		}
 
 		const cps = Game.cookiesPsRaw;
-		if (cps > 0) {
+		if (cps > 0 && !GodzamokXtreme._warningSuppressed) {
 			const cost = GodzamokXtreme.calcTotalBuybackCost();
 			if (cost / cps > GodzamokXtreme.WARN_COST_CPS_RATIO) {
 				GodzamokXtreme.promptSellWarning();
