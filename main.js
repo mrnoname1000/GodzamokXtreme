@@ -60,7 +60,7 @@ GodzamokXtreme.launch = function () {
 	};
 
 	GodzamokXtreme.recommendedBuildings = [3, 4, 5, 7, 8, 9, 10, 12, 13, 17]; // Recommended buildings for selling
-	GodzamokXtreme.SAFE_SELL_BUDGET_RATIO = 0.01;  // Budget for safe sell calculation as a fraction of raw CPS
+	GodzamokXtreme.SAFE_SELL_BUDGET_RATIO = 0.02;  // Budget for safe sell calculation as a fraction of raw CPS
 	GodzamokXtreme.WARN_COST_CPS_RATIO = 0.1; // Warn if buyback cost > this fraction of raw CPS
 	GodzamokXtreme.defaultDelay = 1;
 
@@ -108,7 +108,7 @@ GodzamokXtreme.launch = function () {
 			a.option.purple:hover{ color: #ba30ff; border-color: #ba30ff; }
 			a.option.orange{ color: #ff8f00; border-color: #ff8f00; }
 			a.option.orange:hover{ color: #ffa835; border-color: #ffa835; }
-			.godzamokXtremeWrapper {
+			.gx-wrapper {
 				display: block;
 				position: absolute;
 				right: 6px;
@@ -117,11 +117,11 @@ GodzamokXtreme.launch = function () {
 				height: 48px;
 				z-index: 100;
 			}
-			.godzamokXtremeWrapper#godzamokXtremeWrapper_temple {
+			.gx-wrapper#gx-wrapper-temple {
 				top: 6px;
 				left: 6px;
 			}
-			.godzamokXtremeButton {
+			.gx-btn {
 				position: absolute;
 				width: 36px;
 				height: 36px;
@@ -132,7 +132,7 @@ GodzamokXtreme.launch = function () {
 				cursor: pointer;
 				z-index: 100;
 			}
-			.godzamokXtremeButton::before {
+			.gx-btn::before {
 				content: "";
 				position: absolute;
 				width: 48px;
@@ -143,16 +143,16 @@ GodzamokXtreme.launch = function () {
 				top: -6px;
 				left: -6px;
 			}
-			.godzamokXtremeButton:hover {
+			.gx-btn:hover {
 				background-color: rgba(160, 120, 0, 0.4);
 			}
-			.godzamokXtremeButton:hover::before {
+			.gx-btn:hover::before {
 				background-position: 0px 0px;
 			}
-			.godzamok-active .godzamokXtremeButton::before {
+			.godzamok-active .gx-btn::before {
 				background-position: 48px 0px;
 			}
-			.godzamokXtremeButton::after {
+			.gx-btn::after {
 				content: "";
 				position: absolute;
 				width: 16px;
@@ -165,28 +165,28 @@ GodzamokXtreme.launch = function () {
 				right: -2px;
 				bottom: -2px;
 			}
-			.godzamokXtremeButton.diamond::after {
+			.gx-btn.diamond::after {
 				opacity: 1;
 				background-position: -736px -480px;
 			}
-			.godzamokXtremeButton.ruby::after {
+			.gx-btn.ruby::after {
 				opacity: 1;
 				background-position: -752px -480px;
 			}
-			.godzamokXtremeButton.jade::after {
+			.gx-btn.jade::after {
 				opacity: 1;
 				background-position: -736px -496px;
 			}
-			.godzamokXtremeButton.emptySwaps::after {
+			.gx-btn.emptySwaps::after {
 				opacity: 1;
 				background-size: 576px 592px;
 				background-position: -16px -112px;
 			}
-			.godzamokXtremeButton:hover::after, 
-			.godzamokXtremeWrapper.godzamok-active .godzamokXtremeButton::after {
+			.gx-btn:hover::after, 
+			.gx-wrapper.godzamok-active .gx-btn::after {
 				filter: brightness(1);
 			}
-			.godzamokXtremeShine {
+			.gx-btn-shine {
 				position: absolute;
 				width: 68px;
 				height: 68px;
@@ -199,17 +199,17 @@ GodzamokXtreme.launch = function () {
 				pointer-events: none;
 				z-index: 50;
 			}
-			.godzamokXtremeWrapper:hover .godzamokXtremeShine {
+			.gx-wrapper:hover .gx-btn-shine {
 				opacity: 0.5;
 				animation: rotateShine 30s linear infinite;
 			}
-			.godzamokXtremeWrapper.godzamok-active .godzamokXtremeShine {
+			.gx-wrapper.godzamok-active .gx-btn-shine {
 				background: url(img/shineGold.png) no-repeat center;
 				background-size: 68px 68px;
 				opacity: 1;
 				animation: rotateShine 5s linear infinite;
 			}
-			.godzamokXtremeLoopButton {
+			.gx-loop-btn {
 				display: flex;
 				position: absolute;
 				width: 48px;
@@ -223,7 +223,7 @@ GodzamokXtreme.launch = function () {
 				cursor: pointer;
 				z-index: 99;
 			}
-			.godzamokXtremeLoopButton::before {
+			.gx-loop-btn::before {
 				content: "";
 				position: absolute;
 				width: 48px;
@@ -234,7 +234,7 @@ GodzamokXtreme.launch = function () {
 				top: 0px;
 				left: 0px;
 			}
-			.godzamokXtremeLoopButton::after {
+			.gx-loop-btn::after {
 				content: "";
 				position: absolute;
 				width: 48px;
@@ -245,25 +245,25 @@ GodzamokXtreme.launch = function () {
 				left: 0px;
 				bottom: 0px;
 			}
-			.godzamokXtremeLoopButton.loop-active {
+			.gx-loop-btn.loop-active {
 				background-color: rgba(160, 120, 0, 0.2);
 			}
-			.godzamokXtremeLoopButton:hover {
+			.gx-loop-btn:hover {
 				background-color: rgba(160, 120, 0, 0.4);
 			}
-			.godzamokXtremeLoopButton:hover::before {
+			.gx-loop-btn:hover::before {
 				background-position: 0px 0px;
 			}
-			.godzamokXtremeLoopButton:hover::after {
+			.gx-loop-btn:hover::after {
 				background-position: 0px 60px;
 			}
-			.godzamokXtremeLoopButton.loop-active::before{
+			.gx-loop-btn.loop-active::before{
 				background-position: 0px 0px;
 			}
-			.godzamokXtremeLoopButton.loop-active::after{
+			.gx-loop-btn.loop-active::after{
 				background-position: 0px 60px;
 			}
-			.godzamokXtremeWrapper#godzamokXtremeWrapper_temple > .godzamokXtremeLoopButton{
+			.gx-wrapper#gx-wrapper-temple > .gx-loop-btn{
 				top: 100%; 
 			}
 			@keyframes rotateShine {
@@ -342,11 +342,11 @@ GodzamokXtreme.launch = function () {
 		GodzamokXtreme.addBuffUpdateHook(); // Activate buff-dependent shine
 
 		if (GodzamokXtreme.config.showMainButton) {
-			createUIButton('sectionLeft', 'godzamokXtremeWrapper_main');
+			createUIButton('sectionLeft', 'gx-wrapper-main');
 		}
 
 		if (GodzamokXtreme.config.showTempleButton) {
-			createUIButton('row6', 'godzamokXtremeWrapper_temple');
+			createUIButton('row6', 'gx-wrapper-temple');
 		}
 
 		// Creates a UI button wrapper and adds it to specified DOM container
@@ -360,14 +360,14 @@ GodzamokXtreme.launch = function () {
 
 			const wrapper = document.createElement('div');
 			wrapper.id = wrapperId;
-			wrapper.className = 'godzamokXtremeWrapper';
+			wrapper.className = 'gx-wrapper';
 
 			const shine = document.createElement('div');
-			shine.className = 'godzamokXtremeShine';
+			shine.className = 'gx-btn-shine';
 
 			const godSlotClass = GodzamokXtreme.getGodSlotVisualClass();
 			const btn = document.createElement('div');
-			btn.className = `godzamokXtremeButton ${godSlotClass}`;
+			btn.className = `gx-btn ${godSlotClass}`;
 			btn.onclick = () => GodzamokXtreme.run();
 
 			wrapper.appendChild(shine);
@@ -375,7 +375,7 @@ GodzamokXtreme.launch = function () {
 
 			if (GodzamokXtreme.config.showLoopButton) {
 				const loopBtn = document.createElement('div');
-				loopBtn.className = `godzamokXtremeLoopButton titleFont`;
+				loopBtn.className = `gx-loop-btn titleFont`;
 				loopBtn.textContent = loc("gx_loop");
 				loopBtn.onclick = () => GodzamokXtreme.toggleLoopMode();
 
@@ -394,7 +394,7 @@ GodzamokXtreme.launch = function () {
 	GodzamokXtreme.toggleLoopMode = function () {
 		GodzamokXtreme.config.loopModeEnabled = !GodzamokXtreme.config.loopModeEnabled;
 
-		const loopButtonElems = document.getElementsByClassName('godzamokXtremeLoopButton');
+		const loopButtonElems = document.getElementsByClassName('gx-loop-btn');
 		for (const btn of loopButtonElems) {
 			btn.classList.toggle('loop-active', GodzamokXtreme.config.loopModeEnabled);
 		}
@@ -447,7 +447,7 @@ GodzamokXtreme.launch = function () {
 			if (isActive !== wasGodzamokActive) {
 				wasGodzamokActive = isActive;
 
-				['godzamokXtremeWrapper_main', 'godzamokXtremeWrapper_temple'].forEach(id => {
+				['gx-wrapper-main', 'gx-wrapper-temple'].forEach(id => {
 					const btn = document.getElementById(id);
 					if (btn) btn.classList.toggle('godzamok-active', !!isActive);
 				});
@@ -893,10 +893,10 @@ GodzamokXtreme.launch = function () {
 
 	// Refreshes the large UI buttons after toggling
 	GodzamokXtreme.UpdateStartButton = function () {
-		const main = document.getElementById('godzamokXtremeWrapper_main');
+		const main = document.getElementById('gx-wrapper-main');
 		if (main) main.remove();
 
-		const temple = document.getElementById('godzamokXtremeWrapper_temple');
+		const temple = document.getElementById('gx-wrapper-temple');
 		if (temple) temple.remove();
 
 		GodzamokXtreme.addMainButtons();
@@ -966,7 +966,7 @@ GodzamokXtreme.launch = function () {
 	GodzamokXtreme.UpdateGodSlotButtonClasses = function () {
 		const godSlotClass = GodzamokXtreme.getGodSlotVisualClass();
 		const allSlotClasses = GodzamokXtreme.getAllSlotClasses();
-		const btns = document.getElementsByClassName('godzamokXtremeButton');
+		const btns = document.getElementsByClassName('gx-btn');
 
 		Array.from(btns).forEach(btn => {
 			btn.classList.remove("emptySwaps");
