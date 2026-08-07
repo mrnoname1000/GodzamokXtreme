@@ -132,7 +132,8 @@ ModLanguage('*', {
     "gx_store_markers_label": "Show a Godzamok icon on buildings selected for selling in the store panel.",
 
     // Label shown next to buildings that are recommended for selling with Godzamok
-    "gx_recommended": "★ recommended",
+    "gx_sort_by_cps": "Sort by CPS impact: ",
+    "gx_impact": "Impact:",
 });
 
 //***********************************
@@ -236,7 +237,8 @@ ModLanguage('ZH-CN', {
     "gx_store_markers": "商店标记：",
     "gx_store_markers_label": "在商店面板中为选定出售的建筑显示戈扎莫克图标。",
 
-    "gx_recommended": "★ 推荐",
+    "gx_sort_by_cps": "按CPS影响排序: ",
+    "gx_impact": "影响：",
 });
 
 //***********************************
@@ -340,7 +342,8 @@ ModLanguage('DE', {
     "gx_store_markers": "Shop-Markierungen: ",
     "gx_store_markers_label": "Zeigt ein Godzamok-Symbol auf Gebäuden, die im Shop-Panel zum Verkauf ausgewählt sind.",
 
-    "gx_recommended": "★ empfohlen",
+    "gx_sort_by_cps": "Nach CPS-Einfluss sortieren: ",
+    "gx_impact": "Einfluss:",
 });
 
 //***********************************
@@ -444,7 +447,8 @@ ModLanguage('ES', {
     "gx_store_markers": "Marcadores de tienda: ",
     "gx_store_markers_label": "Muestra un ícono de Godzamok en los edificios seleccionados para vender en el panel de la tienda.",
 
-    "gx_recommended": "★ recomendado",
+    "gx_sort_by_cps": "Ordenar por impacto de CPS: ",
+    "gx_impact": "Impacto:"
 });
 
 //***********************************
@@ -548,7 +552,8 @@ ModLanguage('FR', {
     "gx_store_markers": "Marqueurs de boutique : ",
     "gx_store_markers_label": "Affiche une icône Godzamok sur les bâtiments sélectionnés pour la vente dans le panneau de la boutique.",
 
-    "gx_recommended": "★ recommandé",
+    "gx_sort_by_cps": "Trier par impact CPS: ",
+    "gx_impact": "Impact:",
 });
 
 //***********************************
@@ -652,7 +657,8 @@ ModLanguage('PT-BR', {
     "gx_store_markers": "Marcadores da loja: ",
     "gx_store_markers_label": "Exibe um ícone do Godzamok nos edifícios selecionados para venda no painel da loja.",
 
-    "gx_recommended": "★ recomendado",
+    "gx_sort_by_cps": "Ordenar por impacto de CPS: ",
+    "gx_impact": "Impacto:"
 });
 
 //***********************************
@@ -756,7 +762,8 @@ ModLanguage('RU', {
     "gx_store_markers": "Метки в магазине: ",
     "gx_store_markers_label": "Показывает иконку Годзамока на зданиях, выбранных для продажи, в правом меню магазина.",
 
-    "gx_recommended": "★ рекомендуется",
+    "gx_sort_by_cps": "Сортировать по влиянию на CPS: ",
+    "gx_impact": "Влияние:",
 });
 
 //***********************************
@@ -860,7 +867,8 @@ ModLanguage('TR', {
     "gx_store_markers": "Mağaza işaretçileri: ",
     "gx_store_markers_label": "Mağaza panelinde satış için seçilen binalarda bir Godzamok simgesi gösterir.",
 
-    "gx_recommended": "★ önerilen",
+    "gx_sort_by_cps": "CPS etkisine göre sırala: ",
+    "gx_impact": "Etki:",
 });
 
 //***********************************
@@ -964,7 +972,8 @@ ModLanguage('JA', {
     "gx_store_markers": "ショップマーカー: ",
     "gx_store_markers_label": "ショップパネルで売却対象に選んだ建物にゴジャモクのアイコンを表示します。",
 
-    "gx_recommended": "★ おすすめ",
+    "gx_sort_by_cps": "CPS影響順に並べる: ",
+    "gx_impact": "影響：",
 });
 
 //***********************************
@@ -1068,7 +1077,8 @@ ModLanguage('KO', {
     "gx_store_markers": "상점 마커: ",
     "gx_store_markers_label": "상점 패널에서 판매로 선택된 건물에 고자모크 아이콘을 표시합니다.",
 
-    "gx_recommended": "★ 추천",
+    "gx_sort_by_cps": "CPS 영향순 정렬: ",
+    "gx_impact": "영향:",
 });
 
 //***********************************
@@ -1172,7 +1182,8 @@ ModLanguage('PL', {
     "gx_store_markers": "Znaczniki sklepu: ",
     "gx_store_markers_label": "Wyświetla ikonę Godzamoka na budynkach wybranych do sprzedaży w panelu sklepu.",
 
-    "gx_recommended": "★ zalecane",
+    "gx_sort_by_cps": "Sortuj według wpływu CPS: ",
+    "gx_impact": "Wpływ:",
 });
 
 //***********************************
@@ -1276,7 +1287,8 @@ ModLanguage('IT', {
     "gx_store_markers": "Marcatori negozio: ",
     "gx_store_markers_label": "Mostra un'icona di Godzamok sugli edifici selezionati per la vendita nel pannello del negozio.",
 
-    "gx_recommended": "★ consigliato",
+    "gx_sort_by_cps": "Ordina per impatto CPS: ",
+    "gx_impact": "Impatto:",
 });
 
 //***********************************
@@ -1380,7 +1392,8 @@ ModLanguage('NL', {
     "gx_store_markers": "Winkelmarkeringen: ",
     "gx_store_markers_label": "Toont een Godzamok-pictogram op gebouwen die geselecteerd zijn voor verkoop in het winkelvenster.",
 
-    "gx_recommended": "★ aanbevolen",
+    "gx_sort_by_cps": "Sorteren op CPS-impact: ",
+    "gx_impact": "Impact:",
 });
 
 //***********************************
@@ -1484,7 +1497,8 @@ ModLanguage('UK', {
     "gx_store_markers": "Мітки магазину: ",
     "gx_store_markers_label": "Показує іконку Годзамока на будівлях, вибраних для продажу, в панелі магазину.",
 
-    "gx_recommended": "★ рекомендовано",
+    "gx_sort_by_cps": "Сортувати за впливом на CPS: ",
+    "gx_impact": "Вплив:",
 });
 
 //***********************************
@@ -1588,7 +1602,8 @@ ModLanguage('SV', {
     "gx_store_markers": "Butiksmarkeringar: ",
     "gx_store_markers_label": "Visar en Godzamok-ikon på byggnader valda för försäljning i butikspanelen.",
 
-    "gx_recommended": "★ rekommenderad",
+    "gx_sort_by_cps": "Sortera efter CPS-påverkan: ",
+    "gx_impact": "Påverkan:",
 });
 
 //***********************************
@@ -1692,5 +1707,6 @@ ModLanguage('CS', {
     "gx_store_markers": "Značky obchodu: ",
     "gx_store_markers_label": "Zobrazuje ikonu Godzamoka na budovách vybraných k prodeji v panelu obchodu.",
 
-    "gx_recommended": "★ doporučeno",
+    "gx_sort_by_cps": "Seřadit podle dopadu CPS: ",
+    "gx_impact": "Dopad:",
 });

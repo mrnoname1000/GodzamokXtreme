@@ -14,7 +14,7 @@ GodzamokXtreme.loadLangIfNeeded();
 
 GodzamokXtreme.name = 'Godzamok Ultimate';
 GodzamokXtreme.ID = 'godzamok_ultimate';
-GodzamokXtreme.version = '2.13';
+GodzamokXtreme.version = '2.14';
 GodzamokXtreme.GameVersion = '2.053';
 
 GodzamokXtreme.launch = function () {
@@ -30,9 +30,8 @@ GodzamokXtreme.launch = function () {
 	GodzamokXtreme.MONITOR_INTERVAL_MS = 2000;
 	GodzamokXtreme.RETRY_MAX_ATTEMPTS = 10;
 
-	GodzamokXtreme.recommendedBuildings = [3, 4, 5, 7, 8, 9, 10, 12, 13, 17]; // Recommended buildings for selling
-	GodzamokXtreme.SAFE_SELL_BUDGET_RATIO = 0.02;  // Budget for safe sell calculation as a fraction of raw CPS
-	GodzamokXtreme.WARN_COST_CPS_RATIO = 0.1;      // Warn if buyback cost > this fraction of raw CPS
+	GodzamokXtreme.SAFE_SELL_BUDGET_RATIO = 0.02; // Budget for safe sell calculation as a fraction of raw CPS
+	GodzamokXtreme.WARN_COST_CPS_RATIO = 0.10;    // Warn if buyback cost > this fraction of raw CPS
 
 	//***********************************
 	//    CONFIGURATION DEFAULTS
@@ -61,8 +60,9 @@ GodzamokXtreme.launch = function () {
 			buybackType: GodzamokXtreme.BuybackType.FULL_AMOUNT, // Buyback strategy (WITH_PROFIT=0, FULL_AMOUNT=1, PERCENTAGE=2)
 			buybackPercent: 90,           // Percentage for type 2 buyback
 			// === Building Display ===
-			showOnlyEnabled: true,        // Show only enabled buildings in the UI
-			hideEmptyBuildings: false,    // Hide buildings with 0 owned units
+			showOnlyEnabled: false,       // Show only enabled buildings in the UI
+			hideEmptyBuildings: true,     // Hide buildings with 0 owned units
+			sortByCps: false,             // Sort building list by CPS 
 			// === Sell Mode ===
 			sellMode: GodzamokXtreme.SellMode.PERCENT, // Sell mode: PERCENT=0, UNITS=1
 			// === Building Settings ===
@@ -296,6 +296,15 @@ GodzamokXtreme.launch = function () {
 			}
 			.gx-marker.enabled {
 				opacity: 0.8;
+			}
+			.gx-efficiency-tag {
+				padding: 1px 4px;
+				border-radius: 3px;
+				font-size: 11px;
+				background: rgba(0, 0, 0, 0.3);
+    			border: 1px solid rgba(255, 255, 255, 0.1);
+    			color: #aaa;
+				vertical-align: middle;
 			}`;
 
 		const styleEl = document.createElement('style');
@@ -511,6 +520,66 @@ GodzamokXtreme.launch = function () {
 	GodzamokXtreme.addStoreUpdateHook = function () {
 		Game.customBuildStore.push(GodzamokXtreme.buildStoreMarkers);
 		Game.customRefreshStore.push(GodzamokXtreme.refreshStoreMarkers);
+	};
+
+	//***********************************
+	//    SYNERGY CPS PERCENTAGE
+	//***********************************
+
+	// Calculate the percentage of CPS that a building provides to other buildings through synergies
+	GodzamokXtreme.getSynergyPercentage = function (building, mode = 0) {
+		if (!building || building.amount <= 0) return 0;
+		let synergyBoost = 0;
+
+		// 1. Grandmothers Synergies
+		if (building.name === 'Grandma') {
+			for (var i in Game.GrandmaSynergies) {
+				if (Game.Has(Game.GrandmaSynergies[i])) {
+					var other = Game.Upgrades[Game.GrandmaSynergies[i]].buildingTie;
+					if (other) {
+						const mult = building.amount * 0.01 * (1 / (other.id - 1));
+						const otherCps = (other.storedTotalCps || 0) * Game.globalCpsMult;
+						const boost = otherCps - (otherCps / (1 + mult));
+						synergyBoost += boost;
+					}
+				}
+			}
+		}
+		// 2. A Special Bonus from the Elder Pact Portals
+		else if (building.name === 'Portal' && Game.Has('Elder Pact')) {
+			const grandma = Game.Objects['Grandma'];
+			if (grandma) {
+				const boost = (building.amount * 0.05 * grandma.amount) * Game.globalCpsMult;
+				synergyBoost += boost;
+			}
+		}
+
+		// 3. Standard Building Synergies
+		for (var i in building.synergies) {
+			const it = building.synergies[i];
+			if (!Game.Has(it.name)) continue;
+
+			// mode 1: only as buildingTie1
+			if (mode === 1 && building !== it.buildingTie1) continue;
+			// mode 2: only as buildingTie2
+			if (mode === 2 && building !== it.buildingTie2) continue;
+
+			let weight = 0.05;
+			let other = it.buildingTie1;
+			if (building === it.buildingTie1) {
+				weight = 0.001;
+				other = it.buildingTie2;
+			}
+			if (other) {
+				const otherCps = (other.storedTotalCps || 0) * Game.globalCpsMult;
+				const boost = otherCps - (otherCps / (1 + building.amount * weight));
+				synergyBoost += boost;
+			}
+
+		}
+
+		if (Game.cookiesPs <= 0) return 0;
+		return (synergyBoost / Game.cookiesPs) * 100;
 	};
 
 	//***********************************
@@ -765,6 +834,17 @@ GodzamokXtreme.launch = function () {
 					),
 					'neato'
 				) +
+				addClassToHtml(
+					menu.ToggleButton(
+						GodzamokXtreme.config,
+						'sortByCps',
+						'GodzamokXtreme_SortByCps',
+						loc("gx_sort_by_cps") + loc("gx_toggle_on"),
+						loc("gx_sort_by_cps") + loc("gx_toggle_off"),
+						"GodzamokXtreme.Toggle"
+					),
+					'neato'
+				) +
 				'<label>' + loc("gx_building_list_filters_label") + '</label>' +
 				'</div>';
 
@@ -804,7 +884,35 @@ GodzamokXtreme.launch = function () {
 				'</div>';
 
 			//========== INDIVIDUAL BUILDING SETTINGS ==========
-			for (let index = 0; index < Game.ObjectsById.length; index++) {
+			// Calculate the total energy efficiency of all buildings once to determine the percentages
+			const rawTotalCps = Game.ObjectsById.reduce((sum, b) => sum + (b.storedCps || 0) * b.amount, 0);
+
+			// Pre-calculate CPS impact for each building (used for sorting and display)
+			const buildingImpacts = Game.ObjectsById.map((obj) => {
+				// 1. The building's share of the CPS
+				const buildingCps = obj.storedTotalCps || 0;
+				const cpsShare = rawTotalCps > 0 ? ((buildingCps / rawTotalCps) * 100).toFixed(2) : "0.00";
+
+				// 2. Share of synergies for other buildings
+				const synergyShareNum = GodzamokXtreme.getSynergyPercentage(obj, 0);
+				const synergyShare = synergyShareNum > 0 ? synergyShareNum.toFixed(2) : '0.00';
+
+				// 3. Total CPS loss if all buildings of this type were sold
+				const totalImpact = parseFloat((parseFloat(cpsShare) + parseFloat(synergyShare)).toFixed(2));
+
+				return { cpsShare, synergyShare, totalImpact };
+			});
+
+			// Create an array of building indices for display
+			let buildingIndices = Game.ObjectsById.map((_, index) => index);
+
+			// If sorting by CPS is enabled, sort in ascending order by the building's total CPS
+			if (GodzamokXtreme.config.sortByCps) {
+				buildingIndices.sort((a, b) => buildingImpacts[a].totalImpact - buildingImpacts[b].totalImpact);
+			}
+
+			for (let i = 0; i < buildingIndices.length; i++) {
+				const index = buildingIndices[i];
 				const obj = Game.ObjectsById[index];
 				const buildingCfg = GodzamokXtreme.config.buildings[index];
 				const itemId = `GodzamokXtreme_Building_${index}`;
@@ -818,8 +926,11 @@ GodzamokXtreme.launch = function () {
 
 				const isPercentMode = GodzamokXtreme.config.sellMode === GodzamokXtreme.SellMode.PERCENT;
 
+				const { cpsShare, synergyShare, totalImpact } = buildingImpacts[index];
+
 				// Create UI block for each building
 				str += '<div class="listing titleFont">' +
+					// Button
 					menu.ToggleButton(
 						GodzamokXtreme.config.buildings[index], 'enabled',
 						itemId,
@@ -827,23 +938,35 @@ GodzamokXtreme.launch = function () {
 						`${obj.dname}: ` + loc("gx_toggle_off"),
 						`GodzamokXtreme.ToggleBuilding(${index});`,
 					) +
-					`<span style = "margin: 0 4px;"></span >` +
+
+					// Text: sell
+					`<span style="margin-left: 6px;"></span >` +
+					loc("gx_sell_label") +
+
 					// Input: percent
-					loc("gx_sell_label") + ` <input class="input" type="number" min="0" max="100" value="${sellPercent}" style="width: 54px;" 
+					` <input class="input" type="number" min="0" max="100" value="${sellPercent}" style="width: 54px;" 
 						${isPercentMode ? '' : 'disabled'} 
 						onchange="GodzamokXtreme.config.buildings[${index}].sellPercent = parseInt(this.value)||0; GodzamokXtreme.syncSellValues(${index});">` +
 					`<span class="infoText">%</span>` +
-					`<span style="margin: 0 8px;">` + loc("gx_or") + `</span>` +
+
+					// Text: or
+					`<span style="margin: 0 6px;">` + loc("gx_or") + `</span >` +
+
 					// Input: units
 					`<input class="input" type="number" min="0" max="9999" value="${sellUnits}" style="width: 54px;" 
 						${isPercentMode ? 'disabled' : ''} 
 						onchange="GodzamokXtreme.config.buildings[${index}].sellUnits = parseInt(this.value)||0; GodzamokXtreme.syncSellValues(${index});">` +
 					`<span class="infoText">` + loc("gx_units") + `</span>` +
-					// Recommended Buildings
-					(GodzamokXtreme.recommendedBuildings.includes(obj.id)
-						? `<span class="tag" style="margin-left:12px;opacity:0.6;">` + loc("gx_recommended") + `</span>`
-						: ''
-					) +
+
+					// CPS Indicator for Each Building
+					` <span style="margin: 0 6px;">` + loc("gx_impact") + `</span>` +
+					`<span class="gx-efficiency-tag">` +
+					`<span style="color:#88ccff;">${cpsShare}%</span>` +
+					`<span style="color:#555;"> + </span>` +
+					`<span style="color:#ffcc66;">${synergyShare}%</span>` +
+					`<span style="color:#555;"> = </span>` +
+					`<span style="color:#ff7070;font-weight:bold;">${totalImpact}%</span>` +
+					`</span>` +
 					`</div>`;
 			}
 
