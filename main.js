@@ -14,7 +14,7 @@ GodzamokXtreme.loadLangIfNeeded();
 
 GodzamokXtreme.name = 'Godzamok Ultimate';
 GodzamokXtreme.ID = 'godzamok_ultimate';
-GodzamokXtreme.version = '2.14';
+GodzamokXtreme.version = '2.15';
 GodzamokXtreme.GameVersion = '2.053';
 
 GodzamokXtreme.launch = function () {
@@ -62,7 +62,7 @@ GodzamokXtreme.launch = function () {
 			// === Building Display ===
 			showOnlyEnabled: false,       // Show only enabled buildings in the UI
 			hideEmptyBuildings: true,     // Hide buildings with 0 owned units
-			sortByCps: false,             // Sort building list by CPS 
+			sortByCps: true,              // Sort building list by CPS 
 			// === Sell Mode ===
 			sellMode: GodzamokXtreme.SellMode.PERCENT, // Sell mode: PERCENT=0, UNITS=1
 			// === Building Settings ===
@@ -429,6 +429,13 @@ GodzamokXtreme.launch = function () {
 		} else {
 			clearTimeout(GodzamokXtreme._loopTimeout);
 			GodzamokXtreme._loopTimeout = null;
+		}
+	};
+
+	// Stops loop mode if active — called when user cancels a prompt mid-loop
+	GodzamokXtreme.cancelLoop = function () {
+		if (GodzamokXtreme.config.loopModeEnabled) {
+			GodzamokXtreme.toggleLoopMode();
 		}
 	};
 
@@ -1344,7 +1351,7 @@ GodzamokXtreme.launch = function () {
 	GodzamokXtreme.promptSellWarning = function () {
 		// Prevent redrawing the prompt if it is already open (fixes checkbox reset during Loop)
 		const promptAnchor = l('promptAnchor');
-		if (promptAnchor && (promptAnchor.style.display !== "" && promptAnchor.style.display !== 'none')) return;
+		if (promptAnchor && (promptAnchor.style.display !== '' && promptAnchor.style.display !== 'none')) return;
 
 		const cost = GodzamokXtreme.calcTotalBuybackCost();
 		const cps = Game.cookiesPsRaw;
@@ -1375,6 +1382,9 @@ GodzamokXtreme.launch = function () {
 					'float:left'],
 				[loc("gx_warn_skip"),
 					'Game.ClosePrompt(); GodzamokXtreme._applyWarningSuppressAndRun();',
+					'float:center'],
+				[loc("gx_cancel"),
+					'Game.ClosePrompt(); GodzamokXtreme.cancelLoop();',
 					'float:right']
 			]
 		);
@@ -1408,8 +1418,54 @@ GodzamokXtreme.launch = function () {
 		return Math.ceil(Game.modifyBuildingPrice(building, price));
 	}
 
+	// Returns true if a placement confirmation prompt should be shown before placing Godzamok
+	GodzamokXtreme.needsPlacementConfirm = function () {
+		return !GodzamokXtreme.isGodzamokActivate()
+			&& GodzamokXtreme.config.autoSwitchGods
+			&& Game.Objects.Temple.minigameLoaded
+			&& Game.Objects.Temple.minigame.swaps >= 1;
+	};
+
+	// Shows a confirmation prompt before placing Godzamok into the selected temple slot
+	GodzamokXtreme.promptPlacementConfirm = function () {
+		const promptAnchor = l('promptAnchor');
+		if (promptAnchor && (promptAnchor.style.display !== '' && promptAnchor.style.display !== 'none')) return;
+
+		const slotIndex = GodzamokXtreme.config.selectedSlot - 1;
+		const slotNames = Game.Objects.Temple.minigame.slotNames;
+		const slotName = slotNames && slotNames[slotIndex] ? slotNames[slotIndex] : String(GodzamokXtreme.config.selectedSlot);
+		const bodyHtml =
+			'<h3 style="margin:0 0 8px;">' + loc("gx_confirm_place_godzamok_title") + '</h3>' +
+			'<p style="margin:0 0 4px; opacity:0.85;">' +
+			loc("gx_confirm_place_godzamok_body").replace('%1', slotName) +
+			'</p>';
+		Game.Prompt(
+			bodyHtml,
+			[
+				[loc("gx_yes"), 'GodzamokXtreme._runAfterPlacementConfirm(); Game.ClosePrompt();', 'float:left'],
+				[loc("gx_cancel"), 'GodzamokXtreme.cancelLoop(); Game.ClosePrompt();', 'float:right']
+			]
+		);
+	};
+
 	// Entry point: checks cost vs CPS, shows warning if needed, otherwise executes
 	GodzamokXtreme.runCore = function () {
+		if (GodzamokXtreme.needsPlacementConfirm()) {
+			GodzamokXtreme.promptPlacementConfirm();
+			return;
+		}
+
+		GodzamokXtreme._continueRunCore();
+	};
+
+	// Called after the user confirms placing Godzamok
+	GodzamokXtreme._runAfterPlacementConfirm = function () {
+		GodzamokXtreme.setGodzamok();
+		GodzamokXtreme._continueRunCore();
+	};
+
+	// Continues runCore after Godzamok placement is handled
+	GodzamokXtreme._continueRunCore = function () {
 		GodzamokXtreme.setGodzamok(); // Ensure Godzamok is active if autoSwitch is on
 
 		if (!GodzamokXtreme.isGodzamokActivate()) return;

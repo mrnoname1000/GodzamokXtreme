@@ -134,6 +134,13 @@ ModLanguage('*', {
     // Label shown next to buildings that are recommended for selling with Godzamok
     "gx_sort_by_cps": "Sort by CPS impact: ",
     "gx_impact": "Impact:",
+
+    // Cancel button label (used in prompts to dismiss without taking action)
+    "gx_cancel": "Cancel",
+
+    // Confirmation prompt shown before placing Godzamok into a temple slot
+    "gx_confirm_place_godzamok_title": "Place Godzamok?",
+    "gx_confirm_place_godzamok_body": "Are you sure you want to place the Godzamok spirit in slot %1?",
 });
 
 //***********************************
@@ -239,6 +246,11 @@ ModLanguage('ZH-CN', {
 
     "gx_sort_by_cps": "按CPS影响排序: ",
     "gx_impact": "影响：",
+
+    "gx_cancel": "取消",
+
+    "gx_confirm_place_godzamok_title": "放置 Godzamok？",
+    "gx_confirm_place_godzamok_body": "您确定要将 Godzamok 精灵放置在 %1 槽位吗？"
 });
 
 //***********************************
@@ -344,6 +356,11 @@ ModLanguage('DE', {
 
     "gx_sort_by_cps": "Nach CPS-Einfluss sortieren: ",
     "gx_impact": "Einfluss:",
+
+    "gx_cancel": "Abbrechen",
+
+    "gx_confirm_place_godzamok_title": "Godzamok platzieren?",
+    "gx_confirm_place_godzamok_body": "Möchten Sie wirklich den Godzamok-Geist in Slot %1 platzieren?"
 });
 
 //***********************************
@@ -448,7 +465,12 @@ ModLanguage('ES', {
     "gx_store_markers_label": "Muestra un ícono de Godzamok en los edificios seleccionados para vender en el panel de la tienda.",
 
     "gx_sort_by_cps": "Ordenar por impacto de CPS: ",
-    "gx_impact": "Impacto:"
+    "gx_impact": "Impacto:",
+
+    "gx_cancel": "Cancelar",
+
+    "gx_confirm_place_godzamok_title": "¿Colocar a Godzamok?",
+    "gx_confirm_place_godzamok_body": "¿Seguro que deseas colocar el espíritu de Godzamok en la ranura %1?"
 });
 
 //***********************************
@@ -554,6 +576,11 @@ ModLanguage('FR', {
 
     "gx_sort_by_cps": "Trier par impact CPS: ",
     "gx_impact": "Impact:",
+
+    "gx_cancel": "Annuler",
+
+    "gx_confirm_place_godzamok_title": "Placer Godzamok ?",
+    "gx_confirm_place_godzamok_body": "Voulez-vous vraiment placer l’esprit de Godzamok dans l’emplacement %1 ?"
 });
 
 //***********************************
@@ -658,7 +685,12 @@ ModLanguage('PT-BR', {
     "gx_store_markers_label": "Exibe um ícone do Godzamok nos edifícios selecionados para venda no painel da loja.",
 
     "gx_sort_by_cps": "Ordenar por impacto de CPS: ",
-    "gx_impact": "Impacto:"
+    "gx_impact": "Impacto:",
+
+    "gx_cancel": "Cancelar",
+
+    "gx_confirm_place_godzamok_title": "Colocar Godzamok?",
+    "gx_confirm_place_godzamok_body": "Tem certeza que deseja colocar o espírito de Godzamok no slot %1?"
 });
 
 //***********************************
@@ -764,6 +796,11 @@ ModLanguage('RU', {
 
     "gx_sort_by_cps": "Сортировать по влиянию на CPS: ",
     "gx_impact": "Влияние:",
+
+    "gx_cancel": "Отмена",
+
+    "gx_confirm_place_godzamok_title": "Установить Гозамока?",
+    "gx_confirm_place_godzamok_body": "Вы точно хотите установить дух Гозамока в ячейку %1?"
 });
 
 //***********************************
@@ -869,6 +906,11 @@ ModLanguage('TR', {
 
     "gx_sort_by_cps": "CPS etkisine göre sırala: ",
     "gx_impact": "Etki:",
+
+    "gx_cancel": "İptal",
+
+    "gx_confirm_place_godzamok_title": "Godzamok yerleştirilsin mi?",
+    "gx_confirm_place_godzamok_body": "Godzamok ruhunu %1 yuvasına yerleştirmek istediğinizden emin misiniz?"
 });
 
 //***********************************
@@ -974,6 +1016,11 @@ ModLanguage('JA', {
 
     "gx_sort_by_cps": "CPS影響順に並べる: ",
     "gx_impact": "影響：",
+
+    "gx_cancel": "キャンセル",
+
+    "gx_confirm_place_godzamok_title": "ゴズアモクを配置しますか？",
+    "gx_confirm_place_godzamok_body": "ゴズアモクの霊を %1 スロットに配置してもよいですか？"
 });
 
 //***********************************
@@ -1079,6 +1126,11 @@ ModLanguage('KO', {
 
     "gx_sort_by_cps": "CPS 영향순 정렬: ",
     "gx_impact": "영향:",
+
+    "gx_cancel": "취소",
+
+    "gx_confirm_place_godzamok_title": "Godzamok 배치?",
+    "gx_confirm_place_godzamok_body": "Godzamok 영혼을 %1 슬롯에 배치하시겠습니까?"
 });
 
 //***********************************
@@ -1184,6 +1236,11 @@ ModLanguage('PL', {
 
     "gx_sort_by_cps": "Sortuj według wpływu CPS: ",
     "gx_impact": "Wpływ:",
+
+    "gx_cancel": "Anuluj",
+
+    "gx_confirm_place_godzamok_title": "Umieścić Godzamoka?",
+    "gx_confirm_place_godzamok_body": "Czy na pewno chcesz umieścić ducha Godzamoka w slocie %1?"
 });
 
 //***********************************
@@ -1289,6 +1346,11 @@ ModLanguage('IT', {
 
     "gx_sort_by_cps": "Ordina per impatto CPS: ",
     "gx_impact": "Impatto:",
+
+    "gx_cancel": "Annulla",
+
+    "gx_confirm_place_godzamok_title": "Posizionare Godzamok?",
+    "gx_confirm_place_godzamok_body": "Sei sicuro di voler posizionare lo spirito di Godzamok nello slot %1?"
 });
 
 //***********************************
@@ -1394,6 +1456,11 @@ ModLanguage('NL', {
 
     "gx_sort_by_cps": "Sorteren op CPS-impact: ",
     "gx_impact": "Impact:",
+
+    "gx_cancel": "Annuleren",
+
+    "gx_confirm_place_godzamok_title": "Godzamok plaatsen?",
+    "gx_confirm_place_godzamok_body": "Weet je zeker dat je de Godzamok-geest in slot %1 wilt plaatsen?"
 });
 
 //***********************************
@@ -1499,6 +1566,11 @@ ModLanguage('UK', {
 
     "gx_sort_by_cps": "Сортувати за впливом на CPS: ",
     "gx_impact": "Вплив:",
+
+    "gx_cancel": "Скасувати",
+
+    "gx_confirm_place_godzamok_title": "Встановити Годзамока?",
+    "gx_confirm_place_godzamok_body": "Ви справді хочете встановити дух Годзамока в слот %1?"
 });
 
 //***********************************
@@ -1604,6 +1676,11 @@ ModLanguage('SV', {
 
     "gx_sort_by_cps": "Sortera efter CPS-påverkan: ",
     "gx_impact": "Påverkan:",
+
+    "gx_cancel": "Avbryt",
+
+    "gx_confirm_place_godzamok_title": "Placera Godzamok?",
+    "gx_confirm_place_godzamok_body": "Är du säker på att du vill placera Godzamok-anden i plats %1?"
 });
 
 //***********************************
@@ -1709,4 +1786,9 @@ ModLanguage('CS', {
 
     "gx_sort_by_cps": "Seřadit podle dopadu CPS: ",
     "gx_impact": "Dopad:",
+
+    "gx_cancel": "Zrušit",
+
+    "gx_confirm_place_godzamok_title": "Umístit Godzamoka?",
+    "gx_confirm_place_godzamok_body": "Jste si jistí, že chcete umístit ducha Godzamoka do slotu %1?"
 });
