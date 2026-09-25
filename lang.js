@@ -87,7 +87,7 @@ ModLanguage('*', {
     "gx_preset_units_label": "Preset units to add per building",  // Predefined sell units added per building
 
     "gx_calc_safe_sell": "Calculate Safe Sell",  // Button to trigger automatic calculation of a safe amount of buildings to sell and rebuy
-    "gx_calc_safe_sell_label": "Auto-calculate safe sell amounts (%RATIO%% CPS raw)",  // Description label near the button – explains the logic (uses %RATIO%% of raw CPS as budget)
+    "gx_calc_safe_sell_label": "Estimate sell counts with net loss up to %RATIO%% raw CpS (limited by cookies on hand)",  // Description label near the button – explains the logic (uses %RATIO%% of raw CPS as budget)
 
     "gx_confirm_safe_sell": "Calculate safe sell amounts using <b>%RATIO%%</b> of raw CPS as the budget?",  // Confirmation prompt before executing the sell-buy operation
     "gx_calc_safe_sell_hint": "The calculation may temporarily sell and immediately rebuy the selected buildings to determine safe values.", // Safe sell calculation confirmation dialog
