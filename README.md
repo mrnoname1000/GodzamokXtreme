@@ -36,7 +36,7 @@ It must be loaded before this mod.
    - Choose which buildings will be sold.
    - Choose sell mode (percentage or fixed count).
    - Set the buyback mode (by default: rebuy full sold amount).
-   - Activate Calculate Safe Sell to determine the maximum number of buildings you can sell without going into a loss or cancelling the active Devastation buff.
+   - Use Calculate Safe Sell to set unit counts based on the expected net loss of selling and fully rebuying. It requires full buyback mode and does not execute transactions. Review the counts before activating.
 3. Activate:
    - Click the main button near the Big Cookie **or**
    - Press the hotkey (default: G) **or**
@@ -65,7 +65,7 @@ It must be loaded before this mod.
   - Set global presets for sell amounts
   - Filter buildings (show only enabled or hide empty)
 - **Show Debug Info** — displays how many of each building were sold and rebought after each run
-- **Calculate Safe Sell** — automatically determines the maximum safe number of buildings for the sale/purchase cycle so as not to lose accumulated cookies
+- **Calculate Safe Sell** — estimates individual buy and sell prices without changing your buildings or cookies. It allocates a net-loss budget of 2% of raw CpS, capped by cookies on hand, and selects unit mode. This is a budget heuristic, not a guarantee of profit or an optimal click combo.
 
 ## Localization
 

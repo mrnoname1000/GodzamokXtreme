@@ -17,6 +17,41 @@ GodzamokXtreme.ID = 'godzamok_ultimate';
 GodzamokXtreme.version = '2.15';
 GodzamokXtreme.GameVersion = '2.053';
 
+// Cookie Clicker 2.058 buys and sells one building at a time. Keep the
+// per-unit rounding used by Game.Object.getPrice() and Game.Object.sell().
+function godzamakUnitPrice(building, amount) {
+	const raw = building.basePrice * Math.pow(Game.priceIncrease, Math.max(0, amount - building.free));
+	return Math.ceil(Game.modifyBuildingPrice(building, raw));
+}
+
+function godzamakTransactionCosts(building, count) {
+	const owned = building.amount;
+	count = Math.max(0, Math.min(owned, Math.floor(count)));
+	let saleProceeds = 0;
+	let buybackCost = 0;
+	const sellMultiplier = building.getSellMultiplier();
+	for (let i = 0; i < count; i++) {
+		// sell() reads getPrice() BEFORE decrementing amount;
+		// buy() reads it AFTER selling, from the lowest owned amount upward.
+		saleProceeds += Math.floor(godzamakUnitPrice(building, owned - i) * sellMultiplier);
+		buybackCost += godzamakUnitPrice(building, owned - count + i);
+	}
+	return { saleProceeds, buybackCost, loss: Math.max(0, buybackCost - saleProceeds) };
+}
+
+// Prefix costs allow safe-sell selection without changing building amounts or cookies.
+function godzamakLossesByCount(building) {
+	const losses = [0];
+	const owned = building.amount;
+	const sellMultiplier = building.getSellMultiplier();
+	for (let count = 1; count <= owned; count++) {
+		const sale = Math.floor(godzamakUnitPrice(building, owned - count + 1) * sellMultiplier);
+		const buy = godzamakUnitPrice(building, owned - count);
+		losses.push(Math.max(0, losses[count - 1] + buy - sale));
+	}
+	return losses;
+}
+
 GodzamokXtreme.launch = function () {
 
 	//***********************************
@@ -1260,89 +1295,68 @@ GodzamokXtreme.launch = function () {
 		GodzamokXtreme.syncAllSellValues(GodzamokXtreme.SellMode.UNITS); // sync % from units
 	};
 
-	// Shows a confirmation prompt before calculating safe sell amounts
+	// Calculate counts without selling, buying or changing the game state.
 	GodzamokXtreme.calculateSafeSellUnits = function () {
-		const bodyHtml =
-			'<h3 style="margin:0 0 8px;">' + loc("gx_calc_safe_sell") + '</h3>' +
-			'<p style="margin:0 0 4px; opacity:0.85;">' +
-			loc("gx_confirm_safe_sell")
-				.replace(/%RATIO%/g, Math.round(GodzamokXtreme.SAFE_SELL_BUDGET_RATIO * 100)) +
-			'</p>' +
-			'<p style="margin:0; font-size:11px; opacity:0.55;">' +
-			loc("gx_calc_safe_sell_hint") +
-			'</p>';
-
-		Game.Prompt(
-			bodyHtml,
-			[
-				[loc("gx_yes"), 'GodzamokXtreme._calculateSafeSellConfirmed(); Game.ClosePrompt();', 'float:left'],
-				[loc("gx_no"), 0, 'float:right']
-			]
-		);
-	};
-
-	// Performs the safe sell calculation if user confirms
-	GodzamokXtreme._calculateSafeSellConfirmed = function () {
-		const totalBudget = Game.cookiesPsRaw * GodzamokXtreme.SAFE_SELL_BUDGET_RATIO; // Use % of raw CPS
-		const enabled = Game.ObjectsById.filter((_, i) => GodzamokXtreme.config.buildings[i].enabled);
-		if (enabled.length === 0) return Game.Popup(loc("gx_no_buildings_selected"));
-
-		const budgetPerBuilding = totalBudget / enabled.length;
-
-		// Save current buy mode (in case player is in "sell" mode)
-		const originalBuyMode = Game.buyMode;
-		Game.buyMode = GodzamokXtreme.BuyMode.BUY; // Force "buy" mode to ensure correct purchase behavior
-
-		enabled.forEach(building => {
-			const index = building.id;
-			const config = GodzamokXtreme.config.buildings[index];
-
-			// Sell all owned buildings to simulate buyback pricing from 0
-			if (building.amount > 0) {
-				building.sell(building.amount);
-			}
-
-			let amount = 0;
-			let stepSizes = [100, 10, 1]; // Optimize search: big steps first
-
-			// Incrementally find how many buildings can be bought within budget
-			for (let step of stepSizes) {
-				while (building.getSumPrice(amount + step) <= budgetPerBuilding) {
-					amount += step;
+		if (!GodzamokXtreme.config.buybackEnabled ||
+			GodzamokXtreme.config.buybackType !== GodzamokXtreme.BuybackType.FULL_AMOUNT) {
+			return Game.Popup("Calculate Safe Sell requires full buyback mode.");
+		}
+		const enabled = Game.ObjectsById.filter((building, i) =>
+			building.amount > 0 && GodzamokXtreme.config.buildings[i]?.enabled);
+		if (!enabled.length) return Game.Popup(loc("gx_no_buildings_selected"));
+		const budget = Math.max(0, Math.min(Game.cookies,
+			Game.cookiesPsRaw * GodzamokXtreme.SAFE_SELL_BUDGET_RATIO));
+		const choices = enabled.map(building => ({
+			building, losses: godzamakLossesByCount(building), count: 0
+		}));
+		let spent = 0;
+		const share = budget / choices.length;
+		for (const choice of choices) {
+			while (choice.count < choice.building.amount &&
+				choice.losses[choice.count + 1] <= share) choice.count++;
+			spent += choice.losses[choice.count];
+		}
+		// Spend unused shares on the cheapest currently available next unit.
+		while (true) {
+			let best = null, bestExtra = Infinity;
+			for (const choice of choices) {
+				if (choice.count >= choice.building.amount) continue;
+				const extra = choice.losses[choice.count + 1] - choice.losses[choice.count];
+				if (extra <= budget - spent && extra < bestExtra) {
+					best = choice;
+					bestExtra = extra;
 				}
 			}
-
-			config.sellUnits = amount; // Save result to config
-			building.buy(amount); // Restore bought buildings
-		});
-
-		// Restore original buy mode
-		Game.buyMode = originalBuyMode;
-
-		GodzamokXtreme.syncAllSellValues(GodzamokXtreme.SellMode.UNITS); // Sync % based on new sellUnits
+			if (!best) break;
+			best.count++;
+			spent += bestExtra;
+		}
+		for (const choice of choices) {
+			GodzamokXtreme.config.buildings[choice.building.id].sellUnits = choice.count;
+		}
+		// The computed units must actually be used on the next activation.
+		GodzamokXtreme.config.sellMode = GodzamokXtreme.SellMode.UNITS;
+		GodzamokXtreme.syncAllSellValues(GodzamokXtreme.SellMode.UNITS);
 	};
 
 	//***********************************
 	//    SELL WARNING PROMPT
 	//***********************************
 
-	// Calculates total buyback cost for all enabled buildings based on current sellUnits/sellPercent,
-	// without performing any real transactions.
+	// Exact gross cost for a full buyback; Game.getSumPrice() rounds differently
+	// from the individual purchases and sales performed by Game.Object.
 	GodzamokXtreme.calcTotalBuybackCost = function () {
 		const isPercentMode = GodzamokXtreme.config.sellMode === GodzamokXtreme.SellMode.PERCENT;
 		let total = 0;
 		Game.ObjectsById.forEach((building, i) => {
 			const config = GodzamokXtreme.config.buildings[i];
 			if (!config || !config.enabled) return;
-
-			let amountToSell = config.sellUnits;
-			if (isPercentMode) {
-				amountToSell = Math.floor(building.amount * (Math.max(0, Math.min(config.sellPercent, 100)) / 100));
+			const amount = isPercentMode
+				? Math.floor(building.amount * (Math.max(0, Math.min(config.sellPercent, 100)) / 100))
+				: config.sellUnits;
+			if (amount > 0 && amount <= building.amount) {
+				total += godzamakTransactionCosts(building, amount).buybackCost;
 			}
-			if (amountToSell <= 0 || amountToSell > building.amount) return;
-
-			const fromAmount = building.amount - amountToSell;
-			total += calcSumPrice(building, fromAmount, amountToSell, true); // alwaysFast
 		});
 		return total;
 	};
